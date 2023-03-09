@@ -1,3 +1,11 @@
+UNAME=$(shell uname)
+ifeq ($(UNAME),Linux)
+	MLX=minilibx-linux
+	MLX_A=$(MLX)/libmlx.a
+else
+	MLX=minilibx
+	MLX_A=$(MLX)/libmlx.a
+endif
 NAME=a.out
 CC=cc
 CFLAGS=-Wall -Werror -Wextra
@@ -5,8 +13,6 @@ GNL=get_next_line
 GNL_A=$(GNL)/libgnl.a
 LIBFT=libft
 LIBFT_A=$(LIBFT)/libft.a
-MLX=minilibx-linux
-MLX_A=$(MLX)/libmlx.a
 SRCS=parse_map.o
 
 %.o: %.c
