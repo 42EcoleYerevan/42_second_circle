@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:50:55 by agladkov          #+#    #+#             */
-/*   Updated: 2023/02/07 18:17:25 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/03/10 17:59:02 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ size_t	ft_gnl_strlen(char *str)
 char	*ft_gnl_strjoin(char *str1, char *str2)
 {
 	char	*out;
-	int 	i;
+	int		i;
 
-	out = ft_gnl_calloc((ft_gnl_strlen(str1) + ft_gnl_strlen(str2) + 1), sizeof(char));
+	out = ft_gnl_calloc((ft_gnl_strlen(str1) + \
+			ft_gnl_strlen(str2) + 1), sizeof(char));
 	if (!out)
 		return (NULL);
 	i = 0;

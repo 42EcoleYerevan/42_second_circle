@@ -13,7 +13,9 @@ typedef struct s_map
 {
 	int	width;
 	int	height;
-	int	***array;
+	int	**array;
 } t_map;
+
+void	ft_free_2d_array(int **array);
 
 #endif

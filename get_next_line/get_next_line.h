@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:48:46 by agladkov          #+#    #+#             */
-/*   Updated: 2023/02/06 16:50:42 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/03/10 17:57:57 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_gnl_strchr(char *str, char c);
 char	*ft_gnl_substr(char *s, size_t start, size_t len);
 char	*rebuffer(char *buffer);
 char	*get_line(char *buffer);
-char 	*bufferjoin(char *buffer, char *str);
+char	*bufferjoin(char *buffer, char *str);
 char	*read_line(int fd, char *buffer);
 char	*get_next_line(int fd);
 

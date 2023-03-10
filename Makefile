@@ -13,13 +13,16 @@ GNL=get_next_line
 GNL_A=$(GNL)/libgnl.a
 LIBFT=libft
 LIBFT_A=$(LIBFT)/libft.a
-SRCS=parse_map.o
+SRCS=parse_map.c \
+	 utils.c
+OBJS=$(SRCS:%.c=%.o)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(LIBFT_A) $(GNL_A) $(MLX_A) $(SRCS)
+$(NAME): $(LIBFT_A) $(GNL_A) $(MLX_A) $(OBJS)
 	$(CC) $(CFLAGS) $(SRCS) -L$(LIBFT) -lft -L$(GNL) -lgnl -L$(MLX) -lmlx -lXext -lX11 -o $(NAME)
+	rm -f $(OBJS)
 
 $(GNL_A):
 	@$(MAKE) -s -C $(GNL)
@@ -43,6 +46,7 @@ clean:
 	@echo 'clean libft'
 	@$(MAKE) clean -s -C $(MLX)
 	@echo 'clean mlx'
+	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)

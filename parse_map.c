@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 17:44:52 by agladkov          #+#    #+#             */
+/*   Updated: 2023/03/10 17:59:53 by agladkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minilibx-linux/mlx.h"
 #include "get_next_line/get_next_line.h"
 #include "libft/libft.h"
 #include "fdf.h"
 
-
 int	ft_read_map_height(char *filename)
 {
-	int height;
-	int fd;
-	char *line;
+	int		height;
+	int		fd;
+	char	*line;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0 || read(fd, 0, 0) < 0)
@@ -25,12 +36,12 @@ int	ft_read_map_height(char *filename)
 	return (height);
 }
 
-int ft_read_map_width(char *filename)
+int	ft_read_map_width(char *filename)
 {
-	int width;
-	char *line;
-	int i;
-	int fd;
+	int		width;
+	char	*line;
+	int		i;
+	int		fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0 || read(fd, 0, 0) < 0)
@@ -38,27 +49,94 @@ int ft_read_map_width(char *filename)
 	i = 0;
 	width = 0;
 	line = get_next_line(fd);
-	while (line[i])
+	while (line[i] != '\0' && line[i] != '\n')
+		if (line[i++] != ' ')
+			if (line[i] == ' ' || line[i] == '\0' || line[i] == '\n')
+				width++;
+	free(line);
+	line = get_next_line(fd);
+	while (line)
 	{
-		if (line[i] != ' ' && (line[i + 1] == ' ' || line[i + 1] == '\0'))
-			width++;
-		i++;
-	}
-	while ((line = get_next_line(fd)))
 		free(line);
+		line = get_next_line(fd);
+	}
 	close(fd);
 	return (width);
 }
 
-int main(int argc, char **argv)
+int	*ft_parse_line(char *str, int width)
 {
-	int width;
-	int height;
-	if (argc > 1)
+	int		n;
+	int		*array;
+	char	**tmp;
+
+	array = (int *)malloc(sizeof(int) * width);
+	if (!array)
+		return (NULL);
+	tmp = ft_split(str, ' ');
+	n = 0;
+	while (n < width)
 	{
-		width = ft_read_map_width(argv[1]);
-		height = ft_read_map_height(argv[1]);
-		printf("width %d\n", width);
-		printf("height %d\n", height);
+		array[n] = ft_atoi(tmp[n]);
+		n++;
 	}
+	return (array);
 }
+
+int	**ft_fill_array(int fd, int width, int height)
+{
+	int		i;
+	int		**array;
+	char	*line;
+
+	array = (int **)malloc(sizeof(int *) * height);
+	if (!array)
+		return (NULL);
+	i = 0;
+	line = get_next_line(fd);
+	while (line)
+	{
+		array[i] = ft_parse_line(line, width);
+		if (!array[i++])
+		{
+			free(line);
+			ft_free_2d_array(array);
+			return (NULL);
+		}
+		free(line);
+		line = get_next_line(fd);
+	}
+	return (array);
+}
+
+t_map	*ft_create_map(char *filename)
+{
+	int		fd;
+	t_map	*map;
+
+	fd = open(filename, O_RDONLY);
+	map = (t_map *)malloc(sizeof(t_map));
+	if (fd < 0 || !map)
+		return (NULL);
+	map->width = ft_read_map_width(filename);
+	map->height = ft_read_map_height(filename);
+	map->array = ft_fill_array(fd, map->width, map->height);
+	if (!map->array)
+		return (NULL);
+	return (map);
+}
+
+/* int	main(int argc, char **argv) */
+/* { */
+/* 	t_map	*map; */
+/* 	if (argc > 1) */
+/* 	{ */
+/* 		map = ft_create_map(argv[1]); */
+/* 	} */
+/* 	for (int row = 0; row < map->height; row++) */
+/* 	{ */
+/* 		for (int col = 0;  col < map->width; col++) */
+/* 			printf("%d ", map->array[row][col]); */
+/* 		printf("\n"); */
+/* 	} */
+/* } */

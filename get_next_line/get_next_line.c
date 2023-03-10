@@ -6,16 +6,15 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:47:38 by agladkov          #+#    #+#             */
-/*   Updated: 2023/02/18 13:12:28 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/03/10 17:57:39 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-char *bufferjoin(char *buffer, char *str)
+char	*bufferjoin(char *buffer, char *str)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (!buffer)
 		buffer = (char *)ft_gnl_calloc(1, 1);
@@ -29,7 +28,7 @@ char *bufferjoin(char *buffer, char *str)
 char	*read_line(int fd, char *buffer)
 {
 	ssize_t	len;
-	char *out;
+	char	*out;
 
 	out = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	len = 1;
@@ -53,7 +52,7 @@ char	*read_line(int fd, char *buffer)
 
 char	*get_line(char *buffer)
 {
-	char 	*line;
+	char	*line;
 	size_t	len;
 
 	len = 0;
@@ -65,7 +64,7 @@ char	*get_line(char *buffer)
 	return (line);
 }
 
-char 	*rebuffer(char *buffer)
+char	*rebuffer(char *buffer)
 {
 	char	*tmp;
 	size_t	len;
@@ -87,7 +86,7 @@ char 	*rebuffer(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	char *out;
+	char		*out;
 	static char	*buffer;
 
 	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
