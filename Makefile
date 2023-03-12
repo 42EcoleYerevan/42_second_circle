@@ -14,7 +14,8 @@ GNL_A=$(GNL)/libgnl.a
 LIBFT=libft
 LIBFT_A=$(LIBFT)/libft.a
 SRCS=parse_map.c \
-	 utils.c
+	 utils.c \
+	 draw.c
 OBJS=$(SRCS:%.c=%.o)
 
 %.o: %.c

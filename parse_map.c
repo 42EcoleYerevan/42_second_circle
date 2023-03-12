@@ -6,13 +6,10 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:44:52 by agladkov          #+#    #+#             */
-/*   Updated: 2023/03/10 17:59:53 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/03/12 13:53:15 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minilibx-linux/mlx.h"
-#include "get_next_line/get_next_line.h"
-#include "libft/libft.h"
 #include "fdf.h"
 
 int	ft_read_map_height(char *filename)

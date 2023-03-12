@@ -9,6 +9,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#ifndef __unix__
+#  include "./minilibx-linux/mlx.h"
+#else
+#  include "./minilibx/mlx.h"
+#endif
+
+#include "get_next_line/get_next_line.h"
+#include "./libft/libft.h"
+
 typedef struct s_map
 {
 	int	width;
@@ -16,6 +25,15 @@ typedef struct s_map
 	int	**array;
 } t_map;
 
+typedef struct s_fdf
+{
+	void	*mlx;
+	void	*window;
+	void	*image;
+	t_map	*map;
+} t_fdf;
+
 void	ft_free_2d_array(int **array);
+t_map	*ft_create_map(char *filename);
 
 #endif
