@@ -22,7 +22,7 @@ OBJS=$(SRCS:%.c=%.o)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(LIBFT_A) $(GNL_A) $(MLX_A) $(OBJS)
-	$(CC) $(CFLAGS) $(SRCS) -L$(LIBFT) -lft -L$(GNL) -lgnl -L$(MLX) -lmlx -lXext -lX11 -o $(NAME)
+	$(CC) $(CFLAGS) $(SRCS) -L$(LIBFT) -lft -L$(GNL) -lgnl -L$(MLX) -lmlx -lXext -lX11 -lm -lz -o $(NAME)
 	rm -f $(OBJS)
 
 $(GNL_A):
