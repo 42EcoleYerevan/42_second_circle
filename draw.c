@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/03/14 01:44:56 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/03/14 03:33:25 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,55 +31,31 @@ void ft_swap(int *x1, int *x2)
 	*x1 = tmp;
 }
 
-void	bresenham(t_fdf *fdf, int x1, int y1, int x2, int y2)
+void	bresenham(t_fdf *fdf, int x1, int y1, int x2, int y2, int color)
 {
-	int dx;
-	int dy;
-	int e;
+	float sx;
+	float sy;
+	int max;
 
-	if (x1 > x2 || y1 > y2)
+	sx = ABS(x2 - x1);
+	sy = ABS(y2 - y1);
+	max = MAX(sx, sy);
+	sx /= max;
+	sy /= max;
+	while (x1 < x2 && y1 < y2)
 	{
-		ft_swap(&x1, &x2);
-		ft_swap(&y1, &y2);
-	}
-	dx = (x2 - x1);
-	dy = (y2 - y1);
-	e = 2 * dy - dx;
-	if (dx >= dy)
-	{
-		while (x1 != x2)
-		{
-			ft_put_pixel(fdf, x1,  y1, 0xffffff);
-			if (e > 0)
-			{
-				y1++;
-				e = e + 2 * (dy - dx);
-			}
-			else
-				e = e + 2 * dy;
-			x1++;
-		}
-	}
-	else
-	{
-		while (y1 != y2)
-		{
-			ft_put_pixel(fdf, x1,  y1, 0xffffff);
-			if (e > 0)
-			{
-				x1++;
-				e = e + 2 * (dx - dy);
-			}
-			else
-				e = e + 2 * dx;
-			y1++;
-		}
+		ft_put_pixel(fdf, x1,  y1, color);
+		x1 += sx;
+		y1 += sy;
 	}
 }
 
 int func(t_fdf *fdf)
 {
 	/* int a; */
+	/* int new_x; */
+	/* int new_y; */
+	/* static float crad = 3.14 / 180; */
 
 	fdf->image = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
 	fdf->addr = mlx_get_data_addr(fdf->image,
@@ -88,15 +64,22 @@ int func(t_fdf *fdf)
 								&fdf->endian);
 
 	/* a = fdf->n % 360; */
-	/* bresenham(fdf, 200, 200, 200 + 200 * cos(a), 200 + 200 * sin(a)); */
-	bresenham(fdf, 200, 200, 400, 200);
-	bresenham(fdf, 200, 200, 200, 400);
-	bresenham(fdf, 300, 300, 200, 200);
+	/* new_x = 200 + 200 * cos(a * crad); */
+	/* new_y = 200 + 200 * sin(a * crad); */
+	/* bresenham(fdf, 200, 200, new_x, new_y); */
+	/* printf("%d %d\n", new_x, new_y); */
+	bresenham(fdf, 200, 200, 300, 300, 0xFFFFFF);
+	bresenham(fdf, 200, 200, 300, 400, 0xFFFFFF);
+	bresenham(fdf, 200, 200, 300, 300, 0xFFFFFF);
+	bresenham(fdf, 200, 200, 350, 300, 0xFFFFFF);
+	bresenham(fdf, 200, 200, 100, 200, 0xFFFFFF);
+	bresenham(fdf, 200, 200, 100, 100, 0xFFFFFF);
+	bresenham(fdf, 200, 200, 300, 100, 0xFFFFFF);
 	/* fdf->n++; */
 	
 	mlx_put_image_to_window(fdf->mlx, fdf->window, fdf->image, 0, 0);
 	mlx_destroy_image(fdf->mlx, fdf->image);
-	usleep(100000);
+	usleep(10000);
 	return (0);
 }
 
