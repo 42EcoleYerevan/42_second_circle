@@ -18,7 +18,7 @@
 #include "get_next_line/get_next_line.h"
 #include "./libft/libft.h"
 
-# define ABS(a) (a < 0)? -a: a
+# define ABS(a) ((a < 0)? -(a): a)
 # define MAX(a, b) (a > b)? a: b
 
 typedef struct s_map
@@ -37,7 +37,6 @@ typedef struct s_fdf
 	int 	bits_per_pixel;
 	int 	line_length;
 	int 	endian;
-	int		n;
 	t_map	*map;
 } t_fdf;
 
