@@ -6,13 +6,23 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/03/17 06:10:24 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/03/17 13:35:06 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "minilibx/mlx.h"
 #include <math.h>
+#include <unistd.h>
+
+void	ft_iso(int *x, int *y, int z)
+{
+	int tmp;
+	
+	tmp = (*x - *y) * cos(0.4);
+	*y = (*x + *y) * sin(0.4) - z;
+	*x = tmp;
+}
 
 void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 {
@@ -22,48 +32,55 @@ void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 	*(unsigned int *)tmp = color;
 }
 
-void	draw_line_by_x(t_fdf *fdf, int x1, int y1, int x2, int y2, int color)
+void ft_put_line(t_fdf *fdf, int x1, int y1, int x2, int y2, int color)
 {
-	float k;
-	int b;
+	int dx;
+	int dy;
+	float xstep;
+	float ystep;
+	int max;
+	int i;
 
-	if (x1 > x2)
+	dx = (x2 - x1);
+	dy = (y2 - y1);
+	max = MAX(ABS(dx), ABS(dy));
+	xstep = (float)dx / max;
+	ystep = (float)dy / max;
+	i = 0;
+	while (i < max)
 	{
-		ft_swap(&x1, &x2);
-		ft_swap(&y1, &y2);
-	}
-	k = (float)(y2 - y1) / (x2 - x1);
-	b = y1 - x1 * k;
-	while (x1 <= x2) 
-	{
-		ft_put_pixel(fdf, x1, x1 * k + b, color);	
-		x1++;
+		ft_put_pixel(
+				fdf,
+			   	(x1 + xstep * i),
+			   	(y1 + ystep * i),
+			   	color
+				);
+		i++;
 	}
 }
 
-void	draw_line_by_y(t_fdf *fdf, int x1, int y1, int x2, int y2, int color)
+void	ft_draw_line(t_fdf *fdf, int x1, int y1, int x2, int y2, int color)
 {
-	float k;
-	int b;
+	int z1;
+	int z2;
 
-	if (y1 > y2)
-	{
-		ft_swap(&x1, &x2);
-		ft_swap(&y1, &y2);
-	}
-	k = (float)(x2 - x1) / (y2 - y1);
-	b = x1 - y1 * k;
-	while (y1 <= y2) 
-	{
-		ft_put_pixel(fdf, y1 * k + b, y1, color);	
-		y1++;
-	}
-}
+	z1 = fdf->map->array[y1][x1];
+	z2 = fdf->map->array[y2][x2];
 
-void	draw_line(t_fdf *fdf, int x1, int y1, int x2, int y2, int color)
-{
-	if (ABS(x2 - x1) >= ABS(y2 - y1))
-		draw_line_by_x(fdf, x1, y1, x2, y2, color);
-	else
-		draw_line_by_y(fdf, x1, y1, x2, y2, color);
+	//change color
+	if (fdf->map->array[y1][x1] > 0 && fdf->map->array[y2][x2] > 0)
+		color = 0xFF0000;
+
+	// scaling
+	x1 = x1 * fdf->map->scale + fdf->map->sx;
+	x2 = x2 * fdf->map->scale + fdf->map->sx;
+	y1 = y1 * fdf->map->scale + fdf->map->sy;
+	y2 = y2 * fdf->map->scale + fdf->map->sy;
+
+	//isometric
+	ft_iso(&x1, &y1, z1);
+	ft_iso(&x2, &y2, z2);
+
+	//drawing line
+	ft_put_line(fdf, x1, y1, x2, y2, color);
 }

@@ -30,6 +30,10 @@ OBJS=$(SRCS:%.c=%.o)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(NAME): $(LIBFT_A) $(GNL_A) $(MLX_A) $(OBJS)
+	$(COMPILE)
+	rm -f $(OBJS)
+
 $(GNL_A):
 	@$(MAKE) -s -C $(GNL)
 	@echo 'Compiled libgnl.a'
@@ -41,9 +45,6 @@ $(LIBFT_A):
 $(MLX_A):
 	@$(MAKE) -s -C $(MLX)
 	@echo 'Compiled  libmlx.a'
-
-$(NAME): $(LIBFT_A) $(GNL_A) $(MLX_A) $(OBJS)
-	rm -f $(OBJS)
 
 all: $(NAME)
 
