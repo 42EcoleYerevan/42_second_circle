@@ -2,9 +2,17 @@ UNAME=$(shell uname)
 ifeq ($(UNAME),Linux)
 	MLX=minilibx-linux
 	MLX_A=$(MLX)/libmlx.a
+	COMPILE = $(CC) $(CFLAGS) $(SRCS) -L$(LIBFT) -lft\
+			  -L$(GNL) -lgnl\
+			  -L$(MLX) -lmlx\
+			  -lXext -lX11 -lm -lz -o $(NAME)
 else
 	MLX=minilibx
 	MLX_A=$(MLX)/libmlx.a
+	COMPILE = $(CC) $(CFLAGS) $(SRCS) -L$(LIBFT) -lft\
+			  -L$(GNL) -lgnl\
+			  -L$(MLX) -lmlx\
+			  -framework OpenGL -framework AppKit -lm -lz -o $(NAME)
 endif
 NAME=a.out
 CC=cc
@@ -15,15 +23,12 @@ LIBFT=libft
 LIBFT_A=$(LIBFT)/libft.a
 SRCS=parse_map.c \
 	 utils.c \
-	 draw.c
+	 draw.c \
+	 main.c
 OBJS=$(SRCS:%.c=%.o)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
-
-$(NAME): $(LIBFT_A) $(GNL_A) $(MLX_A) $(OBJS)
-	$(CC) $(CFLAGS) $(SRCS) -L$(LIBFT) -lft -L$(GNL) -lgnl -L$(MLX) -lmlx -lXext -lX11 -lm -lz -o $(NAME)
-	rm -f $(OBJS)
 
 $(GNL_A):
 	@$(MAKE) -s -C $(GNL)
@@ -37,8 +42,10 @@ $(MLX_A):
 	@$(MAKE) -s -C $(MLX)
 	@echo 'Compiled  libmlx.a'
 
-all: 
-	$(NAME)
+$(NAME): $(LIBFT_A) $(GNL_A) $(MLX_A) $(OBJS)
+	rm -f $(OBJS)
+
+all: $(NAME)
 
 clean:
 	@$(MAKE) clean -s -C $(GNL)
@@ -51,3 +58,5 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+
+re: clean fclean all

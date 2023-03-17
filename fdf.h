@@ -21,6 +21,14 @@
 # define ABS(a) ((a < 0)? -(a): a)
 # define MAX(a, b) (a > b)? a: b
 
+typedef struct s_point
+{
+	int x1;
+	int y1;
+	int x2;
+	int y2;
+} t_point;
+
 typedef struct s_map
 {
 	int	width;
@@ -41,6 +49,8 @@ typedef struct s_fdf
 } t_fdf;
 
 void	ft_free_2d_array(int **array);
+void	ft_swap(int *x1, int *x2);
 t_map	*ft_create_map(char *filename);
+void	draw_line(t_fdf *fdf, int x1, int y1, int x2, int y2, int color);
 
 #endif
