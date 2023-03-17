@@ -21,9 +21,11 @@ GNL=get_next_line
 GNL_A=$(GNL)/libgnl.a
 LIBFT=libft
 LIBFT_A=$(LIBFT)/libft.a
-SRCS=parse_map.c \
-	 utils.c \
+SRCS=utils.c \
 	 draw.c \
+	 draw_map.c \
+	 parse_map.c \
+	 parser_utils.c \
 	 main.c
 OBJS=$(SRCS:%.c=%.o)
 

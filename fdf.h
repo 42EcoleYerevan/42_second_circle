@@ -3,6 +3,7 @@
 
 # define WIDTH 1000
 # define HEIGHT 600
+# define DEFAULT_COLOR 0xFFFFFF
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -22,6 +23,13 @@
 # define ABS(a) ((a < 0)? -(a): a)
 # define MAX(a, b) ((a > b)? a: b)
 
+typedef struct s_point
+{
+	int x;
+	int y;
+	int z;
+} t_point;
+
 typedef struct s_map
 {
 	int	width;
@@ -29,7 +37,9 @@ typedef struct s_map
 	int	scale;
 	int sx;
 	int sy;
+	int z_scale;
 	int	**array;
+	int **colors;
 } t_map;
 
 typedef struct s_fdf
@@ -44,10 +54,25 @@ typedef struct s_fdf
 	t_map	*map;
 } t_fdf;
 
+// utils
 void	ft_free_2d_array(int **array);
 void	ft_swap(int *x1, int *x2);
+
+t_point	*ft_new_point(int x, int y, t_fdf *fdf);
+
+// parser map
 t_map	*ft_create_map(char *filename);
-void	ft_draw_line(t_fdf *fdf, int x1, int y1, int x2, int y2, int color);
-void	ft_put_pixel(t_fdf *fdf, int x, int y, int color);
+
+// draw
+void	ft_draw_line(t_fdf *fdf, t_point *p1, t_point *p2, int color);
+
+// draw map
+int		ft_draw_map(t_fdf *fdf);
+
+//parser utils
+int		ft_atohex(char *str);
+int		ft_read_map_height(char *filename);
+int		ft_read_map_width(char *filename);
+void	ft_z_scale(t_map *map);
 
 #endif
