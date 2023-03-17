@@ -10,9 +10,10 @@ int	main(void)
 	fdf->mlx = mlx_init();
 	fdf->window = mlx_new_window(fdf->mlx, WIDTH, HEIGHT, "(: Hello world fdf :)");
 	fdf->map = ft_create_map("./test_maps/t2.fdf");
-	fdf->map->scale = 4;
-	fdf->map->sx = 500;
-	fdf->map->sy = 100;
+	fdf->map->scale = WIDTH / MAX(fdf->map->height, fdf->map->width) / 2;
+	fdf->map->sx = 300;
+	/* fdf->map->sy = fdf->map->height * fdf->map->scale / 4; */
+	fdf->map->sy = 0;
 	mlx_loop_hook(fdf->mlx, ft_draw_map, fdf);
 	mlx_loop(fdf->mlx);
 

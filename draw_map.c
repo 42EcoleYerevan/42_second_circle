@@ -13,7 +13,8 @@ static void	ft_put_map(t_fdf *fdf)
 		{
 			if (col < fdf->map->width - 1)
 				ft_draw_line(fdf, ft_new_point(col, row, fdf),
-					   			ft_new_point(col + 1, row, fdf), 0x00FFFF);			
+						ft_new_point(col + 1, row, fdf),
+						fdf->map->colors[row][col]);			
 			if (row < fdf->map->height - 1)
 				ft_draw_line(fdf, ft_new_point(col, row, fdf),
 					   ft_new_point(col, row + 1, fdf),

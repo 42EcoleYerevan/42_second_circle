@@ -82,24 +82,22 @@ void	ft_z_scale(t_map *map)
 {
 	int row;
 	int col;
-	int max;
-	int min;
 
-	min = map->array[0][0];
-	max = map->array[0][0];
+	map->z_min = map->array[0][0];
+	map->z_max = map->array[0][0];
 	row = 0;
 	while (row < map->height)
 	{
 		col = 0;
 		while (col < map->width)
 		{
-			if (map->array[row][col] < min)
-				min = map->array[row][col];
-			if (map->array[row][col] > max)
-				max = map->array[row][col];
+			if (map->array[row][col] < map->z_min)
+				map->z_min = map->array[row][col];
+			if (map->array[row][col] > map->z_max)
+				map->z_max = map->array[row][col];
 			col++;
 		}
 		row++;
 	}
-	map->z_scale = max - min;
+	map->z_scale = map->z_max - map->z_min;
 }

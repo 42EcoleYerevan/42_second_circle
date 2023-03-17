@@ -1,8 +1,8 @@
 #ifndef FDF_H
 # define FDF_H
 
-# define WIDTH 1000
-# define HEIGHT 600
+# define WIDTH 1200
+# define HEIGHT 800
 # define DEFAULT_COLOR 0xFFFFFF
 
 #include <fcntl.h>
@@ -38,6 +38,8 @@ typedef struct s_map
 	int sx;
 	int sy;
 	int z_scale;
+	int z_min;
+	int z_max;
 	int	**array;
 	int **colors;
 } t_map;
