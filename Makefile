@@ -2,16 +2,20 @@ UNAME=$(shell uname)
 ifeq ($(UNAME),Linux)
 	MLX=minilibx-linux
 	MLX_A=$(MLX)/libmlx.a
-	COMPILE = $(CC) $(CFLAGS) $(SRCS) -L$(LIBFT) -lft\
+	COMPILE = $(CC) $(CFLAGS) $(SRCS)\
+			  -L$(LIBFT) -lft\
 			  -L$(GNL) -lgnl\
 			  -L$(MLX) -lmlx\
+			  -I$(FDF_H)\
 			  -lXext -lX11 -lm -lz -o $(NAME)
 else
 	MLX=minilibx
 	MLX_A=$(MLX)/libmlx.a
-	COMPILE = $(CC) $(CFLAGS) $(SRCS) -L$(LIBFT) -lft\
+	COMPILE = $(CC) $(CFLAGS) $(SRCS)\
+			  -L$(LIBFT) -lft\
 			  -L$(GNL) -lgnl\
 			  -L$(MLX) -lmlx\
+			  -I$(FDF_H) \
 			  -framework OpenGL -framework AppKit -lm -lz -o $(NAME)
 endif
 NAME=a.out
@@ -21,16 +25,18 @@ GNL=get_next_line
 GNL_A=$(GNL)/libgnl.a
 LIBFT=libft
 LIBFT_A=$(LIBFT)/libft.a
-SRCS=utils.c \
+SRC=utils.c \
 	 draw.c \
 	 draw_map.c \
 	 parse_map.c \
 	 parser_utils.c \
 	 main.c
+SRCS=$(addprefix  ./src/, $(SRC))
 OBJS=$(SRCS:%.c=%.o)
+FDF_H=./
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(FDF_H) -c $< -o $@
 
 $(NAME): $(LIBFT_A) $(GNL_A) $(MLX_A) $(OBJS)
 	$(COMPILE)

@@ -3,7 +3,16 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
-# define DEFAULT_COLOR 0xFFFFFF
+
+# define KA 97
+# define KS 115
+# define KD 100
+# define KW 119
+# define ARROW_LEFT 65361
+# define ARROW_RIGHT 65363
+# define ARROW_UP 65362
+# define ARROW_DOWN 65364
+
 
 #include <fcntl.h>
 #include <unistd.h>

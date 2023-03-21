@@ -6,14 +6,12 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/03/17 19:10:31 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/03/21 21:56:12 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "minilibx/mlx.h"
-#include <math.h>
-#include <unistd.h>
 
 /* static void	rotate_z(int *x, int *y, double gamma) */
 /* { */
@@ -103,10 +101,10 @@ void	ft_draw_line(t_fdf *fdf, t_point *p1, t_point *p2, int color)
 	ft_iso(&p2->x, &p2->y, p2->z);
 
 	//change color
-	if (color == 0 && (p1->z == 0 || p2->z == 0))
+	if (color == 0 && (p1->z <= 0 || p2->z <= 0))
 		color = 0xFFFFFF;
 	else if (color == 0 && (p1->z > 0 || p2->z > 0))
-		color = ~(0xFF * ((p1->z - fdf->map->z_min) / fdf->map->z_scale) << 16);
+		color = 0xFF0000;
 
 	//drawing line
 	ft_put_line(fdf, p1, p2, color);
