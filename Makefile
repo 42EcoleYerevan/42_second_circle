@@ -66,6 +66,8 @@ clean:
 	rm -f $(OBJS)
 
 fclean: clean
+	@$(MAKE) fclean -s -C $(GNL)
+	@$(MAKE) fclean -s -C $(LIBFT)
 	rm -f $(NAME)
 
 re: clean fclean all

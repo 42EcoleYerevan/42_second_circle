@@ -11,6 +11,10 @@ int key_hook(int keycode, t_fdf *fdf)
 		fdf->map->sy -= 10;
 	else if (keycode == ARROW_DOWN)
 		fdf->map->sy += 10;
+	else if (keycode == PLUS)
+		fdf->map->scale += 1;
+	else if (keycode == MINUS)
+		fdf->map->scale -= 1;
 	fdf->endian = 0;
 	return (0);
 }	

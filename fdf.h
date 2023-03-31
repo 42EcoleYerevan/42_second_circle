@@ -4,14 +4,28 @@
 # define WIDTH 1200
 # define HEIGHT 800
 
-# define KA 97
-# define KS 115
-# define KD 100
-# define KW 119
-# define ARROW_LEFT 65361
-# define ARROW_RIGHT 65363
-# define ARROW_UP 65362
-# define ARROW_DOWN 65364
+
+# ifdef __linux__
+
+#  define KA 97
+#  define KS 115
+#  define KD 100
+#  define KW 119
+#  define ARROW_LEFT 65361
+#  define ARROW_RIGHT 65363
+#  define ARROW_UP 65362
+#  define ARROW_DOWN 65364
+
+# else
+
+#  define ARROW_LEFT 123
+#  define ARROW_RIGHT 124
+#  define ARROW_UP 126
+#  define ARROW_DOWN 125
+#  define PLUS 69
+#  define MINUS 78
+
+# endif
 
 
 #include <fcntl.h>
