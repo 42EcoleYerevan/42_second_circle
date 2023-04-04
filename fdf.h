@@ -11,10 +11,16 @@
 #  define KS 115
 #  define KD 100
 #  define KW 119
+#  define KQ 113
+#  define KZ 122
+#  define KX 120 
+#  define KY 99
 #  define ARROW_LEFT 65361
 #  define ARROW_RIGHT 65363
 #  define ARROW_UP 65362
 #  define ARROW_DOWN 65364
+#  define PLUS 65451
+#  define MINUS 65453
 
 # else
 
@@ -51,6 +57,7 @@ typedef struct s_point
 	int x;
 	int y;
 	int z;
+	int w;
 } t_point;
 
 typedef struct s_map
@@ -60,6 +67,8 @@ typedef struct s_map
 	int	scale;
 	int sx;
 	int sy;
+	float xfi;
+	float yfi;
 	int z_scale;
 	int z_min;
 	int z_max;
@@ -76,6 +85,9 @@ typedef struct s_fdf
 	int 	bits_per_pixel;
 	int 	line_length;
 	int 	endian;
+	float	xfi;
+	float	yfi;
+	float	zfi;
 	t_map	*map;
 } t_fdf;
 

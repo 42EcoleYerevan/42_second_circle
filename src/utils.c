@@ -6,10 +6,10 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:54:03 by agladkov          #+#    #+#             */
-/*   Updated: 2023/03/17 18:06:25 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/03 19:26:48 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "fdf.h"
+#include "../fdf.h"
 #include <stdlib.h>
 
 void	ft_free_2d_array(int **array)

@@ -30,7 +30,7 @@ SRC=utils.c \
 	 draw_map.c \
 	 parse_map.c \
 	 parser_utils.c \
-	 main.c
+	 test.c
 SRCS=$(addprefix  ./src/, $(SRC))
 OBJS=$(SRCS:%.c=%.o)
 FDF_H=./

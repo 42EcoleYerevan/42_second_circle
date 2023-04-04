@@ -6,11 +6,13 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:44:52 by agladkov          #+#    #+#             */
-/*   Updated: 2023/03/17 18:01:13 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/03 18:06:16 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <stdlib.h>
+#include "../fdf.h"
+#include "../libft/libft.h"
 
 static int	*ft_parse_line(char *str, int width)
 {

@@ -1,4 +1,4 @@
-#include "fdf.h"
+#include "../fdf.h"
 
 static void	ft_put_map(t_fdf *fdf)
 {
