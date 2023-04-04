@@ -36,7 +36,7 @@ int	ft_draw_map(t_fdf *fdf)
 	mlx_put_image_to_window(fdf->mlx,
 		   	fdf->window,
 		    fdf->image, 0, 0);
-	usleep(10000);
+	usleep(100000);
 	mlx_destroy_image(fdf->mlx, fdf->image);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/04 19:12:58 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/04 23:53:57 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,205 +51,91 @@ static void ft_put_line(t_fdf *fdf, int *p1, int *p2, int color)
 	}
 }
 
-static void	ft_dot(int *vec, float **arr)
+void project(t_fdf *fdf, int *p)
 {
-	int i;
-	int j;
-	int out[4] = {0, 0, 0, 0};
+	int x;
 
-	i = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			out[i] += arr[j][i] * vec[j];
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while (i < 4)
-	{
-		vec[i] = out[i];
-		i++;
-	}
+	x = p[0] * cos(fdf->map->xfi) - p[1] * cos(fdf->map->yfi);
+	p[1] = p[0] * sin(fdf->map->xfi) + p[1] * sin(fdf->map->yfi) - p[2];
+	p[0] = x;
 }
 
-void	ft_arrcpy(float **arr1, float arr2[4][4])
+void xrotate(t_fdf *fdf, int *p)
 {
-	int i;
-	int j;
+	int y;
 
-	i = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			arr1[i][j] = arr2[i][j];
-			j++;
-		}
-		i++;
-	}
+	y = p[1] * cos(fdf->xfi) + p[2] * sin(fdf->xfi);
+	p[2] = p[2] * cos(fdf->xfi) - p[1] * sin(fdf->xfi);
+	p[1] = y;
 }
 
-void ft_matmul(float **arr1, float arr2[4][4])
+void yrotate(t_fdf *fdf, int *p)
 {
-	float out[4][4] = { 0 };
-	int i;
-	int j;
-	int k;
+	int y;
 
-	i = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			k = 0;
-			while (k < 4)
-			{
-				out[i][j] += arr1[i][k] * arr2[k][j]; 
-				k++;
-			}
-			j++;
-		}
-		i++;
-	}
-	ft_arrcpy(arr1, out);
+	y = p[0] * cos(fdf->yfi) + p[2] * sin(fdf->yfi);
+	p[2] = p[2] * cos(fdf->yfi) - p[0] * sin(fdf->yfi);
+	p[0] = y;
 }
 
-void ft_free_2d_arr(float **arr)
+void zrotate(t_fdf *fdf, int *p)
 {
-	int i;
+	int x;
 
-	i = 0;
-	while (arr[i])
-		free(arr[i]);
-	free(arr);
+	x = p[0] * cos(fdf->zfi) - p[1] * sin(fdf->zfi);
+	p[1] = p[0] * sin(fdf->zfi) + p[1] * cos(fdf->zfi);
+	p[0] = x;
 }
 
-float **ft_init_float_diagonal_matrix(int rows, int cols)
+void scale(t_fdf *fdf, int *p)
 {
-	int i;
-	float **out;
+	p[0] *= fdf->map->scale;
+	p[1] *= fdf->map->scale;
+}
 
-	i = 0;
-	out = (float **)malloc(sizeof(float *) * 4);
-	while (i < rows)
-	{
-		out[i] = (float *)malloc(sizeof(float) * cols);
-		if (!out[i])
-		{
-			ft_free_2d_arr(out);
-			return (NULL);
-		}
-		out[i][i] = 1.0f;
-		i++;
-	}
-	return (out);
+void center(t_fdf *fdf, int *p)
+{
+	p[0] -= fdf->map->width * fdf->map->scale / 2;
+	p[1] -= fdf->map->height * fdf->map->scale / 2;
+}
+
+void offset(t_fdf *fdf, int *p)
+{
+	p[0] += fdf->map->sx;
+	p[1] += fdf->map->sy;
 }
 
 void	ft_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
 {
-	float project[4][4] = {
-		{cos(fdf->map->xfi), sin(fdf->map->xfi), 0, 0},
-		{-cos(fdf->map->yfi), sin(fdf->map->yfi), 0, 0},
-		{0, -1, 1, 0},
-		{0, 0, 0, 1},
-	};
-	float xrotate[4][4] = {
-		{1, 0, 0, 0},
-		{0, cos(fdf->xfi), -sin(fdf->xfi), 0},
-		{0, sin(fdf->xfi), cos(fdf->xfi), 0},
-		{0, 0, 0, 1}
-	};
-	float yrotate[4][4] = {
-		{cos(fdf->yfi), 0, -sin(fdf->yfi), 0},
-		{0, 1, 0, 0},
-		{sin(fdf->yfi), 0, cos(fdf->yfi), 0},
-		{0, 0, 0, 1}
-
-	};
-	float zrotate[4][4] = {
-		{cos(fdf->zfi), sin(fdf->zfi), 0, 0},
-		{-sin(fdf->zfi), cos(fdf->zfi), 0, 0},
-		{0, 0, 1, 0},
-		{0, 0, 0, 1}
-	};
-	float scale[4][4] = {
-		{fdf->map->scale, 0, 0, 0},
-		{0, fdf->map->scale, 0, 0},
-		{0, 0, 1, 0},
-		{0, 0, 0, 1}
-	};
-	float center[4][4] = {
-		{1, 0, 0, 0},
-		{0, 1, 0, 0},
-		{0, 0, 1, 0},
-		{-(float)fdf->map->width * fdf->map->scale / 2,
-		 -(float)fdf->map->height * fdf->map->scale / 2, 0, 1}
-	};
-	float offset[4][4] = {
-		{1, 0, 0, 0},
-		{0, 1, 0, 0},
-		{0, 0, 1, 0},
-		{fdf->map->sx, fdf->map->sy, 0, 1}
-	};
-
 	//change color
 	if (color == 0 && (p1[2] <= 0 || p2[2] <= 0))
 		color = 0xFFFFFF;
 	else if (color == 0 && (p1[2] > 0 || p2[2] > 0))
 		color = 0xFF0000;
 
-	float **result;
+	// scale
+	scale(fdf, p1);
+	scale(fdf, p2);
 
-	result = ft_init_float_diagonal_matrix(4, 4);
-	if (!result)
-		return;
+	// center
+	center(fdf, p1);
+	center(fdf, p2);
 
-	ft_matmul(result, scale);
-	ft_matmul(result, center);
-	ft_matmul(result, project);
-	ft_matmul(result, xrotate);
-	ft_matmul(result, yrotate);
-	ft_matmul(result, zrotate);
-	ft_matmul(result, offset);
+	// project
+	project(fdf, p1);
+	project(fdf, p2);
 
-	ft_dot(p1, result);
-	ft_dot(p2, result);
+	// rotate
+	xrotate(fdf, p1);
+	xrotate(fdf, p2);
+	yrotate(fdf, p1);
+	yrotate(fdf, p2);
+	zrotate(fdf, p1);
+	zrotate(fdf, p2);
 
-	/* // scale */
-	/* ft_dot(p1, scale); */
-	/* ft_dot(p2, scale); */
-
-	/* // center */
-	/* ft_dot(p1, center); */
-	/* ft_dot(p2, center); */
-
-	/* // iso */
-	/* ft_dot(p1, project); */
-	/* ft_dot(p2, project); */
-
-	/* // rotate */
-	/* ft_dot(p1, xrotate); */
-	/* ft_dot(p1, yrotate); */
-	/* ft_dot(p1, zrotate); */
-	/* ft_dot(p2, xrotate); */
-	/* ft_dot(p2, yrotate); */
-	/* ft_dot(p2, zrotate); */
-
-	/* // offset */
-	/* ft_dot(p1, offset); */
-	/* ft_dot(p2, offset); */
-
-	// animation
-	/* fdf->xfi += 0.00000001; */
-	/* fdf->yfi += 0.00000001; */
-	/* fdf->zfi += 0.00000001; */
-
+	// offset
+	offset(fdf, p1);
+	offset(fdf, p2);
 
 	//drawing line
 	ft_put_line(fdf, p1, p2, color);
