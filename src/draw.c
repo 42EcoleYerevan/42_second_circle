@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/04 13:36:52 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/04 19:12:58 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void ft_put_line(t_fdf *fdf, int *p1, int *p2, int color)
 	}
 }
 
-void	ft_dot(int vec[4], float arr[4][4])
+static void	ft_dot(int *vec, float **arr)
 {
 	int i;
 	int j;
@@ -74,6 +74,81 @@ void	ft_dot(int vec[4], float arr[4][4])
 		vec[i] = out[i];
 		i++;
 	}
+}
+
+void	ft_arrcpy(float **arr1, float arr2[4][4])
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			arr1[i][j] = arr2[i][j];
+			j++;
+		}
+		i++;
+	}
+}
+
+void ft_matmul(float **arr1, float arr2[4][4])
+{
+	float out[4][4] = { 0 };
+	int i;
+	int j;
+	int k;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			k = 0;
+			while (k < 4)
+			{
+				out[i][j] += arr1[i][k] * arr2[k][j]; 
+				k++;
+			}
+			j++;
+		}
+		i++;
+	}
+	ft_arrcpy(arr1, out);
+}
+
+void ft_free_2d_arr(float **arr)
+{
+	int i;
+
+	i = 0;
+	while (arr[i])
+		free(arr[i]);
+	free(arr);
+}
+
+float **ft_init_float_diagonal_matrix(int rows, int cols)
+{
+	int i;
+	float **out;
+
+	i = 0;
+	out = (float **)malloc(sizeof(float *) * 4);
+	while (i < rows)
+	{
+		out[i] = (float *)malloc(sizeof(float) * cols);
+		if (!out[i])
+		{
+			ft_free_2d_arr(out);
+			return (NULL);
+		}
+		out[i][i] = 1.0f;
+		i++;
+	}
+	return (out);
 }
 
 void	ft_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
@@ -129,35 +204,51 @@ void	ft_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
 	else if (color == 0 && (p1[2] > 0 || p2[2] > 0))
 		color = 0xFF0000;
 
+	float **result;
 
-	// scale
-	ft_dot(p1, scale);
-	ft_dot(p2, scale);
+	result = ft_init_float_diagonal_matrix(4, 4);
+	if (!result)
+		return;
 
-	// center
-	ft_dot(p1, center);
-	ft_dot(p2, center);
+	ft_matmul(result, scale);
+	ft_matmul(result, center);
+	ft_matmul(result, project);
+	ft_matmul(result, xrotate);
+	ft_matmul(result, yrotate);
+	ft_matmul(result, zrotate);
+	ft_matmul(result, offset);
 
-	// iso
-	ft_dot(p1, project);
-	ft_dot(p2, project);
+	ft_dot(p1, result);
+	ft_dot(p2, result);
 
-	// rotate
-	ft_dot(p1, xrotate);
-	ft_dot(p1, yrotate);
-	ft_dot(p1, zrotate);
-	ft_dot(p2, xrotate);
-	ft_dot(p2, yrotate);
-	ft_dot(p2, zrotate);
+	/* // scale */
+	/* ft_dot(p1, scale); */
+	/* ft_dot(p2, scale); */
 
-	// offset
-	ft_dot(p1, offset);
-	ft_dot(p2, offset);
+	/* // center */
+	/* ft_dot(p1, center); */
+	/* ft_dot(p2, center); */
+
+	/* // iso */
+	/* ft_dot(p1, project); */
+	/* ft_dot(p2, project); */
+
+	/* // rotate */
+	/* ft_dot(p1, xrotate); */
+	/* ft_dot(p1, yrotate); */
+	/* ft_dot(p1, zrotate); */
+	/* ft_dot(p2, xrotate); */
+	/* ft_dot(p2, yrotate); */
+	/* ft_dot(p2, zrotate); */
+
+	/* // offset */
+	/* ft_dot(p1, offset); */
+	/* ft_dot(p2, offset); */
 
 	// animation
-	fdf->xfi += 0.00001;
-	fdf->yfi += 0.00001;
-	fdf->zfi += 0.00001;
+	/* fdf->xfi += 0.00000001; */
+	/* fdf->yfi += 0.00000001; */
+	/* fdf->zfi += 0.00000001; */
 
 
 	//drawing line
