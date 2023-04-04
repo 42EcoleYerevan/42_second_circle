@@ -6,11 +6,10 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/04 13:34:10 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/04 13:36:52 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
 #include "../fdf.h"
 #include "../minilibx/mlx.h"
 
@@ -150,6 +149,10 @@ void	ft_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
 	ft_dot(p2, xrotate);
 	ft_dot(p2, yrotate);
 	ft_dot(p2, zrotate);
+
+	// offset
+	ft_dot(p1, offset);
+	ft_dot(p2, offset);
 
 	// animation
 	fdf->xfi += 0.00001;
