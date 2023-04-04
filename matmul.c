@@ -44,12 +44,12 @@ float *ft_dot(int vec[4], float arr[4][4])
 int main(int argc, char **argv)
 {
 	float arr[4][4] = {
-		{2, 0, 0, 0},
-		{0, 2, 0, 0},
-		{0, 0, 2, 0},
+		{1, 0, 0, 0},
+		{0, 1, 0, 0},
+		{5, 0, 0, 0},
 		{0, 0, 0, 1}
 	};
-	int vec4[4] = {5, 2, 2, 1};
+	int vec4[4] = {1, 1, 1, 1};
 	t_camera camera = {
 		.pos = {0, 0, 100, 1},
 		.target = {0, 0, 0, 1},
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 	};
 
 	float *out;
-	out = ft_dot(vec4, project);
+	out = ft_dot(vec4, arr);
 	for (int i = 0; i < 4; i++)
 		printf("%f ", out[i]);
 	puts("");

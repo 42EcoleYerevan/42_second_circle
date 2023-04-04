@@ -95,13 +95,13 @@ typedef struct s_fdf
 void	ft_free_2d_array(int **array);
 void	ft_swap(int *x1, int *x2);
 
-t_point	*ft_new_point(int x, int y, t_fdf *fdf);
+int	*ft_new_point(int x, int y, t_fdf *fdf);
 
 // parser map
 t_map	*ft_create_map(char *filename);
 
 // draw
-void	ft_draw_line(t_fdf *fdf, t_point *p1, t_point *p2, int color);
+void	ft_draw_line(t_fdf *fdf, int *p1, int *p2, int color);
 
 // draw map
 int		ft_draw_map(t_fdf *fdf);
