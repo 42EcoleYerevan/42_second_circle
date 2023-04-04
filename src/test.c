@@ -65,8 +65,6 @@ int main(int argc, char **argv)
 		fdf->map->scale = WIDTH / MAX(fdf->map->width, fdf->map->height) / 2;
 		fdf->map->sx = (WIDTH - fdf->map->width * fdf->map->scale) / 2;
 		fdf->map->sy = (HEIGHT - fdf->map->height * fdf->map->scale) / 2;
-		/* fdf->map->sx = 0; */
-		/* fdf->map->sy = 0; */
 		fdf->map->xfi = 0.5235;
 		fdf->map->yfi = 0.5235;
 		fdf->xfi = 0.2;

@@ -41,7 +41,7 @@ float *ft_dot(int vec[4], float arr[4][4])
 	return (out);
 }
 
-void	ft_arrcpy(float **arr1, float arr2[4][4])
+void	ft_arrcpy(float arr1[4][4], float arr2[4][4])
 {
 	int i;
 	int j;
@@ -59,7 +59,7 @@ void	ft_arrcpy(float **arr1, float arr2[4][4])
 	}
 }
 
-void matmul(float **arr1, float arr2[4][4])
+void ft_matmul(float arr1[4][4], float arr2[4][4])
 {
 	float out[4][4] = { 0 };
 	int i;
@@ -116,6 +116,23 @@ float **ft_init_float_diagonal_matrix(int rows, int cols)
 	return (out);
 }
 
+void test_function(float arr[4][4])
+{
+	int i;
+	int j;
+	i = 0;
+	while(i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			arr[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+}
+
 int main(int argc, char **argv)
 {
 	float arr[4][4] = {
@@ -137,12 +154,20 @@ int main(int argc, char **argv)
 		{0, 0, 0, 1}
 	};
 
-	float **result;
-	result = ft_init_float_diagonal_matrix(4, 4);
+	/* float **result; */
+	/* result = ft_init_float_diagonal_matrix(4, 4); */
+	float result[4][4] = {
+		{1, 0, 0, 0},
+		{0, 1, 0, 0},
+		{0, 0, 1, 0},
+		{0, 0, 0, 1}
+	};
 
-	matmul(result, arr);
-	matmul(result, arr1);
-	matmul(result, arr2);
+	ft_matmul(result, arr);
+	/* matmul(result, arr1); */
+	/* matmul(result, arr2); */
+
+	/* test_function(arr1); */
 
 	for (int i = 0; i < 4; i++)
 	{

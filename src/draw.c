@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/04 23:53:57 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/05 00:21:47 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,6 @@ void	ft_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
 
 	//drawing line
 	ft_put_line(fdf, p1, p2, color);
+	free(p1);
+	free(p2);
 }
