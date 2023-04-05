@@ -1,6 +1,16 @@
 #include "../fdf.h"
 
-int key_hook(int keycode, t_fdf *fdf)
+typedef struct s_camera
+{
+    t_point pos;
+    t_point target;
+    t_point up;
+    int fov;
+	int np;
+	int fp;
+} t_camera;
+
+int ft_key_hook(int keycode, t_fdf *fdf)
 {
 	printf("hello form key_hook %d\n", keycode);
 	if (keycode == ARROW_RIGHT)
@@ -23,42 +33,47 @@ int key_hook(int keycode, t_fdf *fdf)
 		fdf->map->yfi -= 0.05;
 	else if (keycode == KS)
 		fdf->map->yfi += 0.05;
+	else if (keycode == KZ)
+		fdf->zfi += 0.05;
+	else if (keycode == KX)
+		fdf->xfi += 0.05;
+	else if (keycode == KY)
+		fdf->yfi += 0.05;
 	fdf->endian = 0;
 	return (0);
 }	
 
-
-int	main(int argc, char **argv)
+int draw(t_fdf *fdf)
 {
+	ft_draw_map(fdf);
+	return (0);
+}
+
+int main(int argc, char **argv)
+{
+
 	if (argc == 2)
 	{
 		t_fdf *fdf;
-
-		fdf = malloc(sizeof(t_fdf));
-		if (!fdf)
-			return (2);
+		fdf = (t_fdf *)malloc(sizeof(t_fdf));
 		fdf->mlx = mlx_init();
-		fdf->window = mlx_new_window(fdf->mlx, WIDTH, HEIGHT, "(: Hello world fdf :)");
+		fdf->window = mlx_new_window(fdf->mlx, WIDTH, HEIGHT, "Test");
+		fdf->image = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
+		fdf->addr = mlx_get_data_addr(fdf->image,  &fdf->bits_per_pixel, &fdf->line_length, &fdf->endian);
+
 		fdf->map = ft_create_map(argv[1]);
 		fdf->map->scale = WIDTH / MAX(fdf->map->width, fdf->map->height) / 2;
-		printf("%d\n", fdf->map->scale);
-		fdf->map->sx = 300;
-		fdf->map->sy = 0;
-		fdf->map->xfi = 0.4;
-		fdf->map->yfi = 0.4;
-		mlx_key_hook(fdf->window, key_hook, fdf);
-		mlx_loop_hook(fdf->mlx, ft_draw_map, fdf);
+		fdf->map->sx = (WIDTH - fdf->map->width * fdf->map->scale) / 2;
+		fdf->map->sy = (HEIGHT - fdf->map->height * fdf->map->scale) / 2;
+		fdf->map->xfi = 0.5235;
+		fdf->map->yfi = 0.5235;
+		fdf->xfi = 0.2;
+		fdf->yfi = 0.2;
+		fdf->zfi = 0.2;
+
+		mlx_loop_hook(fdf->mlx, draw, fdf);
+		mlx_key_hook(fdf->window, ft_key_hook, fdf);
 		mlx_loop(fdf->mlx);
 	}
-
-/* 	t_fdf *fdf; */
-/* 	fdf = malloc(sizeof(t_fdf)); */
-/* 	if (!fdf) */
-/* 		return (2); */
-/* 	fdf->mlx = mlx_init(); */
-/* 	fdf->window = mlx_new_window(fdf->mlx, WIDTH, HEIGHT, "(: Hello world fdf :)"); */
-/* 	mlx_key_hook(fdf->window, key_hook, fdf); */
-/* 	mlx_loop(fdf->mlx); */
-
-	return (0);
+	return 0;
 }
