@@ -24,6 +24,14 @@
 
 # else
 
+#  define KA 0
+#  define KS 1
+#  define KD 2
+#  define KW 13
+#  define KQ 12
+#  define KZ 6
+#  define KX 7
+#  define KY 8
 #  define ARROW_LEFT 123
 #  define ARROW_RIGHT 124
 #  define ARROW_UP 126
