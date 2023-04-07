@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/04 23:52:45 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/06 11:39:28 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	ft_dot(int *vec, float arr[4][4])
 	}
 }
 
-void	ft_arrcpy(float arr1[4][4], float arr2[4][4])
+static void	ft_arrcpy(float arr1[4][4], float arr2[4][4])
 {
 	int i;
 	int j;
@@ -94,7 +94,7 @@ void	ft_arrcpy(float arr1[4][4], float arr2[4][4])
 	}
 }
 
-void ft_matmul(float arr1[4][4], float arr2[4][4])
+static void ft_matmul(float arr1[4][4], float arr2[4][4])
 {
 	float out[4][4] = { 0 };
 	int i;

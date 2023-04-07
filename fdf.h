@@ -60,13 +60,13 @@
 # define ABS(a) ((a < 0)? -(a): a)
 # define MAX(a, b) ((a > b)? a: b)
 
-typedef struct s_point
-{
-	int x;
-	int y;
-	int z;
-	int w;
-} t_point;
+/* typedef struct s_point */
+/* { */
+/* 	int x; */
+/* 	int y; */
+/* 	int z; */
+/* 	int w; */
+/* } t_point; */
 
 typedef struct s_map
 {
@@ -84,6 +84,11 @@ typedef struct s_map
 	int **colors;
 } t_map;
 
+typedef struct s_camera
+{
+	int z;
+} t_camera;
+
 typedef struct s_fdf
 {
 	void	*mlx;
@@ -97,7 +102,9 @@ typedef struct s_fdf
 	float	yfi;
 	float	zfi;
 	t_map	*map;
+	t_camera *camera;
 } t_fdf;
+
 
 // utils
 void	ft_free_2d_array(int **array);
