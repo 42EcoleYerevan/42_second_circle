@@ -86,7 +86,11 @@ typedef struct s_map
 
 typedef struct s_camera
 {
-	int z;
+	float position[3];
+	float target[3];
+	float up[3];
+	float right[3];
+	float fov;
 } t_camera;
 
 typedef struct s_fdf
