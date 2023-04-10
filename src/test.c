@@ -45,7 +45,7 @@ static void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 	}
 }
 
-static void ft_put_line(t_fdf *fdf, int *p1, int *p2, int color)
+static void ft_put_line(t_fdf *fdf, float *p1, float *p2, int color)
 {
 	int		dx;
 	int		dy;
@@ -72,7 +72,7 @@ static void ft_put_line(t_fdf *fdf, int *p1, int *p2, int color)
 	}
 }
 
-static void	ft_dot(int *vec, float arr[4][4])
+static void	ft_dot(float *vec, float arr[4][4])
 {
 	int i;
 	int j;
@@ -163,39 +163,39 @@ void ft_norm(float vec[3])
 	vec[0] /= sqrtf(length);
 }
 
-void ft_norm_point(t_fdf *fdf, int *p)
+void ft_norm_point(t_fdf *fdf, float *p)
 {
 	p[0] /= fdf->map->width;
 	p[1] /= fdf->map->height;
-	p[2] /= fdf->map->z_max;;
+	p[2] /= fdf->map->z_max;
 }
 
-void	ft_test_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
+void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, int color)
 {
-	float xrotate[4][4] = {
-		{1, 0, 0, 0},
-		{0, cos(fdf->xfi), sin(fdf->xfi), 0},
-		{0, -sin(fdf->xfi), cos(fdf->xfi), 0},
-		{0, 0, 0, 1}
-	};
-	float yrotate[4][4] = {
-		{cos(fdf->yfi), 0, sin(fdf->yfi), 0},
-		{0, 1, 0, 0},
-		{-sin(fdf->yfi), 0, cos(fdf->yfi), 0},
-		{0, 0, 0, 1}
-	};
-	/* float zrotate[4][4] = { */
-	/* 	{cos(fdf->zfi), sin(fdf->zfi), 0, 0}, */
-	/* 	{-sin(fdf->zfi), cos(fdf->zfi), 0, 0}, */
+	/* float xrotate[4][4] = { */
+	/* 	{1, 0, 0, 0}, */
+	/* 	{0, cos(fdf->xfi), sin(fdf->xfi), 0}, */
+	/* 	{0, -sin(fdf->xfi), cos(fdf->xfi), 0}, */
+	/* 	{0, 0, 0, 1} */
+	/* }; */
+	/* float yrotate[4][4] = { */
+	/* 	{cos(fdf->yfi), 0, sin(fdf->yfi), 0}, */
+	/* 	{0, 1, 0, 0}, */
+	/* 	{-sin(fdf->yfi), 0, cos(fdf->yfi), 0}, */
+	/* 	{0, 0, 0, 1} */
+	/* }; */
+	/* /1* float zrotate[4][4] = { *1/ */
+	/* /1* 	{cos(fdf->zfi), sin(fdf->zfi), 0, 0}, *1/ */
+	/* /1* 	{-sin(fdf->zfi), cos(fdf->zfi), 0, 0}, *1/ */
+	/* /1* 	{0, 0, 1, 0}, *1/ */
+	/* /1* 	{0, 0, 0, 1} *1/ */
+	/* /1* }; *1/ */
+	/* float scale[4][4] = { */
+	/* 	{fdf->map->scale, 0, 0, 0}, */
+	/* 	{0, fdf->map->scale, 0, 0}, */
 	/* 	{0, 0, 1, 0}, */
 	/* 	{0, 0, 0, 1} */
 	/* }; */
-	float scale[4][4] = {
-		{fdf->map->scale, 0, 0, 0},
-		{0, fdf->map->scale, 0, 0},
-		{0, 0, 1, 0},
-		{0, 0, 0, 1}
-	};
 	/* /1* float offset[4][4] = { *1/ */
 	/* /1* 	{1, 0, 0, 0}, *1/ */
 	/* /1* 	{0, 1, 0, 0}, *1/ */
@@ -215,30 +215,30 @@ void	ft_test_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
 		{0, 0, 1, 0},
 		{0, 0, 0, 1}
 	};
-	float vz[4] = {0, 0, 0, 1};
-	float vx[4] = {0, 0, 0, 1};
-	float vy[4] = {0, 0, 0, 1};
+	/* float vz[4] = {0, 0, 0, 1}; */
+	/* float vx[4] = {0, 0, 0, 1}; */
+	/* float vy[4] = {0, 0, 0, 1}; */
 
-	ft_vect_sub(fdf->camera->position, fdf->camera->target, vz);
-	ft_norm(vz);
-	ft_vect_mul(fdf->camera->up, vz, vx);
-	ft_norm(vx);
-	ft_vect_mul(vz, vx, vy);
-	ft_norm(vy);
-	float camera[4][4] = {
-		{vx[0], vx[1], vx[2], 0},
-		{vy[0], vy[1], vy[2], 0},
-		{vz[0], vz[1], vz[2], 0},
-		{0, 0, 0, 1}
-	};
-	float offset[4][4] = {
-		{1, 0, 0, 0},
-		{0, 1, 0, 0},
-		{0, 0, 1, 0},
-		{-fdf->camera->position[0],
-		 -fdf->camera->position[1], 
-		 -fdf->camera->position[2], 1}
-	};
+	/* ft_vect_sub(fdf->camera->position, fdf->camera->target, vz); */
+	/* ft_norm(vz); */
+	/* ft_vect_mul(fdf->camera->up, vz, vx); */
+	/* ft_norm(vx); */
+	/* ft_vect_mul(vz, vx, vy); */
+	/* ft_norm(vy); */
+	/* float camera[4][4] = { */
+	/* 	{vx[0], vx[1], vx[2], 0}, */
+	/* 	{vy[0], vy[1], vy[2], 0}, */
+	/* 	{vz[0], vz[1], vz[2], 0}, */
+	/* 	{0, 0, 0, 1} */
+	/* }; */
+	/* float offset[4][4] = { */
+	/* 	{1, 0, 0, 0}, */
+	/* 	{0, 1, 0, 0}, */
+	/* 	{0, 0, 1, 0}, */
+	/* 	{-fdf->camera->position[0], */
+	/* 	 -fdf->camera->position[1], */ 
+	/* 	 -fdf->camera->position[2], 1} */
+	/* }; */
 
 	//change color
 	if (color == 0 && (p1[2] <= 0 || p2[2] <= 0))
@@ -246,13 +246,18 @@ void	ft_test_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
 	else if (color == 0 && (p1[2] > 0 || p2[2] > 0))
 		color = 0xFF0000;
 
-	ft_matmul(result, center);
-	ft_matmul(result, scale);
-	ft_matmul(result, camera);
-	ft_matmul(result, offset);
+	ft_norm_point(fdf, p1);
+	ft_norm_point(fdf, p2);
 
-	ft_matmul(result, xrotate);
-	ft_matmul(result, yrotate);
+	printf("%f %f %f %f\n", p1[0], p1[1], p1[2], p1[3]);
+
+	ft_matmul(result, center);
+	/* ft_matmul(result, scale); */
+	/* ft_matmul(result, camera); */
+	/* ft_matmul(result, offset); */
+
+	/* ft_matmul(result, xrotate); */
+	/* ft_matmul(result, yrotate); */
 	/* ft_matmul(result, zrotate); */
 
 	ft_dot(p1, result);
