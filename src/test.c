@@ -1,29 +1,29 @@
 #include "../fdf.h"
 
 
-int ft_key_hook(int keycode, t_fdf *fdf)
+static int ft_key_hook(int keycode, t_fdf *fdf)
 {
 	printf("hello form key_hook %d\n", keycode);
 	if (keycode == ARROW_RIGHT)
-		fdf->camera->position[0] += 1;
+		fdf->map->sx += 1;
 	else if (keycode == ARROW_LEFT)
-		fdf->camera->position[0] -= 1;
+		fdf->map->sx -= 1;
 	else if (keycode == ARROW_UP)
-		fdf->camera->position[1] += 1;
+		fdf->map->sy -= 1;
 	else if (keycode == ARROW_DOWN)
-		fdf->camera->position[1] -= 1;
+		fdf->map->sy += 1;
 	else if (keycode == PLUS)
-		fdf->camera->position[2] += 1;
+		fdf->map->scale += 1;
 	else if (keycode == MINUS)
-		fdf->camera->position[2] -= 1;
+		fdf->map->scale -= 1;
 	else if (keycode == KW)
-		fdf->map->xfi += 0.05;
+		fdf->xfi += 0.05;
 	else if (keycode == KQ)
-		fdf->map->xfi -= 0.05;
+		fdf->xfi -= 0.05;
 	else if (keycode == KA)
-		fdf->map->yfi -= 0.05;
+		fdf->yfi -= 0.05;
 	else if (keycode == KS)
-		fdf->map->yfi += 0.05;
+		fdf->yfi += 0.05;
 	else if (keycode == KZ)
 		fdf->camera->position[2] += 0.05;
 	else if (keycode == KX)
@@ -117,7 +117,7 @@ static void	ft_arrcpy(float arr1[4][4], float arr2[4][4])
 
 static void ft_matmul(float arr1[4][4], float arr2[4][4])
 {
-	float out[4][4] = { 0 };
+	float out[4][4] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
 	int i;
 	int j;
 	int k;
@@ -163,21 +163,27 @@ void ft_norm(float vec[3])
 	vec[0] /= sqrtf(length);
 }
 
+void ft_norm_point(t_fdf *fdf, int *p)
+{
+	p[0] /= fdf->map->width;
+	p[1] /= fdf->map->height;
+	p[2] /= fdf->map->z_max;;
+}
+
 void	ft_test_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
 {
-	/* float xrotate[4][4] = { */
-	/* 	{1, 0, 0, 0}, */
-	/* 	{0, cos(fdf->xfi), -sin(fdf->xfi), 0}, */
-	/* 	{0, sin(fdf->xfi), cos(fdf->xfi), 0}, */
-	/* 	{0, 0, 0, 1} */
-	/* }; */
-	/* float yrotate[4][4] = { */
-	/* 	{cos(fdf->yfi), 0, -sin(fdf->yfi), 0}, */
-	/* 	{0, 1, 0, 0}, */
-	/* 	{sin(fdf->yfi), 0, cos(fdf->yfi), 0}, */
-	/* 	{0, 0, 0, 1} */
-
-	/* }; */
+	float xrotate[4][4] = {
+		{1, 0, 0, 0},
+		{0, cos(fdf->xfi), sin(fdf->xfi), 0},
+		{0, -sin(fdf->xfi), cos(fdf->xfi), 0},
+		{0, 0, 0, 1}
+	};
+	float yrotate[4][4] = {
+		{cos(fdf->yfi), 0, sin(fdf->yfi), 0},
+		{0, 1, 0, 0},
+		{-sin(fdf->yfi), 0, cos(fdf->yfi), 0},
+		{0, 0, 0, 1}
+	};
 	/* float zrotate[4][4] = { */
 	/* 	{cos(fdf->zfi), sin(fdf->zfi), 0, 0}, */
 	/* 	{-sin(fdf->zfi), cos(fdf->zfi), 0, 0}, */
@@ -245,8 +251,8 @@ void	ft_test_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
 	ft_matmul(result, camera);
 	ft_matmul(result, offset);
 
-	/* ft_matmul(result, xrotate); */
-	/* ft_matmul(result, yrotate); */
+	ft_matmul(result, xrotate);
+	ft_matmul(result, yrotate);
 	/* ft_matmul(result, zrotate); */
 
 	ft_dot(p1, result);

@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:54:03 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/09 14:59:21 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/10 15:29:54 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../fdf.h"
@@ -31,11 +31,11 @@ void	ft_swap(int *x1, int *x2)
 	*x1 = tmp;
 }
 
-int	*ft_new_point(int x, int y, t_fdf *fdf)
+float	*ft_new_point(float x, float y, t_fdf *fdf)
 {
-	int *point;
+	float *point;
 
-	point = (int *)malloc(sizeof(int) * 4);
+	point = (float *)malloc(sizeof(float) * 4);
 	if (!point)
 		return (NULL);
 	point[0] = x;
