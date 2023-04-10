@@ -1,15 +1,5 @@
 #include "../fdf.h"
 
-typedef struct s_camera
-{
-    t_point pos;
-    t_point target;
-    t_point up;
-    int fov;
-	int np;
-	int fp;
-} t_camera;
-
 int ft_key_hook(int keycode, t_fdf *fdf)
 {
 	printf("hello form key_hook %d\n", keycode);

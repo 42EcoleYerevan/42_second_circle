@@ -89,7 +89,6 @@ typedef struct s_camera
 	float position[3];
 	float target[3];
 	float up[3];
-	float right[3];
 	float fov;
 } t_camera;
 

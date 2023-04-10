@@ -5,17 +5,17 @@ int ft_key_hook(int keycode, t_fdf *fdf)
 {
 	printf("hello form key_hook %d\n", keycode);
 	if (keycode == ARROW_RIGHT)
-		fdf->map->sx += 10;
+		fdf->camera->position[0] += 1;
 	else if (keycode == ARROW_LEFT)
-		fdf->map->sx -= 10;
+		fdf->camera->position[0] -= 1;
 	else if (keycode == ARROW_UP)
-		fdf->map->sy -= 10;
+		fdf->camera->position[1] += 1;
 	else if (keycode == ARROW_DOWN)
-		fdf->map->sy += 10;
+		fdf->camera->position[1] -= 1;
 	else if (keycode == PLUS)
-		fdf->map->scale += 1;
+		fdf->camera->position[2] += 1;
 	else if (keycode == MINUS)
-		fdf->map->scale -= 1;
+		fdf->camera->position[2] -= 1;
 	else if (keycode == KW)
 		fdf->map->xfi += 0.05;
 	else if (keycode == KQ)
@@ -165,37 +165,37 @@ void ft_norm(float vec[3])
 
 void	ft_test_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
 {
-	float xrotate[4][4] = {
-		{1, 0, 0, 0},
-		{0, cos(fdf->xfi), -sin(fdf->xfi), 0},
-		{0, sin(fdf->xfi), cos(fdf->xfi), 0},
-		{0, 0, 0, 1}
-	};
-	float yrotate[4][4] = {
-		{cos(fdf->yfi), 0, -sin(fdf->yfi), 0},
-		{0, 1, 0, 0},
-		{sin(fdf->yfi), 0, cos(fdf->yfi), 0},
-		{0, 0, 0, 1}
+	/* float xrotate[4][4] = { */
+	/* 	{1, 0, 0, 0}, */
+	/* 	{0, cos(fdf->xfi), -sin(fdf->xfi), 0}, */
+	/* 	{0, sin(fdf->xfi), cos(fdf->xfi), 0}, */
+	/* 	{0, 0, 0, 1} */
+	/* }; */
+	/* float yrotate[4][4] = { */
+	/* 	{cos(fdf->yfi), 0, -sin(fdf->yfi), 0}, */
+	/* 	{0, 1, 0, 0}, */
+	/* 	{sin(fdf->yfi), 0, cos(fdf->yfi), 0}, */
+	/* 	{0, 0, 0, 1} */
 
-	};
-	float zrotate[4][4] = {
-		{cos(fdf->zfi), sin(fdf->zfi), 0, 0},
-		{-sin(fdf->zfi), cos(fdf->zfi), 0, 0},
-		{0, 0, 1, 0},
-		{0, 0, 0, 1}
-	};
+	/* }; */
+	/* float zrotate[4][4] = { */
+	/* 	{cos(fdf->zfi), sin(fdf->zfi), 0, 0}, */
+	/* 	{-sin(fdf->zfi), cos(fdf->zfi), 0, 0}, */
+	/* 	{0, 0, 1, 0}, */
+	/* 	{0, 0, 0, 1} */
+	/* }; */
 	float scale[4][4] = {
 		{fdf->map->scale, 0, 0, 0},
 		{0, fdf->map->scale, 0, 0},
 		{0, 0, 1, 0},
 		{0, 0, 0, 1}
 	};
-	/* float offset[4][4] = { */
-	/* 	{1, 0, 0, 0}, */
-	/* 	{0, 1, 0, 0}, */
-	/* 	{0, 0, 1, 0}, */
-	/* 	{fdf->map->sx, fdf->map->sy, 0, 1} */
-	/* }; */
+	/* /1* float offset[4][4] = { *1/ */
+	/* /1* 	{1, 0, 0, 0}, *1/ */
+	/* /1* 	{0, 1, 0, 0}, *1/ */
+	/* /1* 	{0, 0, 1, 0}, *1/ */
+	/* /1* 	{fdf->map->sx, fdf->map->sy, 0, 1} *1/ */
+	/* /1* }; *1/ */
 	float center[4][4] = {
 		{1, 0, 0, 0},
 		{0, 1, 0, 0},
@@ -209,9 +209,9 @@ void	ft_test_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
 		{0, 0, 1, 0},
 		{0, 0, 0, 1}
 	};
-	float vz[4] = {0, 0, 0};
-	float vx[4] = {0, 0, 0};
-	float vy[4] = {0, 0, 0};
+	float vz[4] = {0, 0, 0, 1};
+	float vx[4] = {0, 0, 0, 1};
+	float vy[4] = {0, 0, 0, 1};
 
 	ft_vect_sub(fdf->camera->position, fdf->camera->target, vz);
 	ft_norm(vz);
@@ -245,9 +245,9 @@ void	ft_test_draw_line(t_fdf *fdf, int *p1, int *p2, int color)
 	ft_matmul(result, camera);
 	ft_matmul(result, offset);
 
-	ft_matmul(result, xrotate);
-	ft_matmul(result, yrotate);
-	ft_matmul(result, zrotate);
+	/* ft_matmul(result, xrotate); */
+	/* ft_matmul(result, yrotate); */
+	/* ft_matmul(result, zrotate); */
 
 	ft_dot(p1, result);
 	ft_dot(p2, result);
@@ -317,9 +317,6 @@ void	ft_init_camera(t_fdf *fdf)
 	fdf->camera->up[0] = 0;
 	fdf->camera->up[1] = 1;
 	fdf->camera->up[2] = 0;
-	fdf->camera->right[0] = 1;
-	fdf->camera->right[1] = 0;
-	fdf->camera->right[2] = 0;
 }
 
 int draw(t_fdf *fdf)
@@ -346,8 +343,6 @@ int main(int argc, char **argv)
 		fdf->map->scale = WIDTH / MAX(fdf->map->width, fdf->map->height) / 2;
 		fdf->map->sx = WIDTH / 2;
 		fdf->map->sy = HEIGHT / 2;
-		/* fdf->map->sx = 0; */
-		/* fdf->map->sy = 0; */
 		fdf->map->xfi = 0.5235;
 		fdf->map->yfi = 0.5235;
 		fdf->xfi = 0.2;
