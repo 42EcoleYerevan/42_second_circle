@@ -27,10 +27,10 @@ LIBFT=libft
 LIBFT_A=$(LIBFT)/libft.a
 SRC=utils.c \
 	 draw.c \
-	 draw_map.c \
 	 parse_map.c \
 	 parser_utils.c \
 	 test.c
+	 # draw_map.c \
 
 SRCS=$(addprefix  ./src/, $(SRC))
 OBJS=$(SRCS:%.c=%.o)
