@@ -61,14 +61,6 @@
 # define ABS(a) ((a < 0)? -(a): a)
 # define MAX(a, b) ((a > b)? a: b)
 
-/* typedef struct s_point */
-/* { */
-/* 	int x; */
-/* 	int y; */
-/* 	int z; */
-/* 	int w; */
-/* } t_point; */
-
 typedef struct s_map
 {
 	int	width;
@@ -76,6 +68,10 @@ typedef struct s_map
 	int sx;
 	int sy;
 	int scale;
+	float	hwidth;
+	float	hheight;
+	float	hscale;
+	float	wscale;
 	float xfi;
 	float yfi;
 	float coef;

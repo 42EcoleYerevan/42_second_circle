@@ -1,4 +1,5 @@
 #include "../fdf.h"
+#include <time.h>
 
 
 static int ft_key_hook(int keycode, t_fdf *fdf)
@@ -27,13 +28,6 @@ static int ft_key_hook(int keycode, t_fdf *fdf)
 		fdf->yfi -= 0.05f;
 	else if (keycode == KS)
 		fdf->yfi += 0.05f;
-	/* else if (keycode == KZ) */
-	/* 	fdf->camera->position[2] += 1; */
-	/* else if (keycode == KX) */
-	/* 	fdf->camera->position[0] += 1; */
-	/* else if (keycode == KY) */
-	/* 	fdf->camera->position[1] += 1; */
-	/* fdf->endian = 0; */
 	return (0);
 }	
 
@@ -64,18 +58,18 @@ static void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 
 static void ft_put_line(t_fdf *fdf, float *p1, float *p2, int color)
 {
-	int		dx;
-	int		dy;
+	float		dx;
+	float		dy;
 	int		max;
 	int		i;
 	float	xstep;
 	float	ystep;
 
-	dx = (p2[0] - p1[0]);
-	dy = (p2[1] - p1[1]);
+	dx = p2[0] - p1[0];
+	dy = p2[1] - p1[1];
 	max = MAX(ABS(dx), ABS(dy));
-	xstep = (float)dx / max;
-	ystep = (float)dy / max;
+	xstep = dx / max;
+	ystep = dy / max;
 	i = 0;
 	while (i < max)
 	{
@@ -172,24 +166,16 @@ void ft_vect_sub(float vec1[3], float vec2[3], float result[3])
 	result[2] = vec1[2] - vec2[2];
 }
 
-void ft_norm(float vec[3])
-{
-	int length;
-
-	length = vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2];
-	vec[0] /= sqrtf(length);
-}
-
 void ft_norm_point(t_fdf *fdf, float *p)
 {
-	p[0] -= (float)fdf->map->width / 2;
-	p[1] -= (float)fdf->map->height / 2;
-	p[0] /= (float)fdf->map->width / 2;
-	p[1] /= (float)fdf->map->height / 2;
+	p[0] -= fdf->map->hwidth;
+	p[1] -= fdf->map->hheight;
+	p[0] /= fdf->map->hwidth;
+	p[1] /= fdf->map->hheight;
 	p[2] /= (float)fdf->map->z_scale / fdf->map->coef;
 }
 
-void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, int color)
+void ft_offset(t_fdf *fdf, float result[4][4])
 {
 	float offset[4][4] = {
 		{1.0f, 0.0f, 0.0f, 0.0f},
@@ -199,7 +185,93 @@ void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, int color)
 		 fdf->camera->position[1], 
 		 fdf->camera->position[2], 1.0f}
 	};
+	ft_matmul(result, offset);
+}
 
+void ft_projection(t_fdf *fdf, float result[4][4])
+{
+	float projection[4][4] = {
+		{fdf->camera->fovy / fdf->camera->aspect, 0.0f, 0.0f, 0.0f},
+		{0.0f, fdf->camera->fovy, 0.0f, 0.0f},
+		{0.0f, 0.0f, (fdf->camera->f+fdf->camera->n)/
+				(fdf->camera->f-fdf->camera->n), 1.0f},
+		{0.0f, 0.0f, -2.0f*(fdf->camera->f * fdf->camera->n)/
+				(fdf->camera->f-fdf->camera->n), 0.0f}
+	};
+	ft_matmul(result, projection);
+}
+
+void ft_xrotate(t_fdf *fdf, float result[4][4])
+{
+	float xrotate[4][4] = {
+		{1.0f, 0.0f, 0.0f, 0.0f},
+		{0.0f, cos(fdf->xfi), sin(fdf->xfi), 0.0f},
+		{0.0f, -sin(fdf->xfi), cos(fdf->xfi), 0.0f},
+		{0.0f, 0.0f, 0.0f, 1.0f}
+	};
+	ft_matmul(result, xrotate);
+}
+
+void ft_yrotate(t_fdf *fdf, float result[4][4])
+{
+	float yrotate[4][4] = {
+		{cos(fdf->yfi), 0.0f, -sin(fdf->yfi), 0.0f},
+		{0.0f, 1.0f, 0.0f, 0.0f},
+		{sin(fdf->yfi), 0.0f, cos(fdf->yfi), 0.0f},
+		{0.0f, 0.0f, 0.0f, 1.0f}
+	};
+	ft_matmul(result, yrotate);
+}
+
+void ft_zrotate(t_fdf *fdf, float result[4][4])
+{
+	float zrotate[4][4] = {
+		{cos(fdf->zfi), -sin(fdf->zfi), 0.0f, 0.0f},
+		{sin(fdf->zfi), cos(fdf->zfi), 0.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f, 0.0f},
+		{0.0f, 0.0f, 0.0f, 1.0f}
+	};
+	ft_matmul(result, zrotate);
+}
+
+void ft_point_scale(t_fdf *fdf, float *p)
+{
+	p[0] *= fdf->map->wscale;
+	p[1] *= fdf->map->hscale;
+	p[0] += fdf->map->sx;
+	p[1] += fdf->map->sy;
+}
+
+void ft_to_coords(float *p)
+{
+	p[2] /= p[3];
+	p[0] /= p[3] * p[2];
+	p[1] /= p[3] * p[2];
+}
+
+void ft_proc(t_fdf *fdf, float result[4][4], float *p1, float *p2)
+{
+	ft_xrotate(fdf, result);
+	ft_yrotate(fdf, result);
+	ft_zrotate(fdf, result);
+	ft_offset(fdf, result);
+	ft_projection(fdf, result);
+
+	ft_norm_point(fdf, p1);
+	ft_norm_point(fdf, p2);
+
+	ft_dot(p1, result);
+	ft_dot(p2, result);
+
+	ft_to_coords(p1);
+	ft_to_coords(p2);
+
+	ft_point_scale(fdf, p1);
+	ft_point_scale(fdf, p2);
+}
+
+void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, int color)
+{
 	//change color
 	if (color == 0 && (p1[2] <= 0 || p2[2] <= 0))
 		color = 0xFFFFFF;
@@ -213,87 +285,18 @@ void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, int color)
 		{0.0f, 0.0f, 0.0f, 1.0f}
 	};
 
-	fdf->camera->fovy = 1.0f / tanhf(M_PI / 180.0f * fdf->camera->fov);
-	fdf->camera->n = 5.0f;
-	float projection[4][4] = {
-		{fdf->camera->fovy / fdf->camera->aspect, 0.0f, 0.0f, 0.0f},
-		{0.0f, fdf->camera->fovy, 0.0f, 0.0f},
-		{0.0f, 0.0f, (fdf->camera->f+fdf->camera->n)/
-				(fdf->camera->f-fdf->camera->n), 1.0f},
-		{0.0f, 0.0f, -2.0f*(fdf->camera->f * fdf->camera->n)/
-				(fdf->camera->f-fdf->camera->n), 0.0f}
-	};
-	float xrotate[4][4] = {
-		{1.0f, 0.0f, 0.0f, 0.0f},
-		{0.0f, cos(fdf->xfi), sin(fdf->xfi), 0.0f},
-		{0.0f, -sin(fdf->xfi), cos(fdf->xfi), 0.0f},
-		{0.0f, 0.0f, 0.0f, 1.0f}
-	};
-	float yrotate[4][4] = {
-		{cos(fdf->yfi), 0.0f, -sin(fdf->yfi), 0.0f},
-		{0.0f, 1.0f, 0.0f, 0.0f},
-		{sin(fdf->yfi), 0.0f, cos(fdf->yfi), 0.0f},
-		{0.0f, 0.0f, 0.0f, 1.0f}
-	};
-	float zrotate[4][4] = {
-		{cos(fdf->zfi), -sin(fdf->zfi), 0.0f, 0.0f},
-		{sin(fdf->zfi), cos(fdf->zfi), 0.0f, 0.0f},
-		{0.0f, 0.0f, 1.0f, 0.0f},
-		{0.0f, 0.0f, 0.0f, 1.0f}
-	};
-
-	ft_matmul(result, xrotate);
-	ft_matmul(result, yrotate);
-	ft_matmul(result, zrotate);
-	ft_matmul(result, offset);
-	ft_matmul(result, projection);
-
-
-	ft_norm_point(fdf, p1);
-	ft_norm_point(fdf, p2);
-
-	/* printf("%f %f %f %f\n", p1[0], p1[1], p1[2], p1[3]); */
-
-	ft_dot(p1, result);
-	ft_dot(p2, result);
-
-	if (p1[3] != 0)
-	{
-		p1[0] /= p1[3];
-		p1[1] /= p1[3];
-		p1[2] /= p1[3];
-	}
-	if (p2[3] != 0)
-	{
-		p2[0] /= p2[3];
-		p2[1] /= p2[3];
-		p2[2] /= p2[3];
-	}
-	if (p1[2] != 0)
-	{
-		p1[0] /= p1[2];
-		p1[1] /= p1[2];
-	}
-	if (p2[2] != 0)
-	{
-		p2[0] /= p2[2];
-		p2[1] /= p2[2];
-	}
-
-	p1[0] *= (float)fdf->map->width / 2 * fdf->map->scale;
-	p1[1] *= (float)fdf->map->height / 2 * fdf->map->scale;
-	p2[0] *= (float)fdf->map->width / 2 * fdf->map->scale;
-	p2[1] *= (float)fdf->map->height / 2 * fdf->map->scale;
-	p1[0] += fdf->map->sx;
-	p1[1] += fdf->map->sy;
-	p2[0] += fdf->map->sx;
-	p2[1] += fdf->map->sy;
+	clock_t begin_proc = clock();
+	ft_proc(fdf, result, p1, p2);
+	clock_t end_proc = clock();
 
 	fdf->xfi += 0.000005;
 	/* fdf->yfi += 0.000005; */
 	fdf->zfi += 0.000005;
-
+	clock_t begin_put = clock();
 	ft_put_line(fdf, p1, p2, color);
+	clock_t end_put = clock();
+	printf("%lu %lu\n", end_put - begin_put, end_proc - begin_proc);
+	/* printf("%f %f %f %f\n", p1[0], p1[1], p2[0], p2[1]); */
 	free(p1);
 	free(p2);
 }
@@ -351,6 +354,7 @@ void	ft_init_camera(t_fdf *fdf)
 	fdf->camera->position[2] = 1.0f;
 	fdf->camera->aspect = (float)WIDTH / (float)HEIGHT;
 	fdf->camera->fov = 90.0f / 2.0f;
+	fdf->camera->fovy = 1.0f / tanhf(M_PI / 180.0f * fdf->camera->fov);
 	fdf->camera->n = 1.0f;
 	fdf->camera->f = 100.0f;
 }
@@ -361,9 +365,21 @@ int draw(t_fdf *fdf)
 	return (0);
 }
 
+void ft_init_map(t_fdf *fdf, char *path)
+{
+	fdf->map = ft_create_map(path);
+	fdf->map->scale = WIDTH / MAX(fdf->map->width, fdf->map->height) / 2;
+	fdf->map->sx = WIDTH / 2.0f;
+	fdf->map->sy = HEIGHT / 2.0f;
+	fdf->map->coef = 0.2f;
+	fdf->map->hwidth = (float)fdf->map->width / 2;
+	fdf->map->hheight = (float)fdf->map->height / 2;
+	fdf->map->hscale = fdf->map->hheight * fdf->map->scale;
+	fdf->map->wscale = fdf->map->hwidth * fdf->map->scale;
+}
+
 int main(int argc, char **argv)
 {
-
 	if (argc == 2)
 	{
 		t_fdf *fdf;
@@ -374,18 +390,10 @@ int main(int argc, char **argv)
 		fdf->addr = mlx_get_data_addr(fdf->image,  &fdf->bits_per_pixel, &fdf->line_length, &fdf->endian);
 
 		ft_init_camera(fdf);
-
-		fdf->map = ft_create_map(argv[1]);
-		fdf->map->scale = WIDTH / MAX(fdf->map->width, fdf->map->height) / 2;
-		fdf->map->sx = WIDTH / 2.0f;
-		fdf->map->sy = HEIGHT / 2.0f;
-		fdf->map->xfi = 0.5235f;
-		fdf->map->yfi = 0.5235f;
-		fdf->map->coef = 0.2f;
+		ft_init_map(fdf, argv[1]);
 		fdf->xfi = 0.2;
 		fdf->yfi = 0.2;
 		fdf->zfi = 0.2;
-
 		fdf->istriangle = 0;
 
 		mlx_loop_hook(fdf->mlx, draw, fdf);
