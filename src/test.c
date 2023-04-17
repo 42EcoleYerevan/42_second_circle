@@ -152,19 +152,19 @@ static void ft_matmul(float arr1[4][4], float arr2[4][4])
 	ft_arrcpy(arr1, out);
 }
 
-void ft_vect_mul(float vec1[3], float vec2[3], float result[3])
-{
-	result[0] = (vec1[1] * vec2[2]) - (vec1[2] * vec2[1]);
-	result[1] = (vec1[2] * vec2[0]) - (vec1[0] * vec2[2]);
-	result[2] = (vec1[0] * vec2[1]) - (vec1[1] * vec2[0]);
-}
+/* void ft_vect_mul(float vec1[3], float vec2[3], float result[3]) */
+/* { */
+/* 	result[0] = (vec1[1] * vec2[2]) - (vec1[2] * vec2[1]); */
+/* 	result[1] = (vec1[2] * vec2[0]) - (vec1[0] * vec2[2]); */
+/* 	result[2] = (vec1[0] * vec2[1]) - (vec1[1] * vec2[0]); */
+/* } */
 
-void ft_vect_sub(float vec1[3], float vec2[3], float result[3])
-{
-	result[0] = vec1[0] - vec2[0];
-	result[1] = vec1[1] - vec2[1];
-	result[2] = vec1[2] - vec2[2];
-}
+/* void ft_vect_sub(float vec1[3], float vec2[3], float result[3]) */
+/* { */
+/* 	result[0] = vec1[0] - vec2[0]; */
+/* 	result[1] = vec1[1] - vec2[1]; */
+/* 	result[2] = vec1[2] - vec2[2]; */
+/* } */
 
 void ft_norm_point(t_fdf *fdf, float *p)
 {
@@ -249,54 +249,30 @@ void ft_to_coords(float *p)
 	p[1] /= p[3] * p[2];
 }
 
-void ft_proc(t_fdf *fdf, float result[4][4], float *p1, float *p2)
+void ft_set_matrix(t_fdf *fdf, float result[4][4])
 {
 	ft_xrotate(fdf, result);
 	ft_yrotate(fdf, result);
 	ft_zrotate(fdf, result);
 	ft_offset(fdf, result);
 	ft_projection(fdf, result);
-
-	ft_norm_point(fdf, p1);
-	ft_norm_point(fdf, p2);
-
-	ft_dot(p1, result);
-	ft_dot(p2, result);
-
-	ft_to_coords(p1);
-	ft_to_coords(p2);
-
-	ft_point_scale(fdf, p1);
-	ft_point_scale(fdf, p2);
 }
 
-void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, int color)
+void ft_proc(t_fdf *fdf, float result[4][4], float *p)
 {
-	//change color
-	if (color == 0 && (p1[2] <= 0 || p2[2] <= 0))
-		color = 0xFFFFFF;
-	else if (color == 0 && (p1[2] > 0 || p2[2] > 0))
-		color = 0xFF0000;
+	ft_norm_point(fdf, p);
+	ft_dot(p, result);
+	ft_to_coords(p);
+	ft_point_scale(fdf, p);
+}
 
-	float result[4][4] = {
-		{1.0f, 0.0f, 0.0f, 0.0f},
-		{0.0f, 1.0f, 0.0f, 0.0f},
-		{0.0f, 0.0f, 1.0f, 0.0f},
-		{0.0f, 0.0f, 0.0f, 1.0f}
-	};
-
-	clock_t begin_proc = clock();
-	ft_proc(fdf, result, p1, p2);
-	clock_t end_proc = clock();
-
-	fdf->xfi += 0.000005;
-	/* fdf->yfi += 0.000005; */
-	fdf->zfi += 0.000005;
-	clock_t begin_put = clock();
+void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, float result[4][4])
+{
+	int color;
+	color = (fdf->map->colors[(int)p2[1]][(int)p2[0]] == 0)? 0xFFFFFF: 0xFF0000;
+	ft_proc(fdf, result, p1);
+	ft_proc(fdf, result, p2);
 	ft_put_line(fdf, p1, p2, color);
-	clock_t end_put = clock();
-	printf("%lu %lu\n", end_put - begin_put, end_proc - begin_proc);
-	/* printf("%f %f %f %f\n", p1[0], p1[1], p2[0], p2[1]); */
 	free(p1);
 	free(p2);
 }
@@ -305,7 +281,14 @@ static void	ft_put_map(t_fdf *fdf)
 {
 	int row;
 	int col;
+	float result[4][4] = {
+		{1.0f, 0.0f, 0.0f, 0.0f},
+		{0.0f, 1.0f, 0.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f, 0.0f},
+		{0.0f, 0.0f, 0.0f, 1.0f}
+	};
 
+	ft_set_matrix(fdf, result);
 	row = 0;
 	while (row < fdf->map->height)
 	{
@@ -315,15 +298,15 @@ static void	ft_put_map(t_fdf *fdf)
 			if (col < fdf->map->width - 1)
 				ft_test_draw_line(fdf, ft_new_point(col, row, fdf),
 						ft_new_point(col + 1, row, fdf),
-						fdf->map->colors[row][col]);			
+						result);			
 			if (row < fdf->map->height - 1)
 				ft_test_draw_line(fdf, ft_new_point(col, row, fdf),
 					   ft_new_point(col, row + 1, fdf),
-					   fdf->map->colors[row][col]);			
+					   result);			
 			if (fdf->istriangle && row < fdf->map->height - 1 && col < fdf->map->width - 1)
 				ft_test_draw_line(fdf, ft_new_point(col + 1, row, fdf),
 					   ft_new_point(col, row + 1, fdf),
-					   fdf->map->colors[row][col]);			
+					   result);			
 			col++;
 		}
 		row++;
@@ -337,11 +320,15 @@ static int	ft_test_draw_map(t_fdf *fdf)
 		   	&fdf->bits_per_pixel,
 		   	&fdf->line_length,
 		   	&fdf->endian);
+
+	clock_t begin = clock();
 	ft_put_map(fdf);
+	clock_t end = clock();
+	printf("%lu\n", end - begin);
 	mlx_put_image_to_window(fdf->mlx,
 		   	fdf->window,
 		    fdf->image, 0, 0);
-	usleep(1000);
+	usleep(10000);
 	mlx_destroy_image(fdf->mlx, fdf->image);
 	return (0);
 }
@@ -356,7 +343,7 @@ void	ft_init_camera(t_fdf *fdf)
 	fdf->camera->fov = 90.0f / 2.0f;
 	fdf->camera->fovy = 1.0f / tanhf(M_PI / 180.0f * fdf->camera->fov);
 	fdf->camera->n = 1.0f;
-	fdf->camera->f = 100.0f;
+	fdf->camera->f = 1000.0f;
 }
 
 int draw(t_fdf *fdf)
