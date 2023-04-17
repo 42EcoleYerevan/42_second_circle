@@ -4,14 +4,6 @@
 static int ft_key_hook(int keycode, t_fdf *fdf)
 {
 	printf("hello form key_hook %d\n", keycode);
-	/* if (keycode == ARROW_RIGHT) */
-	/* 	fdf->map->sx += 1; */
-	/* else if (keycode == ARROW_LEFT) */
-	/* 	fdf->map->sx -= 1; */
-	/* else if (keycode == ARROW_UP) */
-	/* 	fdf->map->sy -= 1; */
-	/* else if (keycode == ARROW_DOWN) */
-	/* 	fdf->map->sy += 1; */
 	if (keycode == ARROW_RIGHT)
 		fdf->camera->position[0] += 1;
 	else if (keycode == ARROW_LEFT)
@@ -21,25 +13,27 @@ static int ft_key_hook(int keycode, t_fdf *fdf)
 	else if (keycode == ARROW_DOWN)
 		fdf->camera->position[2] -= 1;
 
+	else if (keycode == KT)
+		fdf->istriangle += (fdf->istriangle == 0)? 1: -1;
 	else if (keycode == PLUS)
-		fdf->map->scale += 1;
+		fdf->map->coef += 0.1f;
 	else if (keycode == MINUS)
-		fdf->map->scale -= 1;
+		fdf->map->coef -= 0.1f;
 	else if (keycode == KW)
-		fdf->xfi += 0.05;
+		fdf->xfi += 0.05f;
 	else if (keycode == KQ)
-		fdf->xfi -= 0.05;
+		fdf->xfi -= 0.05f;
 	else if (keycode == KA)
-		fdf->yfi -= 0.05;
+		fdf->yfi -= 0.05f;
 	else if (keycode == KS)
-		fdf->yfi += 0.05;
-	else if (keycode == KZ)
-		fdf->camera->position[2] += 1;
-	else if (keycode == KX)
-		fdf->camera->position[0] += 1;
-	else if (keycode == KY)
-		fdf->camera->position[1] += 1;
-	fdf->endian = 0;
+		fdf->yfi += 0.05f;
+	/* else if (keycode == KZ) */
+	/* 	fdf->camera->position[2] += 1; */
+	/* else if (keycode == KX) */
+	/* 	fdf->camera->position[0] += 1; */
+	/* else if (keycode == KY) */
+	/* 	fdf->camera->position[1] += 1; */
+	/* fdf->endian = 0; */
 	return (0);
 }	
 
@@ -192,46 +186,18 @@ void ft_norm_point(t_fdf *fdf, float *p)
 	p[1] -= (float)fdf->map->height / 2;
 	p[0] /= (float)fdf->map->width / 2;
 	p[1] /= (float)fdf->map->height / 2;
-	p[2] /= fdf->map->z_scale;
+	p[2] /= (float)fdf->map->z_scale / fdf->map->coef;
 }
 
 void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, int color)
 {
-	float vz[4] = {0, 0, 0, 1};
-	float vx[4] = {0, 0, 0, 1};
-	float vy[4] = {0, 0, 0, 1};
-
-	ft_vect_sub(fdf->camera->position, fdf->camera->target, vz);
-	ft_norm(vz);
-	ft_vect_mul(fdf->camera->up, vz, vx);
-	ft_norm(vx);
-	ft_vect_mul(vz, vx, vy);
-	ft_norm(vy);
-	/* float camera[4][4] = { */
-	/* 	{vx[0], vy[0], vz[0], 0}, */
-	/* 	{vx[1], vy[1], vz[1], 0}, */
-	/* 	{vx[2], vy[2], vz[2], 0}, */
-	/* 	{0, 0, 0, 1} */
-	/* }; */
-	/* float offset[4][4] = { */
-	/* 	{1, 0, 0, -fdf->camera->position[0]}, */
-	/* 	{0, 1, 0, -fdf->camera->position[1]}, */
-	/* 	{0, 0, 1, -fdf->camera->position[2]}, */
-	/* 	{0, 0, 0, 1} */
-	/* }; */
-	/* float camera[4][4] = { */
-	/* 	{vx[0], vx[1], vx[2], 0}, */
-	/* 	{vy[0], vy[1], vy[2], 0}, */
-	/* 	{vz[0], vz[1], vz[2], 0}, */
-	/* 	{0, 0, 0, 1} */
-	/* }; */
 	float offset[4][4] = {
-		{1, 0, 0, 0},
-		{0, 1, 0, 0},
-		{0, 0, 1, 0},
+		{1.0f, 0.0f, 0.0f, 0.0f},
+		{0.0f, 1.0f, 0.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f, 0.0f},
 		{fdf->camera->position[0],
 		 fdf->camera->position[1], 
-		 fdf->camera->position[2], 1}
+		 fdf->camera->position[2], 1.0f}
 	};
 
 	//change color
@@ -240,61 +206,47 @@ void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, int color)
 	else if (color == 0 && (p1[2] > 0 || p2[2] > 0))
 		color = 0xFF0000;
 
-	fdf->camera->fov = 60.0f / 2.0f;
-	fdf->camera->fovy = 1.0f / tanhf(M_PI / 180.0f * fdf->camera->fov);
-	fdf->camera->n = 1.0f;
-	fdf->camera->f = 100.0f;
-	/* fdf->camera->position[2] = 10.0f; */
-
 	float result[4][4] = {
-		{1, 0, 0, 0},
-		{0, 1, 0, 0},
-		{0, 0, 1, 0},
-		{0, 0, 0, 1}
+		{1.0f, 0.0f, 0.0f, 0.0f},
+		{0.0f, 1.0f, 0.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f, 0.0f},
+		{0.0f, 0.0f, 0.0f, 1.0f}
 	};
-	/* float projection[4][4] = { */
-	/* 	{fdf->camera->fovy / fdf->camera->aspect, 0, 0, 0}, */
-	/* 	{0, fdf->camera->fovy, 0, 0}, */
-	/* 	{0, 0, (fdf->camera->f+fdf->camera->n)/ */
-	/* 			(fdf->camera->f-fdf->camera->n), 1}, */
-	/* 	{0, 0, -2.0f*(fdf->camera->f * fdf->camera->n)/ */
-	/* 			(fdf->camera->f-fdf->camera->n), 0} */
-	/* }; */
+
+	fdf->camera->fovy = 1.0f / tanhf(M_PI / 180.0f * fdf->camera->fov);
+	fdf->camera->n = 5.0f;
 	float projection[4][4] = {
-		{fdf->camera->fovy * fdf->camera->aspect, 0, 0, 0},
-		{0, fdf->camera->fovy, 0, 0},
-		{0, 0, (fdf->camera->f+fdf->camera->n)/
-				(fdf->camera->f-fdf->camera->n),
-		-2.0f*(fdf->camera->f * fdf->camera->n)/
-				(fdf->camera->f-fdf->camera->n)},
-		{0, 0, 1, 0}
+		{fdf->camera->fovy / fdf->camera->aspect, 0.0f, 0.0f, 0.0f},
+		{0.0f, fdf->camera->fovy, 0.0f, 0.0f},
+		{0.0f, 0.0f, (fdf->camera->f+fdf->camera->n)/
+				(fdf->camera->f-fdf->camera->n), 1.0f},
+		{0.0f, 0.0f, -2.0f*(fdf->camera->f * fdf->camera->n)/
+				(fdf->camera->f-fdf->camera->n), 0.0f}
 	};
-	/* float projection[4][4] = { */
-	/* 	{1, 0, 0, 0}, */
-	/* 	{0, 1, 0, 0}, */
-	/* 	{0, 0, 1, 1}, */
-	/* 	{0, 0, 1, 0} */
-	/* }; */
 	float xrotate[4][4] = {
-		{1, 0, 0, 0},
-		{0, cos(fdf->xfi), -sin(fdf->xfi), 0},
-		{0, sin(fdf->xfi), cos(fdf->xfi), 0},
-		{0, 0, 0, 1}
+		{1.0f, 0.0f, 0.0f, 0.0f},
+		{0.0f, cos(fdf->xfi), sin(fdf->xfi), 0.0f},
+		{0.0f, -sin(fdf->xfi), cos(fdf->xfi), 0.0f},
+		{0.0f, 0.0f, 0.0f, 1.0f}
 	};
-	/* float yrotate[4][4] = { */
-	/* 	{cos(fdf->yfi), 0, -sin(fdf->yfi), 0}, */
-	/* 	{0, 1, 0, 0}, */
-	/* 	{sin(fdf->yfi), 0, cos(fdf->yfi), 0}, */
-	/* 	{0, 0, 0, 1} */
-	/* }; */
-	/* ft_matmul(result, center); */
-	/* ft_matmul(result, scale); */
+	float yrotate[4][4] = {
+		{cos(fdf->yfi), 0.0f, -sin(fdf->yfi), 0.0f},
+		{0.0f, 1.0f, 0.0f, 0.0f},
+		{sin(fdf->yfi), 0.0f, cos(fdf->yfi), 0.0f},
+		{0.0f, 0.0f, 0.0f, 1.0f}
+	};
+	float zrotate[4][4] = {
+		{cos(fdf->zfi), -sin(fdf->zfi), 0.0f, 0.0f},
+		{sin(fdf->zfi), cos(fdf->zfi), 0.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f, 0.0f},
+		{0.0f, 0.0f, 0.0f, 1.0f}
+	};
+
 	ft_matmul(result, xrotate);
-	/* ft_matmul(result, yrotate); */
-	/* ft_matmul(result, camera); */
+	ft_matmul(result, yrotate);
+	ft_matmul(result, zrotate);
 	ft_matmul(result, offset);
 	ft_matmul(result, projection);
-	/* ft_matmul(result, zrotate); */
 
 
 	ft_norm_point(fdf, p1);
@@ -305,18 +257,18 @@ void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, int color)
 	ft_dot(p1, result);
 	ft_dot(p2, result);
 
-	/* if (p1[3] != 0) */
-	/* { */
-	/* 	p1[0] /= p1[3]; */
-	/* 	p1[1] /= p1[3]; */
-	/* 	p1[2] /= p1[3]; */
-	/* } */
-	/* if (p2[3] != 0) */
-	/* { */
-	/* 	p2[0] /= p2[3]; */
-	/* 	p2[1] /= p2[3]; */
-	/* 	p2[2] /= p2[3]; */
-	/* } */
+	if (p1[3] != 0)
+	{
+		p1[0] /= p1[3];
+		p1[1] /= p1[3];
+		p1[2] /= p1[3];
+	}
+	if (p2[3] != 0)
+	{
+		p2[0] /= p2[3];
+		p2[1] /= p2[3];
+		p2[2] /= p2[3];
+	}
 	if (p1[2] != 0)
 	{
 		p1[0] /= p1[2];
@@ -337,20 +289,10 @@ void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, int color)
 	p2[0] += fdf->map->sx;
 	p2[1] += fdf->map->sy;
 
-	/* p1[0] *= (float)fdf->map->width / 2; */
-	/* p1[1] *= (float)fdf->map->height / 2; */
-	/* p2[0] *= (float)fdf->map->width / 2; */
-	/* p2[1] *= (float)fdf->map->height / 2; */
-
-	/* if (p1[1] > HEIGHT || p1[0] > WIDTH || p2[0] > WIDTH || p2[1] > HEIGHT) */
-	/* 	printf("%f %f %f %f\n", p1[0], p1[1], p1[2], p1[3]); */
-
-
 	fdf->xfi += 0.000005;
-	fdf->yfi += 0.000005;
+	/* fdf->yfi += 0.000005; */
 	fdf->zfi += 0.000005;
 
-	/* if (p1[0] < WIDTH && p1[1] < HEIGHT && p2[0] < WIDTH && p2[1] < HEIGHT) */
 	ft_put_line(fdf, p1, p2, color);
 	free(p1);
 	free(p2);
@@ -373,6 +315,10 @@ static void	ft_put_map(t_fdf *fdf)
 						fdf->map->colors[row][col]);			
 			if (row < fdf->map->height - 1)
 				ft_test_draw_line(fdf, ft_new_point(col, row, fdf),
+					   ft_new_point(col, row + 1, fdf),
+					   fdf->map->colors[row][col]);			
+			if (fdf->istriangle && row < fdf->map->height - 1 && col < fdf->map->width - 1)
+				ft_test_draw_line(fdf, ft_new_point(col + 1, row, fdf),
 					   ft_new_point(col, row + 1, fdf),
 					   fdf->map->colors[row][col]);			
 			col++;
@@ -400,18 +346,13 @@ static int	ft_test_draw_map(t_fdf *fdf)
 void	ft_init_camera(t_fdf *fdf)
 {
 	fdf->camera = (t_camera *)malloc(sizeof(t_camera));
-	fdf->camera->position[0] = 0;
-	fdf->camera->position[1] = 0;
-	fdf->camera->position[2] = 1;
-	fdf->camera->target[0] = 0;
-	fdf->camera->target[1] = 0;
-	fdf->camera->target[2] = 0;
-	fdf->camera->up[0] = 0;
-	fdf->camera->up[1] = 1;
-	fdf->camera->up[2] = 0;
-	fdf->camera->f = 100.0f;
-	fdf->camera->n = 0.1f;
+	fdf->camera->position[0] = 0.0f;
+	fdf->camera->position[1] = 0.0f;
+	fdf->camera->position[2] = 1.0f;
 	fdf->camera->aspect = (float)WIDTH / (float)HEIGHT;
+	fdf->camera->fov = 90.0f / 2.0f;
+	fdf->camera->n = 1.0f;
+	fdf->camera->f = 100.0f;
 }
 
 int draw(t_fdf *fdf)
@@ -436,13 +377,16 @@ int main(int argc, char **argv)
 
 		fdf->map = ft_create_map(argv[1]);
 		fdf->map->scale = WIDTH / MAX(fdf->map->width, fdf->map->height) / 2;
-		fdf->map->sx = WIDTH / 2;
-		fdf->map->sy = HEIGHT / 2;
-		fdf->map->xfi = 0.5235;
-		fdf->map->yfi = 0.5235;
+		fdf->map->sx = WIDTH / 2.0f;
+		fdf->map->sy = HEIGHT / 2.0f;
+		fdf->map->xfi = 0.5235f;
+		fdf->map->yfi = 0.5235f;
+		fdf->map->coef = 0.2f;
 		fdf->xfi = 0.2;
 		fdf->yfi = 0.2;
 		fdf->zfi = 0.2;
+
+		fdf->istriangle = 0;
 
 		mlx_loop_hook(fdf->mlx, draw, fdf);
 		/* mlx_hook(fdf->window, 2, 0, ft_key_hook, fdf); */

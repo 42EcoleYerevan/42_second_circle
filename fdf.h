@@ -15,6 +15,7 @@
 #  define KZ 122
 #  define KX 120 
 #  define KY 99
+#  define KT 116
 #  define ARROW_LEFT 65361
 #  define ARROW_RIGHT 65363
 #  define ARROW_UP 65362
@@ -77,6 +78,7 @@ typedef struct s_map
 	int scale;
 	float xfi;
 	float yfi;
+	float coef;
 	int z_scale;
 	int z_min;
 	int z_max;
@@ -87,8 +89,6 @@ typedef struct s_map
 typedef struct s_camera
 {
 	float position[3];
-	float target[3];
-	float up[3];
 	float fov;
 	float fovy;
 	float n;
@@ -105,6 +105,7 @@ typedef struct s_fdf
 	int 	bits_per_pixel;
 	int 	line_length;
 	int 	endian;
+	int		istriangle;
 	float	xfi;
 	float	yfi;
 	float	zfi;
