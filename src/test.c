@@ -13,7 +13,6 @@ static int ft_key_hook(int keycode, t_fdf *fdf)
 		fdf->camera->position[2] += 1;
 	else if (keycode == ARROW_DOWN)
 		fdf->camera->position[2] -= 1;
-
 	else if (keycode == KT)
 		fdf->istriangle += (fdf->istriangle == 0)? 1: -1;
 	else if (keycode == PLUS)
@@ -49,7 +48,7 @@ static void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 {
 	char	*tmp;
 
-	if (x < WIDTH && y < HEIGHT && x >=0 && y >= 0)
+	if (x < WIDTH && y < HEIGHT && x >= 0 && y >= 0)
 	{
 		tmp = fdf->addr + (y * fdf->line_length + x * (fdf->bits_per_pixel / 8));
 		*(unsigned int *)tmp = color;
@@ -58,10 +57,10 @@ static void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 
 static void ft_put_line(t_fdf *fdf, float *p1, float *p2, int color)
 {
-	float		dx;
-	float		dy;
 	int		max;
 	int		i;
+	float	dx;
+	float	dy;
 	float	xstep;
 	float	ystep;
 
@@ -151,20 +150,6 @@ static void ft_matmul(float arr1[4][4], float arr2[4][4])
 	}
 	ft_arrcpy(arr1, out);
 }
-
-/* void ft_vect_mul(float vec1[3], float vec2[3], float result[3]) */
-/* { */
-/* 	result[0] = (vec1[1] * vec2[2]) - (vec1[2] * vec2[1]); */
-/* 	result[1] = (vec1[2] * vec2[0]) - (vec1[0] * vec2[2]); */
-/* 	result[2] = (vec1[0] * vec2[1]) - (vec1[1] * vec2[0]); */
-/* } */
-
-/* void ft_vect_sub(float vec1[3], float vec2[3], float result[3]) */
-/* { */
-/* 	result[0] = vec1[0] - vec2[0]; */
-/* 	result[1] = vec1[1] - vec2[1]; */
-/* 	result[2] = vec1[2] - vec2[2]; */
-/* } */
 
 void ft_norm_point(t_fdf *fdf, float *p)
 {
@@ -277,6 +262,22 @@ void	ft_test_draw_line(t_fdf *fdf, float *p1, float *p2, float result[4][4])
 	free(p2);
 }
 
+void	ft_draw_triangle(t_fdf *fdf, int row, int col, float result[4][4])
+{
+	if (col < fdf->map->width - 1)
+		ft_test_draw_line(fdf, ft_new_point(col, row, fdf),
+				ft_new_point(col + 1, row, fdf),
+				result);			
+	if (row < fdf->map->height - 1)
+		ft_test_draw_line(fdf, ft_new_point(col, row, fdf),
+			   ft_new_point(col, row + 1, fdf),
+			   result);			
+	if (fdf->istriangle && row < fdf->map->height - 1 && col < fdf->map->width - 1)
+		ft_test_draw_line(fdf, ft_new_point(col + 1, row, fdf),
+			   ft_new_point(col, row + 1, fdf),
+			   result);			
+}
+
 static void	ft_put_map(t_fdf *fdf)
 {
 	int row;
@@ -295,18 +296,7 @@ static void	ft_put_map(t_fdf *fdf)
 		col = 0;
 		while (col < fdf->map->width)
 		{
-			if (col < fdf->map->width - 1)
-				ft_test_draw_line(fdf, ft_new_point(col, row, fdf),
-						ft_new_point(col + 1, row, fdf),
-						result);			
-			if (row < fdf->map->height - 1)
-				ft_test_draw_line(fdf, ft_new_point(col, row, fdf),
-					   ft_new_point(col, row + 1, fdf),
-					   result);			
-			if (fdf->istriangle && row < fdf->map->height - 1 && col < fdf->map->width - 1)
-				ft_test_draw_line(fdf, ft_new_point(col + 1, row, fdf),
-					   ft_new_point(col, row + 1, fdf),
-					   result);			
+			ft_draw_triangle(fdf, row, col, result);
 			col++;
 		}
 		row++;
@@ -320,11 +310,7 @@ static int	ft_test_draw_map(t_fdf *fdf)
 		   	&fdf->bits_per_pixel,
 		   	&fdf->line_length,
 		   	&fdf->endian);
-
-	clock_t begin = clock();
 	ft_put_map(fdf);
-	clock_t end = clock();
-	printf("%lu\n", end - begin);
 	mlx_put_image_to_window(fdf->mlx,
 		   	fdf->window,
 		    fdf->image, 0, 0);
@@ -338,18 +324,12 @@ void	ft_init_camera(t_fdf *fdf)
 	fdf->camera = (t_camera *)malloc(sizeof(t_camera));
 	fdf->camera->position[0] = 0.0f;
 	fdf->camera->position[1] = 0.0f;
-	fdf->camera->position[2] = 1.0f;
+	fdf->camera->position[2] = 5.0f;
 	fdf->camera->aspect = (float)WIDTH / (float)HEIGHT;
-	fdf->camera->fov = 90.0f / 2.0f;
+	fdf->camera->fov = 60.0f / 2.0f;
 	fdf->camera->fovy = 1.0f / tanhf(M_PI / 180.0f * fdf->camera->fov);
 	fdf->camera->n = 1.0f;
 	fdf->camera->f = 1000.0f;
-}
-
-int draw(t_fdf *fdf)
-{
-	ft_test_draw_map(fdf);
-	return (0);
 }
 
 void ft_init_map(t_fdf *fdf, char *path)
@@ -383,7 +363,7 @@ int main(int argc, char **argv)
 		fdf->zfi = 0.2;
 		fdf->istriangle = 0;
 
-		mlx_loop_hook(fdf->mlx, draw, fdf);
+		mlx_loop_hook(fdf->mlx, ft_test_draw_map, fdf);
 		/* mlx_hook(fdf->window, 2, 0, ft_key_hook, fdf); */
 		mlx_key_hook(fdf->window, ft_key_hook, fdf);
 		mlx_loop(fdf->mlx);
