@@ -25,12 +25,17 @@ GNL=get_next_line
 GNL_A=$(GNL)/libgnl.a
 LIBFT=libft
 LIBFT_A=$(LIBFT)/libft.a
-SRC=utils.c \
-	 draw.c \
-	 parse_map.c \
-	 parser_utils.c \
-	 test.c
-	 # draw_map.c \
+SRC=linal.c \
+	project.c \
+	proc.c \
+	draw.c \
+	draw_map.c \
+	keyboard.c \
+	init.c \
+	parse_map.c \
+	parser_utils.c \
+	utils.c \
+	main.c
 
 SRCS=$(addprefix  ./src/, $(SRC))
 OBJS=$(SRCS:%.c=%.o)

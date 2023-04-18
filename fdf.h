@@ -113,13 +113,14 @@ typedef struct s_fdf
 // utils
 void	ft_free_2d_array(int **array);
 void	ft_swap(int *x1, int *x2);
-/* int	*ft_new_point(int x, int y, t_fdf *fdf); */
+float	*ft_new_point(int x, int y, t_fdf *fdf);
 
 // parser map
 t_map	*ft_create_map(char *filename);
 
 // draw
-void	ft_draw_line(t_fdf *fdf, int *p1, int *p2, int color);
+void	ft_draw_line(t_fdf *fdf, float *p1, float *p2, float result[4][4]);
+void	ft_draw_triangle(t_fdf *fdf, int row, int col, float result[4][4]);
 
 // draw map
 int		ft_draw_map(t_fdf *fdf);
@@ -129,5 +130,30 @@ int		ft_atohex(char *str);
 int		ft_read_map_height(char *filename);
 int		ft_read_map_width(char *filename);
 void	ft_z_scale(t_map *map);
+
+// linal
+void	ft_matmul(float arr1[4][4], float arr2[4][4]);
+void	ft_dot(float *vec, float arr[4][4]);
+
+// project
+void	ft_xrotate(t_fdf *fdf, float result[4][4]);
+void	ft_yrotate(t_fdf *fdf, float result[4][4]);
+void	ft_zrotate(t_fdf *fdf, float result[4][4]);
+void	ft_offset(t_fdf *fdf, float result[4][4]);
+void	ft_projection(t_fdf *fdf, float result[4][4]);
+
+// keyboard
+int		ft_key_hook(int keycode, t_fdf *fdf);
+
+// proc
+void	ft_norm_point(t_fdf *fdf, float *p);
+void	ft_point_scale(t_fdf *fdf, float *p);
+void	ft_to_coords(float *p);
+void	ft_set_matrix(t_fdf *fdf, float result[4][4]);
+void	ft_proc(t_fdf *fdf, float result[4][4], float *p);
+
+// init
+void	ft_init_camera(t_fdf *fdf);
+void	ft_init_map(t_fdf *fdf, char *path);
 
 #endif

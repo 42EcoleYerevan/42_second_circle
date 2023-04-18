@@ -4,21 +4,21 @@ static void	ft_put_map(t_fdf *fdf)
 {
 	int row;
 	int col;
+	float result[4][4] = {
+		{1.0f, 0.0f, 0.0f, 0.0f},
+		{0.0f, 1.0f, 0.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f, 0.0f},
+		{0.0f, 0.0f, 0.0f, 1.0f}
+	};
 
+	ft_set_matrix(fdf, result);
 	row = 0;
 	while (row < fdf->map->height)
 	{
 		col = 0;
 		while (col < fdf->map->width)
 		{
-			if (col < fdf->map->width - 1)
-				ft_draw_line(fdf, ft_new_point(col, row, fdf),
-						ft_new_point(col + 1, row, fdf),
-						fdf->map->colors[row][col]);			
-			if (row < fdf->map->height - 1)
-				ft_draw_line(fdf, ft_new_point(col, row, fdf),
-					   ft_new_point(col, row + 1, fdf),
-					   fdf->map->colors[row][col]);			
+			ft_draw_triangle(fdf, row, col, result);
 			col++;
 		}
 		row++;
@@ -36,7 +36,7 @@ int	ft_draw_map(t_fdf *fdf)
 	mlx_put_image_to_window(fdf->mlx,
 		   	fdf->window,
 		    fdf->image, 0, 0);
-	usleep(1000);
+	usleep(10000);
 	mlx_destroy_image(fdf->mlx, fdf->image);
 	return (0);
 }
