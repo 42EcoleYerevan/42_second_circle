@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:39 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/19 14:38:07 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:55:09 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,22 @@ static void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 		tmp = fdf->addr + (y * fdf->line_length + x * (fdf->bits_per_pixel / 8));
 		*(unsigned int *)tmp = color;
 	}
+}
+
+void	ft_rotate_hook(int keycode, t_fdf *fdf)
+{
+	if (keycode == KW)
+		fdf->xfi += 0.05f;
+	else if (keycode == KQ)
+		fdf->xfi -= 0.05f;
+	else if (keycode == KA)
+		fdf->yfi -= 0.05f;
+	else if (keycode == KS)
+		fdf->yfi += 0.05f;
+	else if (keycode == KZ)
+		fdf->zfi -= 0.05f;
+	else if (keycode == KX)
+		fdf->zfi += 0.05f;
 }
 
 int ft_key_hook(int keycode, t_fdf *fdf)
@@ -46,21 +62,11 @@ int ft_key_hook(int keycode, t_fdf *fdf)
 		fdf->map->coef += 0.1f;
 	else if (keycode == MINUS)
 		fdf->map->coef -= 0.1f;
-	else if (keycode == KW)
-		fdf->xfi += 0.05f;
-	else if (keycode == KQ)
-		fdf->xfi -= 0.05f;
-	else if (keycode == KA)
-		fdf->yfi -= 0.05f;
-	else if (keycode == KS)
-		fdf->yfi += 0.05f;
-	else if (keycode == KZ)
-		fdf->zfi -= 0.05f;
-	else if (keycode == KX)
-		fdf->zfi += 0.05f;
+	ft_rotate_hook(keycode, fdf);
 	for (int i = 0; i < HEIGHT; i++)
 		for(int j = 0; j < WIDTH; j++)
 			ft_put_pixel(fdf, j, i, 0x000000);
 	ft_draw_map(fdf);
 	return (0);
 }	
+

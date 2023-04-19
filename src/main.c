@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:47 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/19 12:01:57 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:55:13 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ int main(int argc, char **argv)
 
 		/* mlx_loop_hook(fdf->mlx, ft_draw_map, fdf); */
 		ft_draw_map(fdf);
-		/* mlx_hook(fdf->window, 2, 0, ft_key_hook, fdf); */
-		mlx_key_hook(fdf->window, ft_key_hook, fdf);
+		mlx_hook(fdf->window, 2, 0, ft_key_hook, fdf);
+		/* mlx_hook(fdf->window, 2, 0, ft_rotate_hook, fdf); */
+		/* mlx_key_hook(fdf->window, ft_key_hook, fdf); */
 		mlx_loop(fdf->mlx);
 	}
 	return 0;

@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:36 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/19 14:19:01 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:43:14 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_init_camera(t_fdf *fdf)
 	fdf->camera->position[1] = 0.0f;
 	fdf->camera->position[2] = -2.0f;
 	fdf->camera->aspect = (float)WIDTH / (float)HEIGHT;
-	fdf->camera->fov = 60.0f / 2.0f;
+	fdf->camera->fov = 90.0f / 2.0f;
 	fdf->camera->fovy = 1.0f / tanhf(M_PI / 180.0f * fdf->camera->fov);
 	fdf->camera->n = 0.1f;
 	fdf->camera->f = 1000.0f;

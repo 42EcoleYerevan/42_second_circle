@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:27:04 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/19 14:56:57 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:55:50 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void ft_xrotate(t_fdf *fdf, float result[4][4])
 {
 	float xrotate[4][4] = {
 		{1.0f, 0.0f, 0.0f, 0.0f},
-		{0.0f, cos(fdf->xfi), -sin(fdf->xfi), 0.0f},
-		{0.0f, sin(fdf->xfi), cos(fdf->xfi), 0.0f},
+		{0.0f, cos(fdf->xfi), sin(fdf->xfi), 0.0f},
+		{0.0f, -sin(fdf->xfi), cos(fdf->xfi), 0.0f},
 		{0.0f, 0.0f, 0.0f, 1.0f}
 	};
 	ft_matmul(result, xrotate);

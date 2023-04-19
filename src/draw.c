@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/19 14:51:36 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:48:12 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static void ft_put_line(t_fdf *fdf, float *p1, float *p2, int color)
 	xstep = dx / max;
 	ystep = dy / max;
 	i = 0;
-	p1[0] = (int)p1[0];
-	p1[1] = (int)p1[1];
 	while (i < max)
 	{
 		ft_put_pixel(

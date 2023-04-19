@@ -36,6 +36,10 @@
 #  define KZ 6
 #  define KX 7
 #  define KY 8
+#  define KT 17
+#  define KP 35
+#  define KU 32
+#  define KI 34
 #  define ARROW_LEFT 123
 #  define ARROW_RIGHT 124
 #  define ARROW_UP 126
@@ -148,6 +152,7 @@ void	ft_projection(t_fdf *fdf, float result[4][4]);
 
 // keyboard
 int		ft_key_hook(int keycode, t_fdf *fdf);
+/* int		ft_rotate_hook(int keycode, t_fdf *fdf); */
 
 // proc
 void	ft_norm_point(t_fdf *fdf, float *p);
