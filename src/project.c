@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   project.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/19 10:27:04 by agladkov          #+#    #+#             */
+/*   Updated: 2023/04/19 14:56:57 by agladkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../fdf.h"
 
 void ft_offset(t_fdf *fdf, float result[4][4])
@@ -16,12 +28,13 @@ void ft_offset(t_fdf *fdf, float result[4][4])
 void ft_projection(t_fdf *fdf, float result[4][4])
 {
 	float projection[4][4] = {
-		{fdf->camera->fovy / fdf->camera->aspect, 0.0f, 0.0f, 0.0f},
+		{fdf->camera->fovy * fdf->camera->aspect, 0.0f, 0.0f, 0.0f},
 		{0.0f, fdf->camera->fovy, 0.0f, 0.0f},
-		{0.0f, 0.0f, (fdf->camera->f+fdf->camera->n)/
-				(fdf->camera->f-fdf->camera->n), 1.0f},
-		{0.0f, 0.0f, -2.0f*(fdf->camera->f * fdf->camera->n)/
-				(fdf->camera->f-fdf->camera->n), 0.0f}
+		{0.0f, 0.0f, -(fdf->camera->f+fdf->camera->n)/
+				(fdf->camera->f-fdf->camera->n), 
+				-2.0f*(fdf->camera->f * fdf->camera->n)/
+				(fdf->camera->f-fdf->camera->n)},
+		{0.0f, 0.0f, -1.0f, 0.0f}
 	};
 	ft_matmul(result, projection);
 }
@@ -30,8 +43,8 @@ void ft_xrotate(t_fdf *fdf, float result[4][4])
 {
 	float xrotate[4][4] = {
 		{1.0f, 0.0f, 0.0f, 0.0f},
-		{0.0f, cos(fdf->xfi), sin(fdf->xfi), 0.0f},
-		{0.0f, -sin(fdf->xfi), cos(fdf->xfi), 0.0f},
+		{0.0f, cos(fdf->xfi), -sin(fdf->xfi), 0.0f},
+		{0.0f, sin(fdf->xfi), cos(fdf->xfi), 0.0f},
 		{0.0f, 0.0f, 0.0f, 1.0f}
 	};
 	ft_matmul(result, xrotate);

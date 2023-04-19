@@ -6,9 +6,10 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:54:03 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/18 10:07:35 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/19 14:56:42 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../fdf.h"
 #include <stdlib.h>
 

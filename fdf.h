@@ -16,6 +16,9 @@
 #  define KX 120 
 #  define KY 99
 #  define KT 116
+#  define KP 112
+#  define KU 117
+#  define KI 105
 #  define ARROW_LEFT 65361
 #  define ARROW_RIGHT 65363
 #  define ARROW_UP 65362
@@ -67,7 +70,7 @@ typedef struct s_map
 	int	height;
 	int sx;
 	int sy;
-	int scale;
+	float	scale;
 	float	hwidth;
 	float	hheight;
 	float	hscale;
@@ -102,6 +105,7 @@ typedef struct s_fdf
 	int 	line_length;
 	int 	endian;
 	int		istriangle;
+	int		perspective;
 	float	xfi;
 	float	yfi;
 	float	zfi;

@@ -6,22 +6,18 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/18 10:49:47 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/19 14:51:36 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
-#include "../minilibx/mlx.h"
 
 static void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 {
 	char	*tmp;
 
-	if (x < WIDTH && y < HEIGHT && x >= 0 && y >= 0)
-	{
-		tmp = fdf->addr + (y * fdf->line_length + x * (fdf->bits_per_pixel / 8));
-		*(unsigned int *)tmp = color;
-	}
+	tmp = fdf->addr + (y * fdf->line_length + x * (fdf->bits_per_pixel / 8));
+	*(unsigned int *)tmp = color;
 }
 
 static void ft_put_line(t_fdf *fdf, float *p1, float *p2, int color)
@@ -39,12 +35,14 @@ static void ft_put_line(t_fdf *fdf, float *p1, float *p2, int color)
 	xstep = dx / max;
 	ystep = dy / max;
 	i = 0;
+	p1[0] = (int)p1[0];
+	p1[1] = (int)p1[1];
 	while (i < max)
 	{
 		ft_put_pixel(
 				fdf,
-			   	(int)(p1[0] + xstep * i),
-			   	(int)(p1[1] + ystep * i),
+			   	(p1[0] + xstep * i),
+			   	(p1[1] + ystep * i),
 			   	color
 				);
 		i++;
@@ -58,11 +56,13 @@ void	ft_draw_line(t_fdf *fdf, float *p1, float *p2, float result[4][4])
 	color = fdf->map->colors[(int)p2[1]][(int)p2[0]];
 	if (color == 0 && (p2[2] != 0 || p1[2] != 0))
 		color = 0xFF0000;
-	else
+	else if (color == 0 && (p2[2] == 0 || p1[2] == 0))
 		color = 0xFFFFFF;
 	ft_proc(fdf, result, p1);
 	ft_proc(fdf, result, p2);
-	ft_put_line(fdf, p1, p2, color);
+	if (p1[0] < WIDTH && p1[1] < HEIGHT && p2[0] < WIDTH && p2[1] < HEIGHT &&
+		p1[0] > 0 && p1[1] > 0 && p2[0] > 0 && p2[1] > 0)
+		ft_put_line(fdf, p1, p2, color);
 	free(p1);
 	free(p2);
 }

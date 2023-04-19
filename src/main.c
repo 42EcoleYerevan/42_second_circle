@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/19 10:26:47 by agladkov          #+#    #+#             */
+/*   Updated: 2023/04/19 12:01:57 by agladkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../fdf.h"
 
 int main(int argc, char **argv)
@@ -17,8 +29,10 @@ int main(int argc, char **argv)
 		fdf->yfi = 0.2;
 		fdf->zfi = 0.2;
 		fdf->istriangle = 0;
+		fdf->perspective = 0;
 
-		mlx_loop_hook(fdf->mlx, ft_draw_map, fdf);
+		/* mlx_loop_hook(fdf->mlx, ft_draw_map, fdf); */
+		ft_draw_map(fdf);
 		/* mlx_hook(fdf->window, 2, 0, ft_key_hook, fdf); */
 		mlx_key_hook(fdf->window, ft_key_hook, fdf);
 		mlx_loop(fdf->mlx);
