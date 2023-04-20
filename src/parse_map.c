@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:44:52 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/11 10:49:57 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/20 19:03:53 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	**ft_fill_array(int fd, int width, int height)
 		if (!array[i++])
 		{
 			free(line);
-			ft_free_2d_array(array);
+			ft_free_2d_array_with_null(array);
 			return (NULL);
 		}
 		free(line);
@@ -95,7 +95,7 @@ static int	**ft_fill_colors(int fd, int width, int height)
 		if (!array[i++])
 		{
 			free(line);
-			ft_free_2d_array(array);
+			ft_free_2d_array_with_null(array);
 			return (NULL);
 		}
 		free(line);

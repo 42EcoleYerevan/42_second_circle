@@ -6,22 +6,11 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:39 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/19 16:55:09 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/20 20:45:10 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
-
-static void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
-{
-	char	*tmp;
-
-	if (x < WIDTH && y < HEIGHT && x >= 0 && y >= 0)
-	{
-		tmp = fdf->addr + (y * fdf->line_length + x * (fdf->bits_per_pixel / 8));
-		*(unsigned int *)tmp = color;
-	}
-}
 
 void	ft_rotate_hook(int keycode, t_fdf *fdf)
 {
@@ -62,11 +51,35 @@ int ft_key_hook(int keycode, t_fdf *fdf)
 		fdf->map->coef += 0.1f;
 	else if (keycode == MINUS)
 		fdf->map->coef -= 0.1f;
+	ft_clear_image(fdf);
 	ft_rotate_hook(keycode, fdf);
-	for (int i = 0; i < HEIGHT; i++)
-		for(int j = 0; j < WIDTH; j++)
-			ft_put_pixel(fdf, j, i, 0x000000);
 	ft_draw_map(fdf);
 	return (0);
 }	
 
+int ft_close_hook(t_fdf *fdf)
+{
+	ft_free_2d_array(fdf->map->array, fdf->map->height);
+	ft_free_2d_array(fdf->map->colors, fdf->map->height);
+	free(fdf->map);
+	free(fdf->camera);
+	free(fdf);
+	exit(0);
+	return (0);
+}
+
+int	ft_mousedown_hook(int button, int x, int y, t_fdf *fdf)
+{
+	fdf->istriangle = 0;
+	printf("%d %d %d\n", x, y, button);
+	return (0);
+}
+
+int ft_mousemove_hook(int x, int y, t_fdf *fdf)
+{
+	fdf->istriangle = 0;
+	x = 0;
+	y = 0;
+	/* printf("%d %d\n", x, y); */
+	return (0);
+}

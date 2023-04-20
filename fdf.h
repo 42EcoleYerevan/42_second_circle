@@ -119,14 +119,17 @@ typedef struct s_fdf
 
 
 // utils
-void	ft_free_2d_array(int **array);
+void	ft_free_2d_array_with_null(int **array);
+void	ft_free_2d_array(int **array, int height);
 void	ft_swap(int *x1, int *x2);
+void	ft_clear_image(t_fdf *fdf);
 float	*ft_new_point(int x, int y, t_fdf *fdf);
 
 // parser map
 t_map	*ft_create_map(char *filename);
 
 // draw
+void	ft_put_pixel(t_fdf *fdf, int x, int y, int color);
 void	ft_draw_line(t_fdf *fdf, float *p1, float *p2, float result[4][4]);
 void	ft_draw_triangle(t_fdf *fdf, int row, int col, float result[4][4]);
 
@@ -152,7 +155,9 @@ void	ft_projection(t_fdf *fdf, float result[4][4]);
 
 // keyboard
 int		ft_key_hook(int keycode, t_fdf *fdf);
-/* int		ft_rotate_hook(int keycode, t_fdf *fdf); */
+int		ft_close_hook(t_fdf *fdf);
+int		ft_mousemove_hook(int x, int y, t_fdf *fdf);
+int		ft_mousedown_hook(int button, int x, int y, t_fdf *fdf);
 
 // proc
 void	ft_norm_point(t_fdf *fdf, float *p);

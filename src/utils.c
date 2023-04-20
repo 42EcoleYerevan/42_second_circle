@@ -6,14 +6,14 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:54:03 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/19 14:56:42 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/20 19:09:51 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 #include <stdlib.h>
 
-void	ft_free_2d_array(int **array)
+void	ft_free_2d_array_with_null(int **array)
 {
 	int	n;
 
@@ -46,3 +46,16 @@ float	*ft_new_point(int x, int y, t_fdf *fdf)
 	return (point);
 }
 
+void ft_clear_image(t_fdf *fdf)
+{
+	for (int i = 0; i < HEIGHT; i++)
+		for(int j = 0; j < WIDTH; j++)
+			ft_put_pixel(fdf, j, i, 0x000000);
+}
+
+void	ft_free_2d_array(int **array, int height)
+{
+	while (--height >= 0)
+		free(array[height]);
+	free(array);
+}

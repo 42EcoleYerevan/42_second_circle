@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:47 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/19 16:55:13 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/20 20:33:53 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,17 @@ int main(int argc, char **argv)
 
 		ft_init_camera(fdf);
 		ft_init_map(fdf, argv[1]);
-		fdf->xfi = 0.2;
-		fdf->yfi = 0.2;
-		fdf->zfi = 0.2;
+		fdf->xfi = 0.0f;
+		fdf->yfi = 0.0f;
+		fdf->zfi = 0.0f;
 		fdf->istriangle = 0;
 		fdf->perspective = 0;
 
-		/* mlx_loop_hook(fdf->mlx, ft_draw_map, fdf); */
 		ft_draw_map(fdf);
 		mlx_hook(fdf->window, 2, 0, ft_key_hook, fdf);
-		/* mlx_hook(fdf->window, 2, 0, ft_rotate_hook, fdf); */
+		mlx_hook(fdf->window, 4, 0, ft_mousedown_hook, fdf);
+		mlx_hook(fdf->window, 6, 0, ft_mousemove_hook, fdf);
+		mlx_hook(fdf->window, 17, 0, ft_close_hook, fdf);
 		/* mlx_key_hook(fdf->window, ft_key_hook, fdf); */
 		mlx_loop(fdf->mlx);
 	}
