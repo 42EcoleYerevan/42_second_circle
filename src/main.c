@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:47 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/20 20:33:53 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:06:19 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int main(int argc, char **argv)
 
 		ft_init_camera(fdf);
 		ft_init_map(fdf, argv[1]);
+		ft_init_mouse(fdf);
 		fdf->xfi = 0.0f;
 		fdf->yfi = 0.0f;
 		fdf->zfi = 0.0f;
@@ -34,6 +35,7 @@ int main(int argc, char **argv)
 		ft_draw_map(fdf);
 		mlx_hook(fdf->window, 2, 0, ft_key_hook, fdf);
 		mlx_hook(fdf->window, 4, 0, ft_mousedown_hook, fdf);
+		mlx_hook(fdf->window, 5, 0, ft_mouseup_hook, fdf);
 		mlx_hook(fdf->window, 6, 0, ft_mousemove_hook, fdf);
 		mlx_hook(fdf->window, 17, 0, ft_close_hook, fdf);
 		/* mlx_key_hook(fdf->window, ft_key_hook, fdf); */

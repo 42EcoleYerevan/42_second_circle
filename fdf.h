@@ -40,6 +40,7 @@
 #  define KP 35
 #  define KU 32
 #  define KI 34
+#  define ESC 53
 #  define ARROW_LEFT 123
 #  define ARROW_RIGHT 124
 #  define ARROW_UP 126
@@ -99,22 +100,30 @@ typedef struct s_camera
 	float aspect;
 } t_camera;
 
+typedef struct s_mouse
+{
+	int ispressed;
+	int x;
+	int y;
+} t_mouse;
+
 typedef struct s_fdf
 {
-	void	*mlx;
-	void	*window;
-	void	*image;
-	char 	*addr;
-	int 	bits_per_pixel;
-	int 	line_length;
-	int 	endian;
-	int		istriangle;
-	int		perspective;
-	float	xfi;
-	float	yfi;
-	float	zfi;
-	t_map	*map;
-	t_camera *camera;
+	void		*mlx;
+	void		*window;
+	void		*image;
+	char 		*addr;
+	int 		bits_per_pixel;
+	int 		line_length;
+	int 		endian;
+	int			istriangle;
+	int			perspective;
+	float		xfi;
+	float		yfi;
+	float		zfi;
+	t_map		*map;
+	t_camera	*camera;
+	t_mouse		*mouse;
 } t_fdf;
 
 
@@ -158,6 +167,7 @@ int		ft_key_hook(int keycode, t_fdf *fdf);
 int		ft_close_hook(t_fdf *fdf);
 int		ft_mousemove_hook(int x, int y, t_fdf *fdf);
 int		ft_mousedown_hook(int button, int x, int y, t_fdf *fdf);
+int		ft_mouseup_hook(int button, int x, int y, t_fdf *fdf);
 
 // proc
 void	ft_norm_point(t_fdf *fdf, float *p);
@@ -169,5 +179,6 @@ void	ft_proc(t_fdf *fdf, float result[4][4], float *p);
 // init
 void	ft_init_camera(t_fdf *fdf);
 void	ft_init_map(t_fdf *fdf, char *path);
+void	ft_init_mouse(t_fdf *fdf);
 
 #endif

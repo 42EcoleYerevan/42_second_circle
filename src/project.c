@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:27:04 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/20 19:45:50 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/21 19:16:39 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,12 @@ void ft_offset(t_fdf *fdf, float result[4][4])
 void ft_projection(t_fdf *fdf, float result[4][4])
 {
 	float projection[4][4] = {
-		{fdf->camera->fovy, 0.0f, 0.0f, 0.0f},
+		{fdf->camera->fovy / fdf->camera->aspect, 0.0f, 0.0f, 0.0f},
 		{0.0f, fdf->camera->fovy, 0.0f, 0.0f},
-		{0.0f, 0.0f, (fdf->camera->f+fdf->camera->n)/
-				(fdf->camera->f-fdf->camera->n), 
-				-2.0f*(fdf->camera->f * fdf->camera->n)/
-				(fdf->camera->f-fdf->camera->n)},
-		{0.0f, 0.0f, -1.0f, 0.0f}
+		{0.0f, 0.0f, -(fdf->camera->f + fdf->camera->n)/
+				(fdf->camera->f - fdf->camera->n), -1.0f},
+		{0.0f, 0.0f, -2.0f*(fdf->camera->f * fdf->camera->n)/
+				(fdf->camera->f - fdf->camera->n), 0.0f}
 	};
 	ft_matmul(result, projection);
 }
@@ -64,8 +63,8 @@ void ft_yrotate(t_fdf *fdf, float result[4][4])
 void ft_zrotate(t_fdf *fdf, float result[4][4])
 {
 	float zrotate[4][4] = {
-		{cos(fdf->zfi), -sin(fdf->zfi), 0.0f, 0.0f},
-		{sin(fdf->zfi), cos(fdf->zfi), 0.0f, 0.0f},
+		{cos(fdf->zfi), sin(fdf->zfi), 0.0f, 0.0f},
+		{-sin(fdf->zfi), cos(fdf->zfi), 0.0f, 0.0f},
 		{0.0f, 0.0f, 1.0f, 0.0f},
 		{0.0f, 0.0f, 0.0f, 1.0f}
 	};

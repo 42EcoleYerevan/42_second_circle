@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:39 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/20 20:45:10 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/21 19:27:54 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ void	ft_rotate_hook(int keycode, t_fdf *fdf)
 		fdf->zfi += 0.05f;
 }
 
-int ft_key_hook(int keycode, t_fdf *fdf)
+void ft_camera_move_hook(int keycode, t_fdf *fdf)
 {
-	printf("hello form key_hook %d\n", keycode);
 	if (keycode == ARROW_RIGHT)
 		fdf->camera->position[0] += 0.1f;
 	else if (keycode == ARROW_LEFT)
@@ -43,7 +42,12 @@ int ft_key_hook(int keycode, t_fdf *fdf)
 		fdf->camera->position[2] += 1.0f;
 	else if (keycode == KI)
 		fdf->camera->position[2] -= 1.0f;
-	else if (keycode == KT)
+}
+
+int ft_key_hook(int keycode, t_fdf *fdf)
+{
+	printf("hello form key_hook %d\n", keycode);
+	if (keycode == KT)
 		fdf->istriangle += (fdf->istriangle == 0)? 1: -1;
 	else if (keycode == KP)
 		fdf->perspective += (fdf->perspective == 0)? 1: -1;
@@ -51,8 +55,11 @@ int ft_key_hook(int keycode, t_fdf *fdf)
 		fdf->map->coef += 0.1f;
 	else if (keycode == MINUS)
 		fdf->map->coef -= 0.1f;
+	else if (keycode == ESC)
+		ft_close_hook(fdf);
 	ft_clear_image(fdf);
 	ft_rotate_hook(keycode, fdf);
+	ft_camera_move_hook(keycode, fdf);
 	ft_draw_map(fdf);
 	return (0);
 }	
@@ -70,16 +77,34 @@ int ft_close_hook(t_fdf *fdf)
 
 int	ft_mousedown_hook(int button, int x, int y, t_fdf *fdf)
 {
-	fdf->istriangle = 0;
+	if (button == 1)
+		fdf->mouse->ispressed = 1;
+	fdf->mouse->x = x;
+	fdf->mouse->y = y;
+	printf("%d %d %d\n", x, y, button);
+	return (0);
+}
+
+int	ft_mouseup_hook(int button, int x, int y, t_fdf *fdf)
+{
+	fdf->mouse->ispressed = 0;
+	fdf->mouse->x = x;
+	fdf->mouse->y = y;
 	printf("%d %d %d\n", x, y, button);
 	return (0);
 }
 
 int ft_mousemove_hook(int x, int y, t_fdf *fdf)
 {
-	fdf->istriangle = 0;
-	x = 0;
-	y = 0;
-	/* printf("%d %d\n", x, y); */
+	if (fdf->mouse->ispressed)
+	{
+		fdf->yfi -= 0.01f * (fdf->mouse->x - x);
+		fdf->xfi += 0.01f * (fdf->mouse->y - y);
+		fdf->mouse->x = x;
+		fdf->mouse->y = y;
+		printf("%f %f\n", fdf->xfi, fdf->yfi);
+		ft_clear_image(fdf);
+		ft_draw_map(fdf);
+	}
 	return (0);
 }
