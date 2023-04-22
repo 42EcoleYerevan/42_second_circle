@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:44:52 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/20 19:03:53 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/22 14:25:13 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_map	*ft_create_map(char *filename)
 
 	fd = open(filename, O_RDONLY);
 	map = (t_map *)malloc(sizeof(t_map));
-	if (fd < 0 || !map)
+	if (fd < 0 || read(fd, 0, 0) < 0 || !map)
 		return (NULL);
 	map->width = ft_read_map_width(filename);
 	map->height = ft_read_map_height(filename);

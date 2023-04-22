@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:47 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/21 17:06:19 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/22 15:03:27 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,15 @@ int main(int argc, char **argv)
 		fdf->image = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
 		fdf->addr = mlx_get_data_addr(fdf->image,  &fdf->bits_per_pixel, &fdf->line_length, &fdf->endian);
 
-		ft_init_camera(fdf);
-		ft_init_map(fdf, argv[1]);
-		ft_init_mouse(fdf);
-		fdf->xfi = 0.0f;
-		fdf->yfi = 0.0f;
-		fdf->zfi = 0.0f;
-		fdf->istriangle = 0;
-		fdf->perspective = 0;
+		ft_init_fdf(fdf, argv);
 
 		ft_draw_map(fdf);
+		system("leaks fdf");
 		mlx_hook(fdf->window, 2, 0, ft_key_hook, fdf);
 		mlx_hook(fdf->window, 4, 0, ft_mousedown_hook, fdf);
 		mlx_hook(fdf->window, 5, 0, ft_mouseup_hook, fdf);
 		mlx_hook(fdf->window, 6, 0, ft_mousemove_hook, fdf);
 		mlx_hook(fdf->window, 17, 0, ft_close_hook, fdf);
-		/* mlx_key_hook(fdf->window, ft_key_hook, fdf); */
 		mlx_loop(fdf->mlx);
 	}
 	return 0;

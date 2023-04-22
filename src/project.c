@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:27:04 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/21 19:16:39 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/22 17:15:12 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void ft_offset(t_fdf *fdf, float result[4][4])
 void ft_projection(t_fdf *fdf, float result[4][4])
 {
 	float projection[4][4] = {
-		{fdf->camera->fovy / fdf->camera->aspect, 0.0f, 0.0f, 0.0f},
+		{fdf->camera->fovy, 0.0f, 0.0f, 0.0f},
 		{0.0f, fdf->camera->fovy, 0.0f, 0.0f},
 		{0.0f, 0.0f, -(fdf->camera->f + fdf->camera->n)/
 				(fdf->camera->f - fdf->camera->n), -1.0f},

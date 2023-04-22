@@ -180,5 +180,6 @@ void	ft_proc(t_fdf *fdf, float result[4][4], float *p);
 void	ft_init_camera(t_fdf *fdf);
 void	ft_init_map(t_fdf *fdf, char *path);
 void	ft_init_mouse(t_fdf *fdf);
+void	ft_init_fdf(t_fdf *fdf, char **argv);
 
 #endif

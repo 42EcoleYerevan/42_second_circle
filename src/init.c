@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:36 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/21 18:18:56 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/22 17:22:09 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_init_camera(t_fdf *fdf)
 	fdf->camera->aspect = (float)WIDTH / (float)HEIGHT;
 	fdf->camera->fov = 60.0f / 2.0f;
 	fdf->camera->fovy = 1.0f / tanhf(M_PI / 180.0f * fdf->camera->fov);
-	fdf->camera->n = 0.1f;
+	fdf->camera->n = 1.0f;
 	fdf->camera->f = 1000.0f;
 }
 
@@ -44,4 +44,16 @@ void	ft_init_mouse(t_fdf *fdf)
 	fdf->mouse->x = 0;
 	fdf->mouse->y = 0;
 	fdf->mouse->ispressed = 0;
+}
+
+void ft_init_fdf(t_fdf *fdf, char **argv)
+{
+		ft_init_camera(fdf);
+		ft_init_map(fdf, argv[1]);
+		ft_init_mouse(fdf);
+		fdf->xfi = 0.0f;
+		fdf->yfi = 0.0f;
+		fdf->zfi = 0.0f;
+		fdf->istriangle = 0;
+		fdf->perspective = 0;
 }
