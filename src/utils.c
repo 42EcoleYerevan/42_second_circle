@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:54:03 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/21 18:07:12 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/26 17:02:55 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ void ft_clear_image(t_fdf *fdf)
 
 void	ft_free_2d_array(int **array, int height)
 {
-	while (--height >= 0)
-		free(array[height]);
+	int i;
+
+	i = 0;
+	while (i < height)
+		free(array[i++]);
 	free(array);
 }

@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:30 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/21 15:06:31 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/26 17:03:07 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,5 @@ int	ft_draw_map(t_fdf *fdf)
 		   	fdf->window,
 		    fdf->image, 0, 0);
 	/* usleep(10000); */
-	/* mlx_destroy_image(fdf->mlx, fdf->image); */
 	return (0);
 }

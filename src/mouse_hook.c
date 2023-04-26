@@ -2,9 +2,24 @@
 
 int	ft_mousedown_hook(int button, int x, int y, t_fdf *fdf)
 {
-	fdf->mouse->ispressed = button;
-	fdf->mouse->x = x;
-	fdf->mouse->y = y;
+	if (button == 4)
+	{
+		fdf->map->scale -= 1;
+		ft_clear_image(fdf);
+		ft_draw_map(fdf);
+	}
+	else if (button == 5)
+	{
+		fdf->map->scale += 1;
+		ft_clear_image(fdf);
+		ft_draw_map(fdf);
+	}
+	else
+	{
+		fdf->mouse->ispressed = button;
+		fdf->mouse->x = x;
+		fdf->mouse->y = y;
+	}
 	return (0);
 }
 
