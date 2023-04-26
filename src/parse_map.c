@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:44:52 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/26 16:56:42 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/26 19:57:58 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ static int	*ft_parse_line(char *str, int width)
 	while (n < width)
 	{
 		array[n] = ft_atoi(tmp[n]);
+		free(tmp[n]);
 		n++;
 	}
+	free(tmp);
 	return (array);
 }
 
@@ -47,8 +49,10 @@ static int	*ft_parse_colors(char *str, int width)
 	while (n < width)
 	{
 		array[n] = ft_atohex(tmp[n]);
+		free(tmp[n]);
 		n++;
 	}
+	free(tmp);
 	return (array);
 }
 
@@ -110,8 +114,10 @@ t_map	*ft_create_map(char *filename)
 	t_map	*map;
 
 	fd = open(filename, O_RDONLY);
+	if (fd < 0 || read(fd, 0, 0) < 0)
+		return (NULL);
 	map = (t_map *)malloc(sizeof(t_map));
-	if (fd < 0 || read(fd, 0, 0) < 0 || !map)
+	if (!map)
 		return (NULL);
 	map->width = ft_read_map_width(filename);
 	map->height = ft_read_map_height(filename);

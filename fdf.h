@@ -71,23 +71,23 @@
 
 typedef struct s_map
 {
-	int	width;
-	int	height;
-	int sx;
-	int sy;
+	int		width;
+	int		height;
+	int		sx;
+	int		sy;
 	float	scale;
 	float	hwidth;
 	float	hheight;
 	float	hscale;
 	float	wscale;
-	float xfi;
-	float yfi;
-	float coef;
-	int z_scale;
-	int z_min;
-	int z_max;
-	int	**array;
-	int **colors;
+	float	xfi;
+	float	yfi;
+	float	coef;
+	int		z_scale;
+	int		z_min;
+	int		z_max;
+	int		**array;
+	int		**colors;
 } t_map;
 
 typedef struct s_camera

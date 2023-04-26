@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:36 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/22 17:22:09 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/26 19:56:30 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	ft_init_camera(t_fdf *fdf)
 void ft_init_map(t_fdf *fdf, char *path)
 {
 	fdf->map = ft_create_map(path);
+	if (fdf->map == NULL)
+		ft_close_hook(fdf);
 	fdf->map->scale = (float)WIDTH / MAX(fdf->map->width, fdf->map->height) / 2;
 	fdf->map->sx = WIDTH / 2.0f;
 	fdf->map->sy = HEIGHT / 2.0f;
@@ -49,8 +51,8 @@ void	ft_init_mouse(t_fdf *fdf)
 void ft_init_fdf(t_fdf *fdf, char **argv)
 {
 		ft_init_camera(fdf);
-		ft_init_map(fdf, argv[1]);
 		ft_init_mouse(fdf);
+		ft_init_map(fdf, argv[1]);
 		fdf->xfi = 0.0f;
 		fdf->yfi = 0.0f;
 		fdf->zfi = 0.0f;
