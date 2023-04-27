@@ -6,7 +6,7 @@
 #    By: agladkov <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/22 13:28:59 by agladkov          #+#    #+#              #
-#    Updated: 2023/04/22 17:54:20 by agladkov         ###   ########.fr        #
+#    Updated: 2023/04/27 08:42:37 by agladkov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC=cc
 CFLAGS=-Wall -Werror -Wextra
 GNL=get_next_line
 GNL_A=$(GNL)/libgnl.a
-MLX=./minilibx
+MLX=./minilibx-linux
 LIBFT=libft
 LIBFT_A=$(LIBFT)/libft.a
 SRC=linal.c \
@@ -33,6 +33,19 @@ SRC=linal.c \
 SRCS=$(addprefix  ./src/, $(SRC))
 OBJS=$(SRCS:%.c=%.o)
 HEADER=fdf.h
+# COMPILE=$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT) -lft \
+# 	   	-L$(GNL) -lgnl \
+# 	   	-L$(MLX) -lmlx \
+# 	   	-framework OpenGL \
+# 		-framework AppKit \
+# 		-lm -o $(NAME)
+COMPILE=$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT) -lft \
+	   	-L$(GNL) -lgnl \
+	   	-L$(MLX) -lmlx \
+	   	-lXext \
+		-lX11 \
+		-lm -o $(NAME)
+
 
 all: $(NAME)
 
@@ -40,8 +53,8 @@ all: $(NAME)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(LIBFT_A) $(GNL_A) $(MLX_A) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT) -lft -L$(GNL) -lgnl -L$(MLX) -lmlx -framework OpenGL -framework AppKit -lm -o $(NAME)
-
+	$(COMPILE)
+	
 $(GNL_A):
 	@$(MAKE) -C $(GNL)
 	@echo 'Compiled libgnl.a'

@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:39 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/26 20:28:26 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/27 09:43:52 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,15 @@ int ft_close_hook(t_fdf *fdf)
 		ft_free_2d_array(fdf->map->array, fdf->map->height);
 		ft_free_2d_array(fdf->map->colors, fdf->map->height);
 	}
-	free(fdf->map);
-	free(fdf->mouse);
-	free(fdf->camera);
-	free(fdf->mlx);
+	if (fdf->map)
+		free(fdf->map);
+	if (fdf->mouse)
+		free(fdf->mouse);
+	if (fdf->camera)
+		free(fdf->camera);
+	if (fdf->mlx)
+		free(fdf->mlx);
 	free(fdf);
-	system("leaks fdf");
 	exit(0);
 	return (0);
 }

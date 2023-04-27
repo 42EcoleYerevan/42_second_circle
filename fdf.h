@@ -19,6 +19,7 @@
 #  define KP 112
 #  define KU 117
 #  define KI 105
+#  define ESC 53
 #  define ARROW_LEFT 65361
 #  define ARROW_RIGHT 65363
 #  define ARROW_UP 65362
@@ -57,11 +58,11 @@
 #include <math.h>
 #include <stdio.h>
 
-#ifndef __unix__
+/* #ifndef __unix__ */
 #  include "./minilibx-linux/mlx.h"
-#else
-#  include "./minilibx/mlx.h"
-#endif
+/* #else */
+/* #  include "./minilibx/mlx.h" */
+/* #endif */
 
 #include "get_next_line/get_next_line.h"
 #include "./libft/libft.h"
@@ -180,6 +181,7 @@ void	ft_proc(t_fdf *fdf, float result[4][4], float *p);
 void	ft_init_camera(t_fdf *fdf);
 void	ft_init_map(t_fdf *fdf, char *path);
 void	ft_init_mouse(t_fdf *fdf);
+void	ft_init_hook(t_fdf *fdf);
 void	ft_init_fdf(t_fdf *fdf, char **argv);
 
 #endif

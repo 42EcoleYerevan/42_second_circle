@@ -25,10 +25,12 @@ int	ft_mousedown_hook(int button, int x, int y, t_fdf *fdf)
 
 int	ft_mouseup_hook(int button, int x, int y, t_fdf *fdf)
 {
-	button = 0;
-	fdf->mouse->ispressed = 0;
-	fdf->mouse->x = x;
-	fdf->mouse->y = y;
+	if (button > 0)
+	{
+		fdf->mouse->ispressed = 0;
+		fdf->mouse->x = x;
+		fdf->mouse->y = y;
+	}
 	return (0);
 }
 
