@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:16:18 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/29 17:26:24 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/29 18:13:02 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <math.h>
-# include <stdio.h>
 # include <mlx.h>
 
 # include "get_next_line/get_next_line.h"
