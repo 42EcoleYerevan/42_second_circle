@@ -6,13 +6,13 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:58 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/22 17:22:54 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/29 16:04:51 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-void ft_norm_point(t_fdf *fdf, float *p)
+void	ft_norm_point(t_fdf *fdf, float *p)
 {
 	p[0] -= fdf->map->hwidth;
 	p[1] -= fdf->map->hheight;
@@ -21,8 +21,7 @@ void ft_norm_point(t_fdf *fdf, float *p)
 	p[2] /= (float)fdf->map->z_scale / fdf->map->coef;
 }
 
-
-void ft_point_scale(t_fdf *fdf, float *p)
+void	ft_point_scale(t_fdf *fdf, float *p)
 {
 	p[0] *= fdf->map->hwidth * fdf->map->scale;
 	p[1] *= fdf->map->hheight * fdf->map->scale;
@@ -30,14 +29,14 @@ void ft_point_scale(t_fdf *fdf, float *p)
 	p[1] += fdf->map->sy;
 }
 
-void ft_to_coords(float *p)
+void	ft_to_coords(float *p)
 {
 	p[2] /= p[3];
 	p[0] /= p[3];
 	p[1] /= p[3];
 }
 
-void ft_set_matrix(t_fdf *fdf, float result[4][4])
+void	ft_set_matrix(t_fdf *fdf, float result[4][4])
 {
 	ft_xrotate(fdf, result);
 	ft_yrotate(fdf, result);
@@ -47,7 +46,7 @@ void ft_set_matrix(t_fdf *fdf, float result[4][4])
 		ft_projection(fdf, result);
 }
 
-void ft_proc(t_fdf *fdf, float result[4][4], float *p)
+void	ft_proc(t_fdf *fdf, float result[4][4], float *p)
 {
 	ft_norm_point(fdf, p);
 	ft_dot(p, result);

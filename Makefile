@@ -6,7 +6,7 @@
 #    By: agladkov <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/22 13:28:59 by agladkov          #+#    #+#              #
-#    Updated: 2023/04/27 08:42:37 by agladkov         ###   ########.fr        #
+#    Updated: 2023/04/29 13:31:34 by agladkov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ CC=cc
 CFLAGS=-Wall -Werror -Wextra
 GNL=get_next_line
 GNL_A=$(GNL)/libgnl.a
-MLX=./minilibx-linux
 LIBFT=libft
 LIBFT_A=$(LIBFT)/libft.a
 SRC=linal.c \
@@ -33,26 +32,20 @@ SRC=linal.c \
 SRCS=$(addprefix  ./src/, $(SRC))
 OBJS=$(SRCS:%.c=%.o)
 HEADER=fdf.h
-# COMPILE=$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT) -lft \
-# 	   	-L$(GNL) -lgnl \
-# 	   	-L$(MLX) -lmlx \
-# 	   	-framework OpenGL \
-# 		-framework AppKit \
-# 		-lm -o $(NAME)
-COMPILE=$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT) -lft \
+COMPILE=$(CC) $(CFLAGS) $(OBJS) \
+	   	-L$(LIBFT) -lft \
 	   	-L$(GNL) -lgnl \
-	   	-L$(MLX) -lmlx \
-	   	-lXext \
-		-lX11 \
+	   	-lmlx \
+	   	-framework OpenGL \
+		-framework AppKit \
 		-lm -o $(NAME)
-
 
 all: $(NAME)
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(LIBFT_A) $(GNL_A) $(MLX_A) $(OBJS)
+$(NAME): $(LIBFT_A) $(GNL_A) $(OBJS)
 	$(COMPILE)
 	
 $(GNL_A):
@@ -63,17 +56,11 @@ $(LIBFT_A):
 	@$(MAKE) -C $(LIBFT)
 	@echo 'Compiled libft.a'
 
-$(MLX_A):
-	@$(MAKE) -C $(MLX)
-	@echo 'Compiled  libmlx.a'
-
 clean:
 	@$(MAKE) -C $(GNL) clean
 	@echo 'clean gnl'
 	@$(MAKE) -C $(LIBFT) clean
 	@echo 'clean libft'
-	@$(MAKE) -C $(MLX) clean
-	@echo 'clean mlx'
 
 fclean: clean
 	@$(MAKE) -C $(GNL) fclean

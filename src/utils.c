@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:54:03 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/26 19:52:16 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/29 17:17:32 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_free_2d_array_with_null(int **array)
 void	ft_swap(int *x1, int *x2)
 {
 	int	tmp;
-	
+
 	tmp = *x2;
 	*x2 = *x1;
 	*x1 = tmp;
@@ -33,9 +33,9 @@ void	ft_swap(int *x1, int *x2)
 
 float	*ft_new_point(int x, int y, t_fdf *fdf)
 {
-	float *point;
+	float	*point;
 
-	point = (float*)malloc(sizeof(float) * 4);
+	point = (float *)malloc(sizeof(float) * 4);
 	if (!point)
 		return (NULL);
 	point[0] = x;
@@ -45,16 +45,24 @@ float	*ft_new_point(int x, int y, t_fdf *fdf)
 	return (point);
 }
 
-void ft_clear_image(t_fdf *fdf)
+void	ft_clear_image(t_fdf *fdf)
 {
-	for (int i = 0; i < HEIGHT; i++)
-		for(int j = 0; j < WIDTH; j++)
-			ft_put_pixel(fdf, j, i, 0x000000);
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < HEIGHT)
+	{
+		j = 0;
+		while (j < WIDTH)
+			ft_put_pixel(fdf, j++, i, 0x000000);
+		i++;
+	}
 }
 
 void	ft_free_2d_array(int **array, int height)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < height)

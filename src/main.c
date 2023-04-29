@@ -6,17 +6,32 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:47 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/27 09:23:28 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/29 17:27:55 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-int main(int argc, char **argv)
+float	ft_abs(float a)
 {
+	if (a >= 0)
+		return (a);
+	return (-a);
+}
+
+float	ft_max(float a, float b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
+int	main(int argc, char **argv)
+{
+	t_fdf	*fdf;
+
 	if (argc == 2)
 	{
-		t_fdf *fdf;
 		fdf = (t_fdf *)malloc(sizeof(t_fdf));
 		if (!fdf)
 			return (1);
@@ -24,5 +39,5 @@ int main(int argc, char **argv)
 		ft_draw_map(fdf);
 		mlx_loop(fdf->mlx);
 	}
-	return 0;
+	return (0);
 }

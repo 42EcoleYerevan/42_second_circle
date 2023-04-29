@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:36 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/27 09:44:56 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/29 17:26:56 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@ void	ft_init_camera(t_fdf *fdf)
 	fdf->camera->f = 1000.0f;
 }
 
-void ft_init_map(t_fdf *fdf, char *path)
+void	ft_init_map(t_fdf *fdf, char *path)
 {
 	fdf->map = ft_create_map(path);
 	if (fdf->map == NULL)
 		ft_close_hook(fdf);
-	fdf->map->scale = (float)WIDTH / MAX(fdf->map->width, fdf->map->height) / 2;
+	fdf->map->scale = (float)WIDTH \
+					/ ft_max(fdf->map->width, fdf->map->height) / 2;
 	fdf->map->sx = WIDTH / 2.0f;
 	fdf->map->sy = HEIGHT / 2.0f;
 	fdf->map->coef = 0.2f;
@@ -61,12 +62,15 @@ void	ft_init_hook(t_fdf *fdf)
 	mlx_hook(fdf->window, 17, 0, ft_close_hook, fdf);
 }
 
-void ft_init_fdf(t_fdf *fdf, char **argv)
+void	ft_init_fdf(t_fdf *fdf, char **argv)
 {
 	fdf->mlx = mlx_init();
 	fdf->window = mlx_new_window(fdf->mlx, WIDTH, HEIGHT, "Test");
 	fdf->image = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
-	fdf->addr = mlx_get_data_addr(fdf->image,  &fdf->bits_per_pixel, &fdf->line_length, &fdf->endian);
+	fdf->addr = mlx_get_data_addr(fdf->image, \
+		&fdf->bits_per_pixel, \
+		&fdf->line_length, \
+		&fdf->endian);
 	ft_init_camera(fdf);
 	ft_init_mouse(fdf);
 	ft_init_map(fdf, argv[1]);

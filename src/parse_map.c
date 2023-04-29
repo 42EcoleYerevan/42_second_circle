@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:44:52 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/26 19:57:58 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/29 16:02:57 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ t_map	*ft_create_map(char *filename)
 	fd = open(filename, O_RDONLY);
 	map->colors = ft_fill_colors(fd, map->width, map->height);
 	ft_z_scale(map);
+	close(fd);
 	if (!map->array || !map->colors)
 		return (NULL);
 	return (map);
 }
-

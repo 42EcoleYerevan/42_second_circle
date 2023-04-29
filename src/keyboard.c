@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:39 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/27 09:43:52 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/29 17:23:41 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ void	ft_rotate_hook(int keycode, t_fdf *fdf)
 		fdf->zfi -= 0.05f;
 	else if (keycode == KX)
 		fdf->zfi += 0.05f;
-	if(ABS(fdf->yfi) > M_PI * 2)
+	if (ft_abs(fdf->yfi) > M_PI * 2)
 		fdf->yfi = 0.0f;
 }
 
-void ft_camera_move_hook(int keycode, t_fdf *fdf)
+void	ft_camera_move_hook(int keycode, t_fdf *fdf)
 {
 	if (keycode == ARROW_RIGHT)
-		fdf->map->sx += 10;
-	else if (keycode == ARROW_LEFT)
 		fdf->map->sx -= 10;
+	else if (keycode == ARROW_LEFT)
+		fdf->map->sx += 10;
 	else if (keycode == ARROW_UP)
 		fdf->map->sy += 10;
 	else if (keycode == ARROW_DOWN)
@@ -46,12 +46,22 @@ void ft_camera_move_hook(int keycode, t_fdf *fdf)
 		fdf->map->scale -= 1;
 }
 
-int ft_key_hook(int keycode, t_fdf *fdf)
+int	ft_key_hook(int keycode, t_fdf *fdf)
 {
 	if (keycode == KT)
-		fdf->istriangle += (fdf->istriangle == 0)? 1: -1;
+	{
+		if (fdf->istriangle == 0)
+			fdf->istriangle += 1;
+		else
+			fdf->istriangle -= 1;
+	}
 	else if (keycode == KP)
-		fdf->perspective += (fdf->perspective == 0)? 1: -1;
+	{
+		if (fdf->perspective == 0)
+			fdf->perspective += 1;
+		else
+			fdf->perspective -= 1;
+	}
 	else if (keycode == PLUS)
 		fdf->map->coef += 0.1f;
 	else if (keycode == MINUS)
@@ -63,9 +73,9 @@ int ft_key_hook(int keycode, t_fdf *fdf)
 	ft_camera_move_hook(keycode, fdf);
 	ft_draw_map(fdf);
 	return (0);
-}	
+}
 
-int ft_close_hook(t_fdf *fdf)
+int	ft_close_hook(t_fdf *fdf)
 {
 	if (fdf->image != NULL)
 		mlx_destroy_image(fdf->mlx, fdf->image);
@@ -82,9 +92,7 @@ int ft_close_hook(t_fdf *fdf)
 		free(fdf->mouse);
 	if (fdf->camera)
 		free(fdf->camera);
-	if (fdf->mlx)
-		free(fdf->mlx);
-	free(fdf);
-	exit(0);
+	system("leaks fdf");
+	exit(1);
 	return (0);
 }

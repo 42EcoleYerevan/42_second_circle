@@ -6,26 +6,27 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:54 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/26 19:52:54 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/29 16:38:17 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-static int ft_hex(char c)
+static int	ft_hex(char c)
 {
-	int i;
-	char base[] = "0123456789ABCDEF";
+	int		i;
+	char	*base;
 
+	base = "0123456789ABCDEF";
 	i = 0;
 	while (base[i] != c)
 		i++;
 	return (i);
 }
 
-int ft_atohex(char *str)
+int	ft_atohex(char *str)
 {
-	unsigned int out;
+	unsigned int	out;
 
 	out = 0;
 	while (*str && *str != 'x' && *str != '\n')
@@ -92,8 +93,8 @@ int	ft_read_map_width(char *filename)
 
 void	ft_z_scale(t_map *map)
 {
-	int row;
-	int col;
+	int	row;
+	int	col;
 
 	map->z_min = map->array[0][0];
 	map->z_max = map->array[0][0];
