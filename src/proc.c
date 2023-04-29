@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:58 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/29 16:04:51 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/29 18:02:16 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	ft_norm_point(t_fdf *fdf, float *p)
 	p[1] -= fdf->map->hheight;
 	p[0] /= fdf->map->hwidth;
 	p[1] /= fdf->map->hheight;
-	p[2] /= (float)fdf->map->z_scale / fdf->map->coef;
+	if (fdf->map->z_scale != 0)
+		p[2] /= (float)fdf->map->z_scale / fdf->map->coef;
+	else
+		p[2] *= fdf->map->coef;
 }
 
 void	ft_point_scale(t_fdf *fdf, float *p)
@@ -31,7 +34,6 @@ void	ft_point_scale(t_fdf *fdf, float *p)
 
 void	ft_to_coords(float *p)
 {
-	p[2] /= p[3];
 	p[0] /= p[3];
 	p[1] /= p[3];
 }

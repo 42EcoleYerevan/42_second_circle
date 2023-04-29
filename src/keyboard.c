@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:39 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/29 17:23:41 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/04/29 17:30:06 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	ft_close_hook(t_fdf *fdf)
 		free(fdf->mouse);
 	if (fdf->camera)
 		free(fdf->camera);
-	system("leaks fdf");
 	exit(1);
 	return (0);
 }
