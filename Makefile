@@ -17,3 +17,7 @@ $(NAME): $(LIBFT_A) $(OBJS)
 
 $(LIBFT_A):
 	@$(MAKE) -C $(LIBFT)
+
+clean: 
+	rm -rf $(OBJS)
+	@$(MAKE) -C $(LIBFT) clean
