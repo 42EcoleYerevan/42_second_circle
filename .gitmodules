@@ -4,3 +4,6 @@
 [submodule "LIBFT"]
 	path = LIBFT
 	url = https://github.com/Adamsonbor/LIBFT.git
+[submodule "libft"]
+	path = libft
+	url = https://github.com/Adamsonbor/LIBFT.git

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <signal.h>
-#include "LIBFT/libft.h"
+#include "libft/libft.h"
 
 int main(void)
 {
