@@ -1,3 +1,6 @@
 *.out
 *.o
 *.fdf
+client
+server
+*test*
