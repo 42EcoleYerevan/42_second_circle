@@ -1,37 +1,28 @@
-SRCS = server.c\
-	   client.c
-OBJS = $(SRCS:%.c=%.o)
+NAME = push_swap
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Wextra -Werror
+SRCS = push_swap.c
+OBJS = $(SRCS:%.c=%.o)
 LIBFT = ./libft
 LIBFT_A = $(LIBFT)/libft.a
 LIBS = -L$(LIBFT) -lft
-NAME = leha
 
 all: $(NAME)
-
-$(NAME): $(LIBFT_A) server client
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-server: $(LIBFT_A) server.o
-	$(CC) $(CFLAGS) server.o $(LIBS) -o server
-
-client: $(LIBFT_A) client.o
-	$(CC) $(CFLAGS) client.o $(LIBS) -o client
-
 $(LIBFT_A):
-	@$(MAKE) -C $(LIBFT) bonus
+	@$(MAKE) -C $(LIBFT)
 
-clean: 
+$(NAME): $(OBJS) $(LIBFT_A)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
+
+clean: $(OBJS)
 	rm -f $(OBJS)
-	@$(MAKE) -C $(LIBFT) clean
 
 fclean: clean
-	rm -f server
-	rm -f client
-	@$(MAKE) -C $(LIBFT) fclean
+	rm -f $(NAME)
 
 re: fclean all
 
