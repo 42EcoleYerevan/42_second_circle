@@ -29,7 +29,8 @@ clean:
 	@$(MAKE) -C $(LIBFT) clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f server
+	rm -f client
 	@$(MAKE) -C $(LIBFT) fclean
 
 re: fclean all

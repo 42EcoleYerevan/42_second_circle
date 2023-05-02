@@ -4,11 +4,13 @@
 
 static void ft_action(int sig, siginfo_t *info, void *context)
 {
-	static int i = 0;
+	static int 				i = 0;
+	static int				pid = 0;
 	static unsigned char	c = 0;
 
 	(void) context;
 	(void) info;
+	printf("%d\n", info->si_pid);
 	i++;
 	c <<= 1;
 	if (sig == SIGUSR1)

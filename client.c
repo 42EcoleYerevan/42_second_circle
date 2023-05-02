@@ -16,12 +16,12 @@ static void send_string(int pid, char *str)
 			if ((c >> i) % 2)
 			{
 				kill(pid, SIGUSR1);
-				usleep(10);
+				usleep(100);
 			}
 			else
 			{
 				kill(pid, SIGUSR2);
-				usleep(10);
+				usleep(100);
 			}
 		}
 	}
