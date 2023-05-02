@@ -1,18 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/02 18:18:45 by agladkov          #+#    #+#             */
+/*   Updated: 2023/05/02 18:21:28 by agladkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <signal.h>
 #include "libft/libft.h"
 
-static void ft_action(int sig, siginfo_t *info, void *context)
+static void	ft_action(int sig, siginfo_t *info, void *context)
 {
-	static int 				i = 0;
-	static int				pid = 0;
+	static int				i = 0;
 	static unsigned char	c = 0;
 
 	(void) context;
-	(void) info;
-	if (pid == 0)
-		pid = info->si_pid;
-	if (pid == info->si_pid)
 	{
 		i++;
 		c <<= 1;
@@ -20,23 +27,19 @@ static void ft_action(int sig, siginfo_t *info, void *context)
 			c |= 1;
 		if (i == 8)
 		{
-			ft_putchar_fd(c, 1);
-			i = 0;
 			if (c == 0)
-			{
-				
-			}
+				kill(info->si_pid, SIGUSR1);
+			else
+				ft_putchar_fd(c, 1);
+			i = 0;
 			c = 0;
 		}
-		kill(pid, SIGUSR1);
 	}
-	else
-		kill(info->si_pid, SIGUSR2);
 }
 
-int main(void)
+int	main(void)
 {
-	struct sigaction s_sigaction;
+	struct sigaction	s_sigaction;
 
 	ft_putstr_fd("Server PID: ", 1);
 	ft_putnbr_fd(getpid(), 1);
