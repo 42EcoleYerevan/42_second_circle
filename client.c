@@ -2,6 +2,18 @@
 #include <signal.h>
 #include "./libft/libft.h"
 
+int ok;
+
+static void ft_action(int sig, siginfo_t *info, void *context)
+{
+	(void) context;
+	(void) info;
+	if (sig == SIGUSR1)
+		ok = 0;
+	else
+		ok = 1;
+}
+
 static void send_string(int pid, char *str)
 {
 	char c;
@@ -10,8 +22,8 @@ static void send_string(int pid, char *str)
 	while (*str)
 	{
 		c = *str++;
-		i = 8;
-		while (--i >= 0)
+		i = 7;
+		while (i >= 0)
 		{
 			if ((c >> i) % 2)
 			{
@@ -23,19 +35,32 @@ static void send_string(int pid, char *str)
 				kill(pid, SIGUSR2);
 				usleep(100);
 			}
+			if (ok == 1)
+			{
+				pause();
+			}
+			else
+				i--;
 		}
 	}
+	i = 8;
+	while (--i >= 0)
+		kill(pid, SIGUSR2);
 }
 
 int main(int argc, char **argv)
 {
-	ft_putstr_fd("Client PID: ", 1);
-	ft_putnbr_fd(getpid(), 1);
-	ft_putchar_fd('\n', 1);
+	int pid;
+	struct sigaction s_sigaction;
 
 	if (argc == 3)
 	{
-		int pid = ft_atoi(argv[1]);
+		ok = 1;
+		s_sigaction.sa_flags = SA_SIGINFO;
+		s_sigaction.sa_sigaction = ft_action;
+		sigaction(SIGUSR1, &s_sigaction, 0);
+		sigaction(SIGUSR2, &s_sigaction, 0);
+		pid = ft_atoi(argv[1]);
 		send_string(pid, argv[2]);
 	}
 	return (0);

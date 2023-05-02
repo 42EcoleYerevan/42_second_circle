@@ -22,7 +22,7 @@ client: $(LIBFT_A) client.o
 	$(CC) $(CFLAGS) client.o $(LIBS) -o client
 
 $(LIBFT_A):
-	@$(MAKE) -C $(LIBFT)
+	@$(MAKE) -C $(LIBFT) bonus
 
 clean: 
 	rm -f $(OBJS)
