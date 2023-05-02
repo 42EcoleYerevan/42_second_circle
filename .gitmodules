@@ -1,9 +1,3 @@
-[submodule "gnl"]
-	path = gnl
-	url = https://github.com/Adamsonbor/42_first_circle.git
-[submodule "LIBFT"]
-	path = LIBFT
-	url = https://github.com/Adamsonbor/LIBFT.git
 [submodule "libft"]
 	path = libft
-	url = https://github.com/Adamsonbor/LIBFT.git
+	url = git@github.com:Adamsonbor/LIBFT.git
