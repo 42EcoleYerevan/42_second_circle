@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:18:45 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/03 15:19:54 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:24:32 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void	ft_action(int sig, siginfo_t *info, void *context)
 	static unsigned char	c = 0;
 
 	(void) context;
-	(void) info;
 	{
 		i++;
 		c <<= 1;
@@ -28,10 +27,15 @@ static void	ft_action(int sig, siginfo_t *info, void *context)
 			c |= 1;
 		if (i == 8)
 		{
-			ft_putchar_fd(c, 1);
+			if (c == 0)
+				kill(info->si_pid, SIGUSR2);
+			else
+				ft_putchar_fd(c, 1);
 			i = 0;
 			c = 0;
 		}
+		usleep(40);
+		kill(info->si_pid, SIGUSR1);
 	}
 }
 
