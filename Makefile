@@ -13,16 +13,17 @@ all: $(NAME)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT_A):
-	@$(MAKE) -C $(LIBFT)
+	@$(MAKE) -C $(LIBFT) bonus
 
 $(NAME): $(OBJS) $(LIBFT_A)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
-clean: $(OBJS)
+clean:
 	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)
+	@$(MAKE) -C $(LIBFT) fclean
 
 re: fclean all
 
