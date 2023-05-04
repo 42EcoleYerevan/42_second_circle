@@ -43,6 +43,19 @@ void	ft_lstadd_back_ps(t_rlist **list, t_rlist *new)
 		*list = new;
 }
 
+int ft_lstlen_ps(t_rlist *list)
+{
+	int i;
+
+	i = 0;
+	while (list)
+	{
+		list = list->next;
+		i++;
+	}
+	return (i);
+}
+
 void ft_error()
 {
 	ft_putstr_fd("Error\n", 0);
@@ -269,10 +282,10 @@ int main(int argc, char **argv)
 	t_rlist *a;
 	t_rlist *b;
 
-	ft_parse_input(argc, argv, &a);
+	a = NULL;
 	ft_parse_input(argc, argv, &b);
-	ft_check_duplicate(a);
 	ft_check_duplicate(b);
+	
 
 	while (a)
 	{
