@@ -179,6 +179,29 @@ void ft_push_a(t_rlist **a, t_rlist **b)
 	}
 }
 
+int ft_hitraya_funcciya(t_rlist *list)
+{
+	int len;
+
+	len = ft_lstlen_ps(list);
+	return ((log2(len) - 2) * 3);
+}
+
+int ft_find_max(t_rlist **a, t_rlist **b)
+{
+	int max;
+	t_rlist *tmp;
+
+	max = ft_lstlen_ps(*lst) - 1;
+	tmp = *list;
+	while (tmp->index != max)
+	{
+		tmp = tmp->next;
+	}
+}
+
+
+
 int main(int argc, char **argv)
 {
 	t_rlist *a;
@@ -190,8 +213,9 @@ int main(int argc, char **argv)
 	if (ft_is_sorted(a) == 1)
 		ft_error();
 	ft_sort_a(a);
-	batterfly(&a, &b);
-	ft_push_a(&a, &b);
+	printf("%d %d\n", ft_hitraya_funcciya(a), ft_lstlen_ps(a));
+	/* batterfly(&a, &b); */
+	/* ft_push_a(&a, &b); */
 	/* pb(&a, &b); */
 	/* pb(&a, &b); */
 	/* pb(&a, &b); */

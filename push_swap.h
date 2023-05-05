@@ -5,6 +5,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
+#include <math.h>
 # include "libft/libft.h"
 
 typedef struct s_rlist
