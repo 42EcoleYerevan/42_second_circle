@@ -1,60 +1,5 @@
 #include "./push_swap.h"
 
-typedef struct s_rlist
-{
-	struct s_rlist	*next;
-	struct s_rlist	*prev;
-	int		data;
-} t_rlist;
-
-t_rlist *ft_lstnew_ps(int data)
-{
-	t_rlist *new;
-	new = (t_rlist *)malloc(sizeof(t_rlist));
-	if (!new)
-		return (NULL);
-	new->data = data;
-	new->prev = NULL;
-	new->next = NULL;
-	return (new);
-}
-
-t_rlist *ft_lstlast_ps(t_rlist *list)
-{
-	if (!list)
-		return (NULL);
-	while (list->next)
-		list = list->next;
-	return (list);
-}
-
-void	ft_lstadd_back_ps(t_rlist **list, t_rlist *new)
-{
-	t_rlist *tmp;
-
-	if (*list)
-	{
-
-		tmp = ft_lstlast_ps(*list);
-		tmp->next = new;
-		new->prev = tmp;
-	}
-	else
-		*list = new;
-}
-
-int ft_lstlen_ps(t_rlist *list)
-{
-	int i;
-
-	i = 0;
-	while (list)
-	{
-		list = list->next;
-		i++;
-	}
-	return (i);
-}
 
 void ft_error()
 {
@@ -128,7 +73,7 @@ void	ft_parse_input(int argc, char **argv, t_rlist **list)
 			arr = ft_split(argv[i], ' ');
 			while (*arr)
 			{
-				ft_lstadd_back_ps(list, ft_lstnew_ps(ft_atoi(*arr)));
+				ft_lstadd_back_ps(list, ft_lstnew_ps(ft_atoi_ps(*arr)));
 				arr++;
 			}
 			i++;
@@ -136,145 +81,102 @@ void	ft_parse_input(int argc, char **argv, t_rlist **list)
 	}
 }
 
-void sa(t_rlist **a)
+void ft_printf_list(t_rlist *list, char c)
 {
-	t_rlist *tmp;
-	
-	if (!a || !*a || !(*a)->next)
-		return ;
-	tmp = *a;
-	*a = (*a)->next;
-	tmp->next = (*a)->next;
-	tmp->prev = *a;
-	(*a)->next = tmp;
-	(*a)->prev = NULL;
-	ft_putstr_fd("sa\n", 1);
-}
-
-void sb(t_rlist **b)
-{
-	t_rlist *tmp;
-	
-	if (!b || !*b || !(*b)->next)
-		return ;
-	tmp = *b;
-	*b = (*b)->next;
-	tmp->next = (*b)->next;
-	tmp->prev = *b;
-	(*b)->next = tmp;
-	(*b)->prev = NULL;
-	ft_putstr_fd("sb\n", 1);
-}
-
-void ss(t_rlist **a, t_rlist **b)
-{
-	sa(a);
-	sb(b);
-	ft_putstr_fd("ss\n", 1);
-}
-
-void pa(t_rlist **a, t_rlist **b)
-{
-	t_rlist *tmp;
-
-	if (*b)
+	printf("%c: ", c);
+	while (list)
 	{
-		tmp = *b;
-		*b = (*b)->next;
-		tmp->next = *a;
-		(*a)->prev = tmp;
-		*a = tmp;
-		ft_putstr_fd("pa\n", 1);
+		printf("%d ", list->data);
+		list = list->next;
+	}
+	puts("");
+}
+
+int ft_is_sorted(t_rlist *list)
+{
+	while (list->next)
+	{
+		if (list->next->data < list->data)
+			return (0);
+		list = list->next;
+	}
+	return (1);
+}
+
+static void ft_set_index(t_rlist *a, int index)
+{
+	t_rlist *max;
+
+	max = a;
+	while (max->index != -1)
+		max = max->next;
+	while (a)
+	{
+		if (a->index == -1 && a->data > max->data)
+			max = a;
+		a = a->next;
+	}
+	max->index = index;
+}
+
+void ft_sort_a(t_rlist *a)
+{
+	int index;
+
+	index = ft_lstlen_ps(a) - 1;
+	while (index >= 0)
+	{
+		ft_set_index(a, index);
+		index--;
+	}
+
+}
+
+void batterfly(t_rlist **a, t_rlist **b)
+{
+	int len;
+	int n;
+
+	len = ft_lstlen_ps(*a);
+	n = 0;
+	while (n < len)
+	{
+		if ((*a)->index <= n)
+		{
+			pb(a, b);
+			rb(b);
+			n++;
+		}
+		else if ((*a)->index <= n + 1)
+		{
+			pb(a, b);
+			n++;
+		}
+		else
+			ra(a);
 	}
 }
 
-void pb(t_rlist **a, t_rlist **b)
+void ft_push_a(t_rlist **a, t_rlist **b)
 {
+	int len;
 	t_rlist *tmp;
 
-	if (*a)
-	{
-		tmp = *a;
-		*a = (*a)->next;
-		tmp->next = *b;
-		(*b)->prev = tmp;
-		*b = tmp;
-		ft_putstr_fd("pb\n", 1);
-	}
-}
-
-void ra(t_rlist **a)
-{
-	t_rlist *tmp;
-
-	tmp = *a;
-	*a = (*a)->next;
-	(*a)->prev = NULL;
-	tmp->prev = ft_lstlast_ps(*a);
-	tmp->next = NULL;
-	tmp->prev->next = tmp;
-	ft_putstr_fd("ra\n", 1);
-}
-
-void rb(t_rlist **b)
-{
-	t_rlist *tmp;
-
-	tmp = *b;
-	*b = (*b)->next;
-	(*b)->prev = NULL;
-	tmp->prev = ft_lstlast_ps(*b);
-	tmp->next = NULL;
-	tmp->prev->next = tmp;
-	ft_putstr_fd("rb\n", 1);
-}
-
-void rr(t_rlist **a, t_rlist **b)
-{
-	if (*a)
-		ra(a);
-	if (*b)
-		rb(b);
-	ft_putstr_fd("rr\n", 1);
-}
-
-void rra(t_rlist **a)
-{
-	t_rlist *tmp;
-
-	if (*a)
-	{
-		tmp = ft_lstlast_ps(*a);
-		tmp->prev->next = NULL;
-		tmp->prev = NULL;
-		tmp->next = *a;
-		*a = tmp;
-		ft_putstr_fd("rra\n", 1);
-	}
-}
-
-void rrb(t_rlist **b)
-{
-	t_rlist *tmp;
-
-	if (*b)
+	len = ft_lstlen_ps(*b) - 1;
+	while (len >= 0)
 	{
 		tmp = ft_lstlast_ps(*b);
-		tmp->prev->next = NULL;
-		tmp->prev = NULL;
-		tmp->next = *b;
-		*b = tmp;
-		ft_putstr_fd("rrb\n", 1);
+		if (tmp->index > (*b)->index)
+		{
+			rrb(b);
+			pa(a, b);
+		}
+		else
+		{
+			pa(a, b);
+		}
+		len--;
 	}
-}
-
-void rrr(t_rlist **a, t_rlist **b)
-{
-	if (*a)
-		rra(a);
-	if (*b)
-		rrb(b);
-	ft_putstr_fd("rrr\n", 1);
 }
 
 int main(int argc, char **argv)
@@ -282,21 +184,31 @@ int main(int argc, char **argv)
 	t_rlist *a;
 	t_rlist *b;
 
-	a = NULL;
-	ft_parse_input(argc, argv, &b);
-	ft_check_duplicate(b);
-	
+	b = NULL;
+	ft_parse_input(argc, argv, &a);
+	ft_check_duplicate(a);
+	if (ft_is_sorted(a) == 1)
+		ft_error();
+	ft_sort_a(a);
+	batterfly(&a, &b);
+	ft_push_a(&a, &b);
+	/* pb(&a, &b); */
+	/* pb(&a, &b); */
+	/* pb(&a, &b); */
+	/* pb(&a, &b); */
+	/* pb(&a, &b); */
+	/* pb(&a, &b); */
+	/* puts(""); */
+	/* pa(&a, &b); */
+	/* pa(&a, &b); */
+	/* pa(&a, &b); */
+	/* pa(&a, &b); */
+	/* pa(&a, &b); */
+	/* pa(&a, &b); */
+	/* puts(""); */
+	/* ft_printf_list(a, 'a'); */
+	/* puts(""); */
+	/* ft_printf_list(b, 'b'); */
 
-	while (a)
-	{
-		printf("%d\n", a->data);
-		a = a->next;
-	}
-	puts("");
-	while (b)
-	{
-		printf("%d\n", b->data);
-		b = b->next;
-	}
 	return (0);
 }

@@ -1,7 +1,9 @@
 NAME = push_swap
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = push_swap.c
+SRCS = push_swap.c\
+	   push_swap_utils.c\
+	   push_swap_list_utils.c
 OBJS = $(SRCS:%.c=%.o)
 LIBFT = ./libft
 LIBFT_A = $(LIBFT)/libft.a
