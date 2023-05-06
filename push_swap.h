@@ -5,7 +5,6 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-#include <math.h>
 # include "libft/libft.h"
 
 typedef struct s_rlist
@@ -35,5 +34,18 @@ t_rlist *ft_lstnew_ps(int data);
 t_rlist	*ft_lstlast_ps(t_rlist *list);
 void	ft_lstadd_back_ps(t_rlist **list, t_rlist *new);
 int		ft_lstlen_ps(t_rlist *list);
+
+void	ft_error();
+int		ft_atoi_ps(const char *str);
+void	ft_check_duplicate(t_rlist *list);
+int		ft_is_sorted(t_rlist *list);
+
+void	ft_push_a(t_rlist **a, t_rlist **b);
+void	batterfly(t_rlist **a, t_rlist **b, int lambda);
+void	ft_sort_a(t_rlist *a);
+void	ft_set_index(t_rlist *a, int index);
+
+int	ft_hitraya_funcciya(t_rlist *list);
+int ft_find_max(t_rlist *list);
 
 #endif

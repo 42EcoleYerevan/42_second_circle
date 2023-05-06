@@ -3,7 +3,10 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = push_swap.c\
 	   push_swap_utils.c\
-	   push_swap_list_utils.c
+	   push_swap_list_utils.c\
+	   push_swap_sort.c\
+	   push_swap_sort_utils.c\
+	   push_swap_check.c
 OBJS = $(SRCS:%.c=%.o)
 LIBFT = ./libft
 LIBFT_A = $(LIBFT)/libft.a
