@@ -70,9 +70,37 @@ void ft_isvalid_args(int argc, char **argv)
 	}
 }
 
+void ft_sort_3_numbers(t_rlist **a)
+{
+	if ((*a)->data > (*a)->next->data && (*a)->data > (*a)->next->next->data) 
+		ra(a);
+	if ((*a)->data > (*a)->next->data)
+		sa(a);
+	if (((*a)->next->next->data < (*a)->data) && ((*a)->next->next->data < (*a)->next->data))
+		rra(a);
+}
+
+void ft_sort_4_numbers(t_rlist **a, t_rlist **b)
+{
+
+	while ((*a)->index != 3)
+	{
+		if (ft_find_max(*a) == 1)
+			ra(a);
+		else
+			rra(a);
+	}
+	pb(a, b);
+	printf("%d\n", (*b)->data);
+	ft_sort_3_numbers(a);
+	printf("%d %d %d\n", (*a)->data, (*a)->next->data, (*a)->next->next->data);
+	pa(a, b);
+	ra(a);
+}
+
 int main(int argc, char **argv)
 {
-	/* int lambda; */
+	int lambda;
 	t_rlist *a;
 	t_rlist *b;
 
@@ -80,17 +108,23 @@ int main(int argc, char **argv)
 	ft_parse_input(argc, argv, &a);
 	ft_check_duplicate(a);
 	ft_isvalid_args(argc, argv);
+	if (ft_is_sorted(a) == 1)
+		ft_error();
+	ft_sort_a(a);
+	if (ft_lstlen_ps(a) == 3)
+		ft_sort_3_numbers(&a);
+	else if (ft_lstlen_ps(a) == 4)
+		ft_sort_4_numbers(&a, &b);
+	else
+	{
+		lambda = ft_hitraya_funcciya(a);
+		batterfly(&a, &b, lambda);
+		ft_function_i_wrote(&a, &b);
+	}
 	while (a)
 	{
 		printf("%d\n", a->data);
 		a = a->next;
 	}
-
-	/* if (ft_is_sorted(a) == 1) */
-	/* 	ft_error(); */
-	/* ft_sort_a(a); */
-	/* lambda = ft_hitraya_funcciya(a); */
-	/* batterfly(&a, &b, lambda); */
-	/* ft_function_i_wrote(&a, &b); */
 	return (0);
 }
