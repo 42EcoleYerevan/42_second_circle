@@ -132,7 +132,7 @@ void ft_sort_a(t_rlist *a)
 
 }
 
-void batterfly(t_rlist **a, t_rlist **b)
+void batterfly(t_rlist **a, t_rlist **b, int lambda)
 {
 	int len;
 	int n;
@@ -147,7 +147,7 @@ void batterfly(t_rlist **a, t_rlist **b)
 			rb(b);
 			n++;
 		}
-		else if ((*a)->index <= n + 1)
+		else if ((*a)->index <= n + lambda)
 		{
 			pb(a, b);
 			n++;
@@ -187,23 +187,47 @@ int ft_hitraya_funcciya(t_rlist *list)
 	return ((log2(len) - 2) * 3);
 }
 
-int ft_find_max(t_rlist **a, t_rlist **b)
+int ft_find_max(t_rlist *list)
 {
 	int max;
 	t_rlist *tmp;
 
-	max = ft_lstlen_ps(*lst) - 1;
-	tmp = *list;
-	while (tmp->index != max)
+	max = ft_lstlen_ps(list) - 1;
+	tmp = list;
+	while (tmp->index != 0)
 	{
+		if (tmp->index == max)
+			return (1);
 		tmp = tmp->next;
+	}
+	return (0);
+}
+
+void ft_function_i_wrote(t_rlist **a, t_rlist **b)
+{
+	int len;
+	int max;
+
+	len = ft_lstlen_ps(*b);	
+	max = len - 1;
+	while (len > 0)
+	{
+		while ((*b)->index != max)
+		{
+			if (ft_find_max(*b) == 1)
+				rb(b);
+			else
+				rrb(b);
+		}
+		pa(a, b);
+		max--;
+		len--;
 	}
 }
 
-
-
 int main(int argc, char **argv)
 {
+	int lambda;
 	t_rlist *a;
 	t_rlist *b;
 
@@ -213,8 +237,15 @@ int main(int argc, char **argv)
 	if (ft_is_sorted(a) == 1)
 		ft_error();
 	ft_sort_a(a);
-	printf("%d %d\n", ft_hitraya_funcciya(a), ft_lstlen_ps(a));
-	/* batterfly(&a, &b); */
+	lambda = ft_hitraya_funcciya(b);
+	batterfly(&a, &b, lambda);
+	ft_function_i_wrote(&a, &b);
+	printf("%d\n", lambda);
+	/* puts(""); */
+	/* ft_printf_list(a, 'a'); */
+	/* puts(""); */
+	/* ft_printf_list(b, 'b'); */
+	/* printf("%d\n", ft_find_max(b)); */
 	/* ft_push_a(&a, &b); */
 	/* pb(&a, &b); */
 	/* pb(&a, &b); */

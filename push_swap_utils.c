@@ -91,7 +91,7 @@ void ra(t_rlist **a)
 {
 	t_rlist *tmp;
 
-	if (*a)
+	if (*a && (*a)->next)
 	{
 		tmp = *a;
 		*a = (*a)->next;
@@ -107,7 +107,7 @@ void rb(t_rlist **b)
 {
 	t_rlist *tmp;
 
-	if (*b)
+	if (*b && (*b)->next)
 	{
 		tmp = *b;
 		*b = (*b)->next;
@@ -132,7 +132,7 @@ void rra(t_rlist **a)
 {
 	t_rlist *tmp;
 
-	if (*a)
+	if (*a && (*a)->prev)
 	{
 		tmp = ft_lstlast_ps(*a);
 		tmp->prev->next = NULL;
@@ -147,7 +147,7 @@ void rrb(t_rlist **b)
 {
 	t_rlist *tmp;
 
-	if (*b)
+	if (*b && (*b)->next)
 	{
 		tmp = ft_lstlast_ps(*b);
 		tmp->prev->next = NULL;
