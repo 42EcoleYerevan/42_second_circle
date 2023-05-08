@@ -48,4 +48,8 @@ void	ft_set_index(t_rlist *a, int index);
 int	ft_hitraya_funcciya(t_rlist *list);
 int ft_find_max(t_rlist *list);
 
+void ft_sort_3_numbers(t_rlist **a);
+void ft_sort_4_numbers(t_rlist **a, t_rlist **b);
+void ft_sort_5_numbers(t_rlist **a, t_rlist **b);
+
 #endif

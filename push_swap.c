@@ -23,6 +23,7 @@ void	ft_parse_input(int argc, char **argv, t_rlist **list)
 			while (*arr)
 			{
 				ft_lstadd_back_ps(list, ft_lstnew_ps(ft_atoi_ps(*arr)));
+				free(*arr);
 				arr++;
 			}
 			i++;
@@ -67,7 +68,8 @@ void ft_isvalid_args(int argc, char **argv)
 		d = 0;
 		while (argv[n][i])
 		{
-			if (argv[n][i] != ' ' && ft_isdigit(argv[n][i]) == 0)
+			if (argv[n][i] != '-' && argv[n][i] != ' '\
+				   	&& ft_isdigit(argv[n][i]) == 0)
 				ft_error();
 			if (ft_isdigit(argv[n][i]) == 1)
 				d = 1;
@@ -79,67 +81,6 @@ void ft_isvalid_args(int argc, char **argv)
 	}
 }
 
-void ft_sort_3_numbers(t_rlist **a)
-{
-	t_rlist *tmp;
-	int max;
-
-	max = -1;
-	tmp = *a;
-	while (tmp)
-	{
-		if (max < tmp->data)
-			max = tmp->data;
-		tmp = tmp->next;
-	}
-	if (max == (*a)->data)
-		ra(a);
-	else if (max == (*a)->next->data)
-	{
-		sa(a);
-		ra(a);
-	}
-	if ((*a)->data > (*a)->next->data)
-	   sa(a);	
-}
-
-void ft_sort_4_numbers(t_rlist **a, t_rlist **b)
-{
-
-	while ((*a)->index != 3)
-	{
-		if (ft_find_max(*a) == 1)
-			ra(a);
-		else
-			rra(a);
-	}
-	pb(a, b);
-	ft_sort_3_numbers(a);
-	pa(a, b);
-	ra(a);
-}
-
-void ft_sort_5_numbers(t_rlist **a, t_rlist **b)
-{
-	int i;
-
-	i = 0;
-	while (i != 2)
-	{
-		if ((*a)->index == 0 || (*a)->index == 1)
-		{
-			pb(a, b);
-			i++;
-		}
-		else
-			ra(a);
-	}
-	ft_sort_3_numbers(a);
-	if ((*b)->index < (*b)->next->index)
-		sb(b);
-	pa(a, b);
-	pa(a, b);
-}
 
 int main(int argc, char **argv)
 {
@@ -167,10 +108,15 @@ int main(int argc, char **argv)
 		batterfly(&a, &b, lambda);
 		ft_function_i_wrote(&a, &b);
 	}
-	/* while (a) */
-	/* { */
-	/* 	printf("%d\n", a->data); */
-	/* 	a = a->next; */
-	/* } */
-	/* return (0); */
+	t_rlist *tmp;
+	while (ft_lstlen_ps(a) != 0)
+	{
+		printf("%d %d\n", a->data, ft_lstlen_ps(a));
+		printf("privet\n");
+		tmp = ft_lstlast_ps(a);
+		if (tmp->prev)
+			tmp->prev->next = NULL;
+		free(tmp);
+	}
+	system("leaks push_swap");
 }
