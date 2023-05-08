@@ -138,6 +138,7 @@ void rra(t_rlist **a)
 		tmp->prev->next = NULL;
 		tmp->prev = NULL;
 		tmp->next = *a;
+		(*a)->prev = tmp;
 		*a = tmp;
 		ft_putstr_fd("rra\n", 1);
 	}
@@ -153,6 +154,7 @@ void rrb(t_rlist **b)
 		tmp->prev->next = NULL;
 		tmp->prev = NULL;
 		tmp->next = *b;
+		(*b)->prev = tmp;
 		*b = tmp;
 		ft_putstr_fd("rrb\n", 1);
 	}

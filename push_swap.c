@@ -1,5 +1,14 @@
 #include "./push_swap.h"
 
+void ft_printf_list(t_rlist *list)
+{
+	while (list)
+	{
+		printf("%d ", list->data);
+		list = list->next;
+	}
+}
+
 void	ft_parse_input(int argc, char **argv, t_rlist **list)
 {
 	int i;
@@ -72,12 +81,26 @@ void ft_isvalid_args(int argc, char **argv)
 
 void ft_sort_3_numbers(t_rlist **a)
 {
-	if ((*a)->data > (*a)->next->data && (*a)->data > (*a)->next->next->data) 
+	t_rlist *tmp;
+	int max;
+
+	max = -1;
+	tmp = *a;
+	while (tmp)
+	{
+		if (max < tmp->data)
+			max = tmp->data;
+		tmp = tmp->next;
+	}
+	if (max == (*a)->data)
 		ra(a);
-	if ((*a)->data > (*a)->next->data)
+	else if (max == (*a)->next->data)
+	{
 		sa(a);
-	if (((*a)->next->next->data < (*a)->data) && ((*a)->next->next->data < (*a)->next->data))
-		rra(a);
+		ra(a);
+	}
+	if ((*a)->data > (*a)->next->data)
+	   sa(a);	
 }
 
 void ft_sort_4_numbers(t_rlist **a, t_rlist **b)
@@ -85,23 +108,42 @@ void ft_sort_4_numbers(t_rlist **a, t_rlist **b)
 
 	while ((*a)->index != 3)
 	{
-		printf("%d\n", (*a)->index);
 		if (ft_find_max(*a) == 1)
 			ra(a);
 		else
 			rra(a);
 	}
 	pb(a, b);
-	printf("%d\n", (*b)->data);
 	ft_sort_3_numbers(a);
-	printf("%d %d %d\n", (*a)->data, (*a)->next->data, (*a)->next->next->data);
 	pa(a, b);
 	ra(a);
 }
 
+void ft_sort_5_numbers(t_rlist **a, t_rlist **b)
+{
+	int i;
+
+	i = 0;
+	while (i != 2)
+	{
+		if ((*a)->index == 0 || (*a)->index == 1)
+		{
+			pb(a, b);
+			i++;
+		}
+		else
+			ra(a);
+	}
+	ft_sort_3_numbers(a);
+	if ((*b)->index < (*b)->next->index)
+		sb(b);
+	pa(a, b);
+	pa(a, b);
+}
+
 int main(int argc, char **argv)
 {
-	/* int lambda; */
+	int lambda;
 	t_rlist *a;
 	t_rlist *b;
 
@@ -113,23 +155,22 @@ int main(int argc, char **argv)
 		ft_error();
 	ft_sort_a(a);
 
-	/* if (ft_lstlen_ps(a) == 3) */
-	/* 	ft_sort_3_numbers(&a); */
-	/* else if (ft_lstlen_ps(a) == 4) */
-	/* 	ft_sort_4_numbers(&a, &b); */
-	/* else */
-	/* { */
-	/* 	lambda = ft_hitraya_funcciya(a); */
-	/* 	batterfly(&a, &b, lambda); */
-	/* 	ft_function_i_wrote(&a, &b); */
-	/* } */
-	rra(&a);
-	rra(&a);
-	rra(&a);
-	while (a)
+	if (ft_lstlen_ps(a) == 3)
+		ft_sort_3_numbers(&a);
+	else if (ft_lstlen_ps(a) == 4)
+		ft_sort_4_numbers(&a, &b);
+	else if (ft_lstlen_ps(a) == 5)
+		ft_sort_5_numbers(&a, &b);
+	else
 	{
-		printf("%d\n", a->data);
-		a = a->next;
+		lambda = ft_hitraya_funcciya(a);
+		batterfly(&a, &b, lambda);
+		ft_function_i_wrote(&a, &b);
 	}
-	return (0);
+	/* while (a) */
+	/* { */
+	/* 	printf("%d\n", a->data); */
+	/* 	a = a->next; */
+	/* } */
+	/* return (0); */
 }
