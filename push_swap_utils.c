@@ -132,7 +132,7 @@ void rra(t_rlist **a)
 {
 	t_rlist *tmp;
 
-	if (*a && (*a)->prev)
+	if (*a)
 	{
 		tmp = ft_lstlast_ps(*a);
 		tmp->prev->next = NULL;
