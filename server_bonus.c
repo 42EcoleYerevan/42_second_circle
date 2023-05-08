@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:18:45 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/03 15:24:32 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:42:17 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@ static void	ft_action(int sig, siginfo_t *info, void *context)
 {
 	static int				i = 0;
 	static unsigned char	c = 0;
+	static int 				n = 0;
 
 	(void) context;
+	n = info->si_pid;
+	if (info->si_pid == n)
 	{
 		i++;
 		c <<= 1;
