@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:31:32 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/09 18:51:06 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/09 19:00:14 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_parse_input(int argc, char **argv, t_rlist **list)
 			free(tmp);
 		}
 	}
+	else
+		exit(0);
 }
 
 void	ft_function_i_wrote(t_rlist **a, t_rlist **b)
@@ -98,7 +100,7 @@ int	main(int argc, char **argv)
 	ft_check_duplicate(a);
 	ft_isvalid_args(argc, argv);
 	if (ft_is_sorted(a) == 1)
-		ft_error();
+		exit(0);
 	ft_sort_a(a);
 	if (ft_lstlen_ps(a) == 3)
 		ft_sort_3_numbers(&a);
