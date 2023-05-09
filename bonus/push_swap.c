@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:31:32 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/09 19:42:10 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/09 20:23:37 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	ft_isvalid_args(int argc, char **argv)
 	}
 }
 
-void ft_printf_list(t_rlist *list)
+void	ft_printf_list(t_rlist *list)
 {
 	while (list)
 	{
@@ -111,7 +111,8 @@ int	main(int argc, char **argv)
 	ft_check_duplicate(a);
 	ft_isvalid_args(argc, argv);
 	ft_sort_a(a);
-	ft_input(a, b);
+	ft_input(&a, &b);
+	printf("\n");
 	ft_printf_list(a);
 	if (ft_lstlen_ps(b) == 0)
 	{

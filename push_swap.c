@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:31:32 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/09 19:00:14 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/09 20:23:27 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	main(int argc, char **argv)
 	t_rlist	*a;
 	t_rlist	*b;
 
-	b = NULL;
 	ft_parse_input(argc, argv, &a);
 	ft_check_duplicate(a);
 	ft_isvalid_args(argc, argv);
@@ -108,6 +107,8 @@ int	main(int argc, char **argv)
 		ft_sort_4_numbers(&a, &b);
 	else if (ft_lstlen_ps(a) == 5)
 		ft_sort_5_numbers(&a, &b);
+	else if (ft_lstlen_ps(a) == 2)
+		sa(&a);
 	else
 	{
 		lambda = ft_hitraya_funcciya(a);
