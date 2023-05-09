@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:39:48 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/09 14:42:34 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:45:34 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
+# include "get_next_line.h"
 
 typedef struct s_rlist
 {
@@ -62,5 +63,8 @@ int		ft_find_max(t_rlist *list);
 void	ft_sort_3_numbers(t_rlist **a);
 void	ft_sort_4_numbers(t_rlist **a, t_rlist **b);
 void	ft_sort_5_numbers(t_rlist **a, t_rlist **b);
+
+void	ft_input_2(t_rlist *a, t_rlist *b, char *arr);
+void	ft_input(t_rlist *a, t_rlist *b);
 
 #endif

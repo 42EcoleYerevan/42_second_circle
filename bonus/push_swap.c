@@ -6,11 +6,13 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:31:32 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/09 18:51:06 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:44:18 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./push_swap.h"
+#include "./get_next_line.h"
+#include <stdio.h>
 
 void	ft_parse_input(int argc, char **argv, t_rlist **list)
 {
@@ -89,7 +91,6 @@ void	ft_isvalid_args(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	int		lambda;
 	t_rlist	*a;
 	t_rlist	*b;
 
@@ -100,16 +101,15 @@ int	main(int argc, char **argv)
 	if (ft_is_sorted(a) == 1)
 		ft_error();
 	ft_sort_a(a);
-	if (ft_lstlen_ps(a) == 3)
-		ft_sort_3_numbers(&a);
-	else if (ft_lstlen_ps(a) == 4)
-		ft_sort_4_numbers(&a, &b);
-	else if (ft_lstlen_ps(a) == 5)
-		ft_sort_5_numbers(&a, &b);
-	else
+	ft_input(a, b);
+	if (ft_lstlen_ps(b) == 0)
 	{
-		lambda = ft_hitraya_funcciya(a);
-		batterfly(&a, &b, lambda);
-		ft_function_i_wrote(&a, &b);
+		if (ft_is_sorted(a) == 1)
+		{
+			ft_putstr_fd("OK\n", 1);
+			return (0);
+		}
 	}
+	ft_putstr_fd("KO\n", 1);
+	return (0);
 }
