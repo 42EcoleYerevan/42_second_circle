@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap_sort.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/09 13:28:48 by agladkov          #+#    #+#             */
+/*   Updated: 2023/05/09 13:30:36 by agladkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void ft_set_index(t_rlist *a, int index)
+void	ft_set_index(t_rlist *a, int index)
 {
-	t_rlist *max;
+	t_rlist	*max;
 
 	max = a;
 	while (max->index != -1)
@@ -16,9 +28,9 @@ void ft_set_index(t_rlist *a, int index)
 	max->index = index;
 }
 
-void ft_sort_a(t_rlist *a)
+void	ft_sort_a(t_rlist *a)
 {
-	int index;
+	int	index;
 
 	index = ft_lstlen_ps(a) - 1;
 	while (index >= 0)
@@ -26,13 +38,12 @@ void ft_sort_a(t_rlist *a)
 		ft_set_index(a, index);
 		index--;
 	}
-
 }
 
-void batterfly(t_rlist **a, t_rlist **b, int lambda)
+void	batterfly(t_rlist **a, t_rlist **b, int lambda)
 {
-	int len;
-	int n;
+	int	len;
+	int	n;
 
 	len = ft_lstlen_ps(*a);
 	n = 0;
@@ -54,10 +65,10 @@ void batterfly(t_rlist **a, t_rlist **b, int lambda)
 	}
 }
 
-void ft_push_a(t_rlist **a, t_rlist **b)
+void	ft_push_a(t_rlist **a, t_rlist **b)
 {
-	int len;
-	t_rlist *tmp;
+	int		len;
+	t_rlist	*tmp;
 
 	len = ft_lstlen_ps(*b) - 1;
 	while (len >= 0)

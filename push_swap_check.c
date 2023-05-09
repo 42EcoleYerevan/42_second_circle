@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:36:01 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/09 13:14:00 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/09 13:27:47 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,21 @@ int	ft_atoi_ps(const char *str)
 	while (*str && ft_isdigit(*str))
 	{
 		out = out * 10 + *str - 48;
-		if (out > INT_MAX) 
+		if (out > INT_MAX)
 			ft_error();
 		str++;
 	}
-	if (*str !='\0')
+	if (*str != '\0')
 		ft_error();
 	return (out * m);
 }
 
-void  ft_check_duplicate(t_rlist *list)
+void	ft_check_duplicate(t_rlist *list)
 {
-	t_rlist *tmpi;
-	t_rlist *tmpj;
-	int i;
-	int j;
+	t_rlist	*tmpi;
+	t_rlist	*tmpj;
+	int		i;
+	int		j;
 
 	tmpi = list;
 	i = 0;
@@ -71,7 +71,7 @@ void  ft_check_duplicate(t_rlist *list)
 	}
 }
 
-int ft_is_sorted(t_rlist *list)
+int	ft_is_sorted(t_rlist *list)
 {
 	while (list->next)
 	{
@@ -81,4 +81,3 @@ int ft_is_sorted(t_rlist *list)
 	}
 	return (1);
 }
-

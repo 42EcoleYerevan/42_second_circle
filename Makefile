@@ -3,6 +3,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = push_swap.c\
 	   push_swap_utils.c\
+	   push_swap_utils2.c\
+	   push_swap_utils3.c\
 	   push_swap_list_utils.c\
 	   push_swap_sort.c\
 	   push_swap_sort_utils.c\

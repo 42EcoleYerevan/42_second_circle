@@ -6,20 +6,11 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:31:32 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/09 12:35:57 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/09 14:40:34 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./push_swap.h"
-
-void	ft_printf_list(t_rlist *list)
-{
-	while (list)
-	{
-		printf("%d ", list->data);
-		list = list->next;
-	}
-}
 
 void	ft_parse_input(int argc, char **argv, t_rlist **list)
 {

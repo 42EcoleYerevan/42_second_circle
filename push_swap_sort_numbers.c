@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap_sort_numbers.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/09 13:30:51 by agladkov          #+#    #+#             */
+/*   Updated: 2023/05/09 13:33:04 by agladkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./push_swap.h"
 
-void ft_sort_3_numbers(t_rlist **a)
+void	ft_sort_3_numbers(t_rlist **a)
 {
-	t_rlist *tmp;
-	int max;
+	t_rlist	*tmp;
+	int		max;
 
 	max = -1;
 	tmp = *a;
@@ -21,12 +33,11 @@ void ft_sort_3_numbers(t_rlist **a)
 		ra(a);
 	}
 	if ((*a)->data > (*a)->next->data)
-	   sa(a);	
+		sa(a);
 }
 
-void ft_sort_4_numbers(t_rlist **a, t_rlist **b)
+void	ft_sort_4_numbers(t_rlist **a, t_rlist **b)
 {
-
 	while ((*a)->index != 3)
 	{
 		if (ft_find_max(*a) == 1)
@@ -40,9 +51,9 @@ void ft_sort_4_numbers(t_rlist **a, t_rlist **b)
 	ra(a);
 }
 
-void ft_sort_5_numbers(t_rlist **a, t_rlist **b)
+void	ft_sort_5_numbers(t_rlist **a, t_rlist **b)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i != 2)

@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap_list_utils.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/09 13:27:51 by agladkov          #+#    #+#             */
+/*   Updated: 2023/05/09 13:28:39 by agladkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-t_rlist *ft_lstnew_ps(int data)
+t_rlist	*ft_lstnew_ps(int data)
 {
-	t_rlist *new;
+	t_rlist	*new;
+
 	new = (t_rlist *)malloc(sizeof(t_rlist));
 	if (!new)
 		return (NULL);
@@ -13,7 +26,7 @@ t_rlist *ft_lstnew_ps(int data)
 	return (new);
 }
 
-t_rlist *ft_lstlast_ps(t_rlist *list)
+t_rlist	*ft_lstlast_ps(t_rlist *list)
 {
 	if (!list)
 		return (NULL);
@@ -24,11 +37,10 @@ t_rlist *ft_lstlast_ps(t_rlist *list)
 
 void	ft_lstadd_back_ps(t_rlist **list, t_rlist *new)
 {
-	t_rlist *tmp;
+	t_rlist	*tmp;
 
 	if (*list)
 	{
-
 		tmp = ft_lstlast_ps(*list);
 		tmp->next = new;
 		new->prev = tmp;
@@ -37,9 +49,9 @@ void	ft_lstadd_back_ps(t_rlist **list, t_rlist *new)
 		*list = new;
 }
 
-int ft_lstlen_ps(t_rlist *list)
+int	ft_lstlen_ps(t_rlist *list)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (list)

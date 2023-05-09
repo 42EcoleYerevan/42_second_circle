@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap_sort_utils.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/09 14:33:41 by agladkov          #+#    #+#             */
+/*   Updated: 2023/05/09 14:34:16 by agladkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-static int ft_sqrt(int n)
+static int	ft_sqrt(int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i * i <= n)
@@ -10,18 +22,18 @@ static int ft_sqrt(int n)
 	return (i - 1);
 }
 
-int ft_hitraya_funcciya(t_rlist *list)
+int	ft_hitraya_funcciya(t_rlist *list)
 {
-	int len;
+	int	len;
 
 	len = ft_lstlen_ps(list);
 	return (ft_sqrt(len * 2));
 }
 
-int ft_find_max(t_rlist *list)
+int	ft_find_max(t_rlist *list)
 {
-	int max;
-	t_rlist *tmp;
+	int		max;
+	t_rlist	*tmp;
 
 	max = ft_lstlen_ps(list) - 1;
 	tmp = list;
