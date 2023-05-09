@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/09 12:31:32 by agladkov          #+#    #+#             */
+/*   Updated: 2023/05/09 12:35:57 by agladkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./push_swap.h"
 
-void ft_printf_list(t_rlist *list)
+void	ft_printf_list(t_rlist *list)
 {
 	while (list)
 	{
@@ -11,8 +23,9 @@ void ft_printf_list(t_rlist *list)
 
 void	ft_parse_input(int argc, char **argv, t_rlist **list)
 {
-	int i;
-	char **arr;
+	int		i;
+	char	**arr;
+	char	**tmp;
 
 	if (argc > 1)
 	{
@@ -20,6 +33,7 @@ void	ft_parse_input(int argc, char **argv, t_rlist **list)
 		while (i < argc)
 		{
 			arr = ft_split(argv[i], ' ');
+			tmp = arr;
 			while (*arr)
 			{
 				ft_lstadd_back_ps(list, ft_lstnew_ps(ft_atoi_ps(*arr)));
@@ -27,16 +41,17 @@ void	ft_parse_input(int argc, char **argv, t_rlist **list)
 				arr++;
 			}
 			i++;
+			free(tmp);
 		}
 	}
 }
 
-void ft_function_i_wrote(t_rlist **a, t_rlist **b)
+void	ft_function_i_wrote(t_rlist **a, t_rlist **b)
 {
-	int len;
-	int max;
+	int	len;
+	int	max;
 
-	len = ft_lstlen_ps(*b);	
+	len = ft_lstlen_ps(*b);
 	max = len - 1;
 	while (len > 0)
 	{
@@ -53,11 +68,11 @@ void ft_function_i_wrote(t_rlist **a, t_rlist **b)
 	}
 }
 
-void ft_isvalid_args(int argc, char **argv)
+void	ft_isvalid_args(int argc, char **argv)
 {
-	int n;
-	int d;
-	int i;
+	int	n;
+	int	d;
+	int	i;
 
 	n = 1;
 	while (n < argc)
@@ -68,8 +83,8 @@ void ft_isvalid_args(int argc, char **argv)
 		d = 0;
 		while (argv[n][i])
 		{
-			if (argv[n][i] != '-' && argv[n][i] != ' '\
-				   	&& ft_isdigit(argv[n][i]) == 0)
+			if (argv[n][i] != '-' && argv[n][i] != ' ' \
+				&& ft_isdigit(argv[n][i]) == 0)
 				ft_error();
 			if (ft_isdigit(argv[n][i]) == 1)
 				d = 1;
@@ -81,12 +96,11 @@ void ft_isvalid_args(int argc, char **argv)
 	}
 }
 
-
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	int lambda;
-	t_rlist *a;
-	t_rlist *b;
+	int		lambda;
+	t_rlist	*a;
+	t_rlist	*b;
 
 	b = NULL;
 	ft_parse_input(argc, argv, &a);
@@ -95,7 +109,6 @@ int main(int argc, char **argv)
 	if (ft_is_sorted(a) == 1)
 		ft_error();
 	ft_sort_a(a);
-
 	if (ft_lstlen_ps(a) == 3)
 		ft_sort_3_numbers(&a);
 	else if (ft_lstlen_ps(a) == 4)
@@ -108,15 +121,4 @@ int main(int argc, char **argv)
 		batterfly(&a, &b, lambda);
 		ft_function_i_wrote(&a, &b);
 	}
-	t_rlist *tmp;
-	while (ft_lstlen_ps(a) != 0)
-	{
-		printf("%d %d\n", a->data, ft_lstlen_ps(a));
-		printf("privet\n");
-		tmp = ft_lstlast_ps(a);
-		if (tmp->prev)
-			tmp->prev->next = NULL;
-		free(tmp);
-	}
-	system("leaks push_swap");
 }
