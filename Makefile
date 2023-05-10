@@ -1,4 +1,5 @@
 NAME = push_swap
+NAMEB = checker
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = push_swap.c\
@@ -27,6 +28,9 @@ OBJB = $(addprefix ./bonus/,$(SRCB:%.c=%.o))
 LIBFT = ./libft
 LIBFT_A = $(LIBFT)/libft.a
 LIBS = -L$(LIBFT) -lft
+HEADER = push_swap.h
+HEADERB = bonus/push_swap.h
+
 
 all: $(NAME)
 
@@ -36,10 +40,12 @@ all: $(NAME)
 $(LIBFT_A):
 	@$(MAKE) -C $(LIBFT) bonus
 
-$(NAME): $(OBJS) $(LIBFT_A)
+$(NAME): $(OBJS) $(LIBFT_A) $(HEADER)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
-bonus: $(OBJB) $(LIBFT_A)
+bonus: $(NAMEB)
+
+$(NAMEB): $(OBJB) $(LIBFT_A) $(HEADERB)
 	$(CC) $(CFLAGS) $(OBJB) $(LIBS) -o checker
 
 clean:
@@ -53,4 +59,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
