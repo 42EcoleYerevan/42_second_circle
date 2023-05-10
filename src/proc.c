@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:58 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/29 18:02:16 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:14:49 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	ft_to_coords(float *p)
 
 void	ft_set_matrix(t_fdf *fdf, float result[4][4])
 {
+	ft_zrotate(fdf, result);
 	ft_xrotate(fdf, result);
 	ft_yrotate(fdf, result);
-	ft_zrotate(fdf, result);
 	ft_offset(fdf, result);
 	if (fdf->perspective)
 		ft_projection(fdf, result);

@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:39 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/29 18:13:29 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:08:51 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,12 @@ void	ft_camera_move_hook(int keycode, t_fdf *fdf)
 	else if (keycode == KU)
 		fdf->map->scale += 1;
 	else if (keycode == KI)
-		fdf->map->scale -= 1;
+	{
+		if (fdf->map->scale > 0)
+			fdf->map->scale -= 1;
+		else
+			fdf->map->scale = 0;
+	}
 }
 
 int	ft_key_hook(int keycode, t_fdf *fdf)

@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:01:21 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/29 17:19:32 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:11:24 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,21 @@ int	ft_mousedown_hook(int button, int x, int y, t_fdf *fdf)
 {
 	if (button == 4)
 	{
-		fdf->map->scale -= 1;
-		ft_clear_image(fdf);
-		ft_draw_map(fdf);
+		if (fdf->map->scale > 0)
+			fdf->map->scale -= 1;
+		else
+			fdf->map->scale = 0;
 	}
 	else if (button == 5)
-	{
 		fdf->map->scale += 1;
-		ft_clear_image(fdf);
-		ft_draw_map(fdf);
-	}
 	else
 	{
 		fdf->mouse->ispressed = button;
 		fdf->mouse->x = x;
 		fdf->mouse->y = y;
 	}
+	ft_clear_image(fdf);
+	ft_draw_map(fdf);
 	return (0);
 }
 
