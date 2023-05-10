@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:27:04 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/10 14:45:35 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:56:07 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_projection(t_fdf *fdf, float result[4][4])
 	float	projection[4][4];
 
 	ft_set_diagonal(projection);
-	projection[0][0] = fdf->camera->fovy / fdf->camera->aspect;
+	projection[0][0] = fdf->camera->fovy;
 	projection[1][1] = fdf->camera->fovy;
 	projection[2][2] = -(fdf->camera->f + fdf->camera->n) \
 						/ (fdf->camera->f - fdf->camera->n);

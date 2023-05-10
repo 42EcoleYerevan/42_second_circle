@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/10 14:46:06 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:55:59 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	ft_draw_line(t_fdf *fdf, float *p1, float *p2, float result[4][4])
 		color = 0xFFFFFF;
 	ft_proc(fdf, result, p1);
 	ft_proc(fdf, result, p2);
-	p1[0] *= fdf->camera->aspect;
 	ft_put_line(fdf, p1, p2, color);
 	free(p1);
 	free(p2);
