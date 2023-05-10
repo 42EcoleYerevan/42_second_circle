@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:31:32 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/09 20:23:27 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:41:19 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	ft_isvalid_args(int argc, char **argv)
 		d = 0;
 		while (argv[n][i])
 		{
-			if (argv[n][i] != '-' && argv[n][i] != ' ' \
-				&& ft_isdigit(argv[n][i]) == 0)
+			ft_is_valid(argv[n][i]);
+			if (argv[n][i] == '-' && argv[n][i + 1] == ' ')
 				ft_error();
 			if (ft_isdigit(argv[n][i]) == 1)
 				d = 1;

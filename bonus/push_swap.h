@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:39:48 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/09 20:18:52 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:41:02 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ft_error(void);
 int		ft_atoi_ps(const char *str);
 void	ft_check_duplicate(t_rlist *list);
 int		ft_is_sorted(t_rlist *list);
+void	ft_is_valid(char c);
 
 void	ft_push_a(t_rlist **a, t_rlist **b);
 void	batterfly(t_rlist **a, t_rlist **b, int lambda);

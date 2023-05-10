@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:36:01 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/09 16:13:00 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:40:57 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,10 @@ int	ft_is_sorted(t_rlist *list)
 		list = list->next;
 	}
 	return (1);
+}
+
+void	ft_is_valid(char c)
+{
+	if (c != '-' && c != ' ' && ft_isdigit(c) == 0)
+		ft_error();
 }

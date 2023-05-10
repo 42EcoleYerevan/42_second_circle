@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 18:52:18 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/09 20:18:17 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:43:00 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void	ft_input_2(t_rlist **a, t_rlist **b, char *arr)
 		sa(a);
 	else if (ft_strncmp(arr, "sb", 2) == 0 && ft_strlen(arr) == 3)
 		sb(b);
+	else if (ft_strncmp(arr, "pa", 2) == 0 && ft_strlen(arr) == 3)
+		pa(a, b);
+	else if (ft_strncmp(arr, "pb", 2) == 0 && ft_strlen(arr) == 3)
+		pb(a, b);
 	else if (ft_strncmp(arr, "ss", 2) == 0 && ft_strlen(arr) == 3)
 		ss(a, b);
 	else if (ft_strncmp(arr, "ra", 2) == 0 && ft_strlen(arr) == 3)
