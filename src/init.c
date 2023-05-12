@@ -6,11 +6,12 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:36 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/10 19:36:42 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:24:36 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
+#include <stdio.h>
 
 void	ft_init_camera(t_fdf *fdf)
 {
@@ -20,7 +21,7 @@ void	ft_init_camera(t_fdf *fdf)
 	fdf->camera->position[0] = 0.0f;
 	fdf->camera->position[1] = 0.0f;
 	fdf->camera->position[2] = -5.0f;
-	fdf->camera->aspect = (float)WIDTH / (float)HEIGHT ;
+	fdf->camera->aspect = (float)WIDTH / (float)HEIGHT;
 	fdf->camera->fov = 60.0f / 2.0f;
 	fdf->camera->fovy = 1.0f / tanhf(M_PI / 180.0f * fdf->camera->fov);
 	fdf->camera->n = 1.0f;
@@ -75,8 +76,8 @@ void	ft_init_fdf(t_fdf *fdf, char **argv)
 	ft_init_mouse(fdf);
 	ft_init_map(fdf, argv[1]);
 	ft_init_hook(fdf);
-	fdf->xfi = 0.0f;
-	fdf->yfi = 0.0f;
+	fdf->xfi = 0.2f;
+	fdf->yfi = 0.2f;
 	fdf->zfi = 0.0f;
 	fdf->istriangle = 0;
 	fdf->perspective = 0;

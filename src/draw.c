@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:52:19 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/10 21:05:48 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:09:24 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_draw_line(t_fdf *fdf, float *p1, float *p2, float result[4][4])
 
 	color = fdf->map->colors[(int)p2[1]][(int)p2[0]];
 	if (color == 0 && (p2[2] != 0 || p1[2] != 0))
-		color = 0xFF0000;
+		color = 0x00FFFF;
 	else if (color == 0 && (p2[2] == 0 || p1[2] == 0))
 		color = 0xFFFFFF;
 	ft_proc(fdf, result, p1);

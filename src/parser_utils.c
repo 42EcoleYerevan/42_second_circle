@@ -6,11 +6,12 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:54 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/29 18:01:22 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/12 13:55:37 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
+#include <stdio.h>
 
 static int	ft_hex(char c)
 {
@@ -53,6 +54,8 @@ int	ft_read_map_height(char *filename)
 		return (0);
 	height = 0;
 	line = get_next_line(fd);
+	if (ft_is_valid(line) == 0)
+		exit(1);
 	while (line != NULL)
 	{
 		free(line);
@@ -67,26 +70,25 @@ int	ft_read_map_width(char *filename)
 {
 	int		width;
 	char	*line;
-	int		i;
 	int		fd;
+	char	**arr;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0 || read(fd, 0, 0) < 0)
 		return (0);
-	i = 0;
 	width = 0;
 	line = get_next_line(fd);
-	while (line[i] != '\0' && line[i] != '\n')
-		if (line[i++] != ' ')
-			if (line[i] == ' ' || line[i] == '\0' || line[i] == '\n')
-				width++;
-	free(line);
-	line = get_next_line(fd);
-	while (line)
+	arr = ft_split(line, ' ');
+	while (arr[width] != NULL && arr[width][0] != '\n')
 	{
-		free(line);
-		line = get_next_line(fd);
+		free(arr[width]);
+		width++;
 	}
+	free(arr[width]);
+	free(arr);
+	free(line);
+	line = NULL;
+	ft_clear_gnl(line, fd);
 	close(fd);
 	return (width);
 }

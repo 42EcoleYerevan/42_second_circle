@@ -6,13 +6,11 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:44:52 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/29 16:02:57 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/12 13:56:21 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "../fdf.h"
-#include "../libft/libft.h"
 
 static int	*ft_parse_line(char *str, int width)
 {
@@ -25,7 +23,7 @@ static int	*ft_parse_line(char *str, int width)
 		return (NULL);
 	tmp = ft_split(str, ' ');
 	n = 0;
-	while (n < width)
+	while (tmp[n])
 	{
 		array[n] = ft_atoi(tmp[n]);
 		free(tmp[n]);
@@ -46,7 +44,7 @@ static int	*ft_parse_colors(char *str, int width)
 		return (NULL);
 	tmp = ft_split(str, ' ');
 	n = 0;
-	while (n < width)
+	while (tmp[n])
 	{
 		array[n] = ft_atohex(tmp[n]);
 		free(tmp[n]);
@@ -119,8 +117,8 @@ t_map	*ft_create_map(char *filename)
 	map = (t_map *)malloc(sizeof(t_map));
 	if (!map)
 		return (NULL);
-	map->width = ft_read_map_width(filename);
 	map->height = ft_read_map_height(filename);
+	map->width = ft_read_map_width(filename);
 	map->array = ft_fill_array(fd, map->width, map->height);
 	close(fd);
 	fd = open(filename, O_RDONLY);

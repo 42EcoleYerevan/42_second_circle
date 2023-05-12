@@ -6,7 +6,7 @@
 #    By: agladkov <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/22 13:28:59 by agladkov          #+#    #+#              #
-#    Updated: 2023/04/29 13:31:34 by agladkov         ###   ########.fr        #
+#    Updated: 2023/05/11 18:39:01 by agladkov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC=linal.c \
 	init.c \
 	parse_map.c \
 	parser_utils.c \
+	parser_utils2.c \
 	utils.c \
 	main.c
 SRCS=$(addprefix  ./src/, $(SRC))
@@ -57,6 +58,7 @@ $(LIBFT_A):
 	@echo 'Compiled libft.a'
 
 clean:
+	rm -f $(OBJS)
 	@$(MAKE) -C $(GNL) clean
 	@echo 'clean gnl'
 	@$(MAKE) -C $(LIBFT) clean

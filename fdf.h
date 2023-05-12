@@ -6,7 +6,7 @@
 /*   By: agladkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:16:18 by agladkov          #+#    #+#             */
-/*   Updated: 2023/04/29 18:13:02 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/12 13:52:00 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <math.h>
 # include <mlx.h>
 
@@ -125,6 +126,8 @@ int		ft_atohex(char *str);
 int		ft_read_map_height(char *filename);
 int		ft_read_map_width(char *filename);
 void	ft_z_scale(t_map *map);
+int		ft_is_valid(char *str);
+void	ft_clear_gnl(char *line, int fd);
 
 // linal
 void	ft_matmul(float arr1[4][4], float arr2[4][4]);
