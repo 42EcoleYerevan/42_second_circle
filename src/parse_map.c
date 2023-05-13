@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:44:52 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/12 13:56:21 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/13 11:39:51 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	*ft_parse_line(char *str, int width)
 		return (NULL);
 	tmp = ft_split(str, ' ');
 	n = 0;
-	while (tmp[n])
+	while (n < width)
 	{
 		array[n] = ft_atoi(tmp[n]);
 		free(tmp[n]);
@@ -44,7 +44,7 @@ static int	*ft_parse_colors(char *str, int width)
 		return (NULL);
 	tmp = ft_split(str, ' ');
 	n = 0;
-	while (tmp[n])
+	while (n < width)
 	{
 		array[n] = ft_atohex(tmp[n]);
 		free(tmp[n]);

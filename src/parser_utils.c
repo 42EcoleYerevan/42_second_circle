@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:26:54 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/12 13:55:37 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/13 11:24:10 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ int	ft_read_map_width(char *filename)
 	}
 	free(arr[width]);
 	free(arr);
-	free(line);
-	line = NULL;
 	ft_clear_gnl(line, fd);
 	close(fd);
 	return (width);
