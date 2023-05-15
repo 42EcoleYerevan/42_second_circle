@@ -6,7 +6,7 @@
 /*   By: agladkov <agladkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:44:52 by agladkov          #+#    #+#             */
-/*   Updated: 2023/05/13 11:39:51 by agladkov         ###   ########.fr       */
+/*   Updated: 2023/05/15 12:59:06 by agladkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	*ft_parse_line(char *str, int width)
 		free(tmp[n]);
 		n++;
 	}
+	while (tmp[n])
+		free(tmp[n++]);
 	free(tmp);
 	return (array);
 }
@@ -50,6 +52,8 @@ static int	*ft_parse_colors(char *str, int width)
 		free(tmp[n]);
 		n++;
 	}
+	while (tmp[n])
+		free(tmp[n++]);
 	free(tmp);
 	return (array);
 }

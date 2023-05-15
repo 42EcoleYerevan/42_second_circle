@@ -6,13 +6,13 @@
 #    By: agladkov <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/22 13:28:59 by agladkov          #+#    #+#              #
-#    Updated: 2023/05/13 11:33:16 by agladkov         ###   ########.fr        #
+#    Updated: 2023/05/15 13:55:38 by agladkov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=fdf
 CC=cc
-CFLAGS=-Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS=-Wall -Werror -Wextra
 GNL=get_next_line
 GNL_A=$(GNL)/libgnl.a
 LIBFT=libft
